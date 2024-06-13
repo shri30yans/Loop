@@ -4,29 +4,29 @@ Welcome to DreamForge, the ultimate platform where creativity meets collaboratio
 Our mission is to empower individuals and teams to bring their creative visions to life by offering a collaborative, resource-rich environment. Whether you're an aspiring entrepreneur, a seasoned innovator, or someone with a passion for creating, DreamForge is designed to support you every step of the way.
 
 ### How It Works
-1. **Discover Your Passion:**
-   - Whether you're starting a YouTube channel, creating a website, or kickstarting your music career, find an idea that excites you and aligns with your goals.
+1. **Discover Your Passion:**\
+   Whether you're starting a YouTube channel, creating a website, or kickstarting your music career, find an idea that excites you and aligns with your goals.
 
-2. **Share Your Progress:**
-   - Document your journey through blogs and posts. Receive constructive feedback at every step from our supportive community, helping you refine your ideas and grow.
+2. **Share Your Progress:**\
+   Document your journey through blogs and posts. Receive constructive feedback at every step from our supportive community, helping you refine your ideas and grow.
 
-3. **Connect with Like-Minded Innovators:**
-   - Join communities and chat forums to find people working on cutting-edge projects. Exchange ideas, solve common challenges, and build meaningful relationships.
+3. **Connect with Like-Minded Innovators:**\
+   Join communities and chat forums to find people working on cutting-edge projects. Exchange ideas, solve common challenges, and build meaningful relationships.
 
-4. **Get Inspired:**
-   - Draw inspiration from amazing individuals working on groundbreaking ideas. Learn from their experiences and let their stories motivate you to reach new heights.
+4. **Get Inspired:**\
+   Draw inspiration from amazing individuals working on groundbreaking ideas. Learn from their experiences and let their stories motivate you to reach new heights.
 
-5. **Gain Exposure:**
-   - Showcase your work to attract referrals from others who admire your projects. Catch the attention of venture capitalists (VCs) and other potential backers who can help turn your dreams into reality.
+5. **Gain Exposure:**\
+   Showcase your work to attract referrals from others who admire your projects. Catch the attention of venture capitalists (VCs) and other potential backers who can help turn your dreams into reality.
 
-6. **Stay Informed:**
-   - Discuss the latest research papers and leverage AI-generated summaries to stay up-to-date with the newest developments in your field. Never miss an important update again.
+6. **Stay Informed:**\
+   Discuss the latest research papers and leverage AI-generated summaries to stay up-to-date with the newest developments in your field. Never miss an important update again.
 
-7. **Find Guidance and Mentorship:**
-   - Connect with experienced mentors who can provide valuable insights, guidance, and support. Learn from their expertise to navigate your creative journey more effectively.
+7. **Find Guidance and Mentorship:**\
+   Connect with experienced mentors who can provide valuable insights, guidance, and support. Learn from their expertise to navigate your creative journey more effectively.
 
-8. **Collaborate and Create:**
-   - Team up with other creators to collaborate on projects. Combine your skills and ideas to build something truly extraordinary.
+8. **Collaborate and Create:**\
+   Team up with other creators to collaborate on projects. Combine your skills and ideas to build something truly extraordinary.
 
 
 ### Features
