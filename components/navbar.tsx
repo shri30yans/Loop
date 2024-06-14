@@ -78,7 +78,13 @@ export const Navbar = () => {
       <NavbarContent
         className="hidden sm:flex basis-1/5 sm:basis-full"
         justify="end"
-      >  <NavbarItem className="hidden sm:flex gap-2">
+      >  
+      <NavbarItem>
+        <Button className="hidden lg:flex font-extrabold" as={Link} color="primary" href="/create" variant="flat">
+          Create
+        </Button>
+      </NavbarItem>
+      <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
         </NavbarItem>
         <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
@@ -86,6 +92,9 @@ export const Navbar = () => {
         </NavbarItem>
       </NavbarContent> 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
+          {/* <Button className="hidden lg:flex" as={Link} color="primary" href="#" variant="flat">
+            Create
+          </Button> */}
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>

@@ -4,8 +4,8 @@ export default function AboutLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex flex-col items-center justify-left gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-screen text-left justify-left text-xl">
+    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+      <div className="inline-block max-w-screen text-left justify-center text-xl">
         {children}
       </div>
     </section>
