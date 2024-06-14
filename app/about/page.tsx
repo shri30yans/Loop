@@ -3,7 +3,6 @@ import { title,sectionheading} from "@/components/primitives";
 export default function AboutPage() {
   return (
     <div className="space-y-5 *:space-y-2">
-
       <div>
           <div>
             <h1 className={title()}>About</h1>

@@ -1,36 +1,28 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Next.js + NextUI",
-  description: "Make beautiful websites regardless of your design experience.",
+  name: "DreamForge",
+  description: "The ultimate platform to find people and projects to work with.",
   navItems: [
     {
       label: "Home",
       href: "/",
     },
     {
+      label: "Feed",
+      href: "/feed",
+    },
+    {
       label: "Discover",
       href: "/discover",
     },
     {
-      label: "Projects",
-      href: "/projects",
+      label: "Blogs",
+      href: "/blogs",
     },
     {
-      label: "Blog",
-      href: "/blog",
-    },
-    {
-      label: "Posts",
-      href: "/posts",
-    },
-    {
-      label: "Guilds",
-      href: "/guilds",
-    },
-    {
-      label: "About",
-      href: "/about",
+      label: "Communities",
+      href: "/communities",
     },
   ],
   navMenuItems: [
@@ -39,20 +31,20 @@ export const siteConfig = {
       href: "/",
     },
     {
-      label: "Guilds",
-      href: "/guilds",
-    },
-    {
-      label: "Projects",
-      href: "/projects",
-    },
-    {
-      label: "About",
-      href: "/about",
+      label: "Feed",
+      href: "/feed",
     },
     {
       label: "Discover",
-      href: "/Discover",
+      href: "/discover",
+    },
+    {
+      label: "Blogs",
+      href: "/blogs",
+    },
+    {
+      label: "Communities",
+      href: "/communities",
     },
   ],
   // links: {
