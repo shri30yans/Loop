@@ -1,7 +1,8 @@
 // actions.ts
 import { createClient } from '@/utils/supabase/client'; 
 
-export async function fetchPosts(type:string, sortBy:string,timeRange:string){
+
+export async function fetchProjects(type:string, sortBy:string,timeRange:string){
     const supabase= createClient();
     const { data, error } = await supabase
         .from('posts')

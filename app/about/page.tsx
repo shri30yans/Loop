@@ -8,7 +8,7 @@ export default function AboutPage() {
             <h1 className={title()}>About</h1>
           </div>
           <div>
-              Welcome to DreamForge, the ultimate platform where creativity meets collaboration. At DreamForge, we believe that every groundbreaking innovation starts with a dream. 
+              Welcome to Loop, the ultimate platform where creativity meets collaboration. At Loop, we believe that every groundbreaking innovation starts with a dream. 
               Our mission is to provide a vibrant community and powerful tools to help visionaries, creators, and learners turn their ideas into reality.
           </div>
       </div>
@@ -16,7 +16,7 @@ export default function AboutPage() {
       <div>
         <h1 className={sectionheading({size : "lg"})}>Mission</h1>
         <p>
-          Our mission is to empower individuals and teams to bring their creative visions to life by offering a collaborative, resource-rich environment. Whether you're an aspiring entrepreneur, a seasoned innovator, or someone with a passion for creating, DreamForge is designed to support you every step of the way.
+          Our mission is to empower individuals and teams to bring their creative visions to life by offering a collaborative, resource-rich environment. Whether you're an aspiring entrepreneur, a seasoned innovator, or someone with a passion for creating, Loop is designed to support you every step of the way.
         </p>
       </div>
 
@@ -25,11 +25,11 @@ export default function AboutPage() {
         <ul className="space-y-4 ml-4">
           <li>
             <h1 className="text-2xl font-semibold">Community and Collaboration:</h1>
-            <p>DreamForge is a place where you can connect with like-minded individuals from around the world. Engage in meaningful discussions, collaborate on projects, and build lasting relationships. Our platform fosters a supportive community that thrives on shared knowledge and collective growth.</p>
+            <p>Loop is a place where you can connect with like-minded individuals from around the world. Engage in meaningful discussions, collaborate on projects, and build lasting relationships. Our platform fosters a supportive community that thrives on shared knowledge and collective growth.</p>
           </li>
           <li>
             <h1 className="text-2xl font-semibold">Project Management Tools:</h1>
-            <p>Stay organized and on track with our suite of project management tools. From milestone tracking to visual progress reports, DreamForge provides everything you need to manage your projects efficiently. Our intuitive tools help you stay accountable and make continuous progress.</p>
+            <p>Stay organized and on track with our suite of project management tools. From milestone tracking to visual progress reports, Loop provides everything you need to manage your projects efficiently. Our intuitive tools help you stay accountable and make continuous progress.</p>
           </li>
           <li>
             <h1 className="text-2xl font-semibold">Resource Repository:</h1>
@@ -53,9 +53,9 @@ export default function AboutPage() {
       <div>
         <h1 className={sectionheading({size : "lg"})}>Vision</h1>
         <div>
-          We envision DreamForge as a global hub for innovation and creativity. Our platform is designed to break down barriers, foster cross-cultural collaboration, and democratize access to resources and mentorship. By bringing together a diverse community of dreamers and doers, we aim to drive the next wave of innovation.
+          We envision Loop as a global hub for innovation and creativity. Our platform is designed to break down barriers, foster cross-cultural collaboration, and democratize access to resources and mentorship. By bringing together a diverse community of dreamers and doers, we aim to drive the next wave of innovation.
           Join Us
-          Whether you're at the beginning of your creative journey or looking to take your projects to the next level, DreamForge is here to support you. Join our community and start forging your dreams into reality today.
+          Whether you're at the beginning of your creative journey or looking to take your projects to the next level, Loop is here to support you. Join our community and start forging your dreams into reality today.
         </div>
       </div>
     </div>
