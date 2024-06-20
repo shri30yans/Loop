@@ -1,24 +1,24 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "DreamForge",
+  name: "Loop",
   description: "The ultimate platform to find people and projects to work with.",
   navItems: [
-    {
-      label: "Home",
-      href: "/",
-    },
+    // {
+    //   label: "Home",
+    //   href: "/",
+    // },
     {
       label: "Feed",
       href: "/feed",
     },
+    // {
+    //   label: "Discover",
+    //   href: "/discover",
+    // },
     {
-      label: "Discover",
-      href: "/discover",
-    },
-    {
-      label: "Blogs",
-      href: "/blogs",
+      label: "Projects",
+      href: "/projects",
     },
     {
       label: "Communities",
@@ -26,18 +26,18 @@ export const siteConfig = {
     },
   ],
   navMenuItems: [
-    {
-      label: "Home",
-      href: "/",
-    },
+    // {
+    //   label: "Home",
+    //   href: "/",
+    // },
     {
       label: "Feed",
       href: "/feed",
     },
-    {
-      label: "Discover",
-      href: "/discover",
-    },
+    // {
+    //   label: "Discover",
+    //   href: "/discover",
+    // },
     {
       label: "Blogs",
       href: "/blogs",

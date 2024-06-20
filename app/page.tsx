@@ -23,7 +23,7 @@ export default function Home() {
         <div className="space-y- *:space-y-12 text-3xl max-w-5xl items-center text-center justify-center gap-4 py-8 md:py-10">
           {/* <div>
               <div >
-                  The ultimate platform where creativity meets collaboration. At DreamForge, we believe that every groundbreaking innovation starts with a dream. 
+                  The ultimate platform where creativity meets collaboration. At Loop, we believe that every groundbreaking innovation starts with a dream. 
                   Our mission is to provide a vibrant community and powerful tools to help visionaries, creators, and learners turn their ideas into reality.
               </div>
           </div> */}
@@ -32,11 +32,15 @@ export default function Home() {
             <ul className="space-y-12 *:space-y-2">
               <li>
                 <h1 className="text-5xl font-semibold">Community and Collaboration:</h1>
-                <p>DreamForge is a place where you can connect with like-minded individuals from around the world. Engage in meaningful discussions, collaborate on projects, and build lasting relationships.</p>
+                <p>Loop is a place where you can connect with like-minded individuals from around the world. Engage in meaningful discussions, collaborate on projects, and build lasting relationships.</p>
               </li>
               <li>
                 <h1 className="text-5xl font-semibold">Project Management</h1>
                 <p>Stay organized and on track with progress tracking and recieving feedback on every step of the way.</p>
+              </li>
+              <li>
+                <h1 className="text-5xl font-semibold">Build in public</h1>
+                <p>Garner an audience and find people interested in your project before it's launch.</p>
               </li>
               <li>
                 <h1 className="text-5xl font-semibold">Mentorship and Feedback</h1>
