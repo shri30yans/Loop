@@ -31,7 +31,7 @@ Our mission is to empower individuals and teams to bring their creative visions 
 
 
 ### Features
-Community and Collaboration:
+- Community and Collaboration:
 Loop is a place where you can connect with like-minded individuals from around the world. Engage in meaningful discussions, collaborate on projects, and build lasting relationships. Our platform fosters a supportive community that thrives on shared knowledge and collective growth.
 
 - Project Management Tools:
