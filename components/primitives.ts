@@ -101,9 +101,9 @@ export const sectionheading = tv({
       foreground: "dark:from-[#FFFFFF] dark:to-[#4B4B4B]",
     },
     size: {
-      sm: "text-2xl lg:text-3xl",
-      md: "text-[2.3rem] lg:text-3xl leading-9",
-      lg: "text-2xl lg:text-4xl",
+      sm: "text-3xl lg:text-4xl",
+      md: "text-[2.3rem] lg:text-4xl leading-9",
+      lg: "text-2xl lg:text-2xl",
     },
     fullWidth: {
       true: "w-full block",

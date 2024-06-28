@@ -37,7 +37,7 @@ export default function FeedPage() {
 
   return (
     <div className="space-y-4">
-      <div className="space-x-4 md-5">
+      <div className="flex gap-4">
         <Select label="Feed" selectionMode="multiple" className="w-40">
           {type.map((data) => (
             <SelectItem key={data.key}>{data.label}</SelectItem>
