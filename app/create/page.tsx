@@ -1,5 +1,5 @@
 "use client";
-import { title } from "@/components/primitives";
+import { title, sectionheading } from "@/components/primitives";
 import { Textarea, Input } from "@nextui-org/input";
 import { Tab, Tabs } from "@nextui-org/tabs";
 import { Card, CardBody } from "@nextui-org/card";
@@ -7,6 +7,8 @@ import { Button } from "@nextui-org/button";
 import { useState } from "react";
 import { addPost } from "./actions";
 import { Select, SelectItem } from "@nextui-org/select";
+import { Image } from "@nextui-org/image";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function CreatePage() {
   const type = [
@@ -18,111 +20,157 @@ export default function CreatePage() {
     { key: "cloud", label: "Cloud" },
   ];
 
-  const [post, setPost] = useState({ title: "", body: "" });
+  type Card = {
+    id: number;
+    title: string;
+    body: string;
+    tags?: string[];
+  };
+
 
   const handleInputChange = (event: any) => {
-    const { name, value } = event.target;
-    setPost((prevState) => ({ ...prevState, [name]: value }));
+    const { name, value, id } = event.target;
+    console.log(name, value);
+    setCards(cards => cards.map((card) => {
+      if ( card.id === id) { 
+        console.log("3e3",card);
+        return { ...card, ['title']: value }; // Correctly update the field based on `name`
+      }
+      return card;
+    }));
+    console.log(name,value,cards);
   };
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-    addPost(post);
-    setPost({ title: "", body: "" });
+// Initial cards can be generated or fetched from an API
+const initialCards: Card[] = [
+  { id: 0, title: "", body: "", tags: [] },
+  { id: 1, title: "", body: "" },
+  { id: 2, title: "", body: "" }, // Example of using UUID for unique IDs
+];
+const [cards, setCards] = useState<Card[]>(initialCards);
+
+const addNewCard = () => {
+  if (cards.length >= 10) {
+    console.log("You can't add more than 10 updates")
+    return;
+  }
+  const newCard: Card = {
+    id: cards.length, // Generate a unique ID for each new card
+    title: "",
+    body: "",
   };
+  setCards([...cards, newCard]);
+};
 
   return (
-    <div className="flex w-full flex-col space-y-4">
-      <h1 className={title()}>Create</h1>
-      <Tabs aria-label="Options">
-        <Tab key="posts" title="Posts">
-          <Card>
-            <CardBody>
-              <form onSubmit={handleSubmit}>
-                <div className="space-y-2">
-                  <Input
-                    isRequired
-                    className="w-1/2"
-                    type="text"
-                    label="Title"
-                    name="title"
-                    value={post.title}
-                    onChange={handleInputChange}
-                  />
-                  <Select
-                    label="Tags"
-                    selectionMode="multiple"
-                    className="w-3/4"
-                  >
-                    {type.map((data) => (
-                      <SelectItem key={data.key}>{data.label}</SelectItem>
-                    ))}
-                  </Select>
-                  <Textarea
-                    isRequired
-                    label="Body"
-                    className="w-full"
-                    name="body"
-                    value={post.body}
-                    onChange={handleInputChange}
-                  />
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    color="primary"
-                    radius="lg"
-                    variant="flat"
-                  >
-                    {" "}
-                    Submit{" "}
-                  </Button>
-                </div>
-              </form>
-            </CardBody>
-          </Card>
-        </Tab>
+    <div className="space-y-4">
+      <Card>
+        <CardBody>
+          <div className="space-y-2">
+            <div className="flex items-center">
+              <Image
+                width={600}
+                height={400}
+                alt="NextUI hero Image"
+                className="p-2"
+                src="https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg"
+              />
 
-        <Tab key="projects" title="Projects">
-          <Card>
-            <CardBody>
-              <div className="space-y-2">
-                <Input isRequired className="w-1/2" type="text" label="Title" />
+              <div className="w-full space-y-2 px-6 ">
+                <div className={sectionheading({ size: "lg" })}>
+                  Project basics
+                </div>
                 <Input
                   isRequired
-                  className="w-1/2"
+                  className="w-full"
                   type="text"
-                  label="Describe your project in one line"
+                  label="Title"
+                  // value={tite}l
+                  id="0"
+                  name="title"
+                  onChange={handleInputChange}
                 />
-                <Input className="w-1/2" type="text" label="Video Link" />
-                <Input className="w-1/2" type="text" label="Image" />
-                <Select label="Tags" selectionMode="multiple" className="w-3/4">
+                <Input
+                  isRequired
+                  className="w-full"
+                  type="text"
+                  label="Description"
+                  name="title"
+                  id="description"
+                  value="description"
+                  onChange={handleInputChange}
+                />
+
+                <Select
+                  label="Tags"
+                  selectionMode="single"
+                  className="w-full"
+                  placeholder="What is your project about?"
+                >
                   {type.map((data) => (
                     <SelectItem key={data.key}>{data.label}</SelectItem>
                   ))}
                 </Select>
-                <div>
-                  <Textarea
-                    label="Body"
+              </div>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
+      <Card>
+        <CardBody>
+          <div className="space-y-2">
+            <div className="w-full space-y-2 px-6 pb-6 pt-2">
+              <div className={sectionheading({ size: "lg" })}>
+               Introduction
+              </div>
+              <Input isRequired className="w-full" type="text" label="Title" />
+              <Textarea label="Body" className="w-full" isRequired placeholder="Explain why you made your project."/>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
+      {cards.slice(1).map((card) => (
+        <div className="flex w-full flex-col space-y-6 ">
+          <Card key={card.id}>
+            <CardBody>
+              <div className="space-y-2">
+                <div className="w-full space-y-2 px-6 pb-6 pt-2">
+                  <div className={sectionheading({ size: "lg" })}>
+                    Update {card.id}
+                  </div>
+                  <Input
+                    isRequired
                     className="w-full"
-                    value={post.body}
+                    type="text"
+                    label="Title"
                   />
-                </div>
-                <div>
-                  <Button
-                    className="w-full"
-                    color="primary"
-                    radius="lg"
-                    variant="flat"
-                  >
-                    {" "}
-                    Submit{" "}
-                  </Button>
+                  <Textarea label="Body" className="w-full" isRequired/>
                 </div>
               </div>
             </CardBody>
           </Card>
-        </Tab>
-      </Tabs>
+        </div>
+      ))}
+      <div className="flex gap-4">
+      <Button
+        className="w-3/4"
+        color="primary"
+        radius="lg"
+        variant="flat"
+        onClick={addNewCard}
+      >
+        Add New Step
+      </Button>
+      <Button
+        type="submit"
+        className="w-1/4"
+        color="success"
+        radius="lg"
+        variant="flat"
+      >
+        Publish
+      </Button>
+    </div>
     </div>
   );
 }

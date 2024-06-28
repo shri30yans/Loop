@@ -1,11 +1,11 @@
-export default function PricingLayout({
+export default function AboutLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-lg text-center justify-center">
+    <section className="flex flex-col items-left justify-left gap-4 py-8 md:py-10">
+      <div className="inline-block max-w-screen text-left justify-left text-xl">
         {children}
       </div>
     </section>
