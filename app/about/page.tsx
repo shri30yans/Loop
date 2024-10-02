@@ -1,11 +1,11 @@
-import { title,sectionheading} from "@/components/primitives";
+import { landingpagetext,subheading} from "@/components/primitives";
 
 export default function AboutPage() {
   return (
     <div className="space-y-5 *:space-y-2">
       <div>
           <div>
-            <h1 className={title()}>About</h1>
+            <h1 className={landingpagetext()}>About</h1>
           </div>
           <div>
               Welcome to Loop, the ultimate platform where creativity meets collaboration. At Loop, we believe that every groundbreaking innovation starts with a dream. 
@@ -14,14 +14,14 @@ export default function AboutPage() {
       </div>
 
       <div>
-        <h1 className={sectionheading({size : "lg"})}>Mission</h1>
+        <h1 className={subheading({size : "lg"})}>Mission</h1>
         <p>
           Our mission is to empower individuals and teams to bring their creative visions to life by offering a collaborative, resource-rich environment. Whether you're an aspiring entrepreneur, a seasoned innovator, or someone with a passion for creating, Loop is designed to support you every step of the way.
         </p>
       </div>
 
       <div>
-        <h1 className={sectionheading({size : "lg"})}>Features</h1>
+        <h1 className={subheading({size : "lg"})}>Features</h1>
         <ul className="space-y-4 ml-4">
           <li>
             <h1 className="text-2xl font-semibold">Community and Collaboration:</h1>
@@ -51,7 +51,7 @@ export default function AboutPage() {
       </div>
       
       <div>
-        <h1 className={sectionheading({size : "lg"})}>Vision</h1>
+        <h1 className={subheading({size : "lg"})}>Vision</h1>
         <div>
           We envision Loop as a global hub for innovation and creativity. Our platform is designed to break down barriers, foster cross-cultural collaboration, and democratize access to resources and mentorship. By bringing together a diverse community of dreamers and doers, we aim to drive the next wave of innovation.
           Join Us

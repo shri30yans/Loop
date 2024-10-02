@@ -4,7 +4,7 @@ import { Code } from "@nextui-org/code";
 import { button as buttonStyles } from "@nextui-org/theme";
 
 import { siteConfig } from "@/config/site";
-import { title, subtitle, sectionheading } from "@/components/primitives";
+import { landingpagetext, subtitle, subheading } from "@/components/primitives";
 import { GithubIcon } from "@/components/icons";
 
 export default function Home() {
@@ -12,8 +12,8 @@ export default function Home() {
     <section className="flex flex-col items-center justify-center">
     <div className="flex h-screen pb-11" >
       <div className="inline-block max-w-3xl text-center justify-center m-auto">
-        <h1 className={title({size: "lg"})}>Create with the </h1>
-        <h1 className={title({size: "lg", color: "blue" })}>world.</h1>
+        <h1 className={landingpagetext({size: "lg"})}>Create with the </h1>
+        <h1 className={landingpagetext({size: "lg", color: "blue" })}>world.</h1>
         <h2 className={subtitle({size: "lg", class: "mt-4" })}>
           Build the next big thing.
         </h2>

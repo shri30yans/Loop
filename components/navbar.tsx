@@ -84,6 +84,11 @@ export const Navbar = () => {
           Create
         </Button>
       </NavbarItem>
+      <NavbarItem>
+      <Button className="hidden lg:flex font-extrabold" as={Link} color="primary" href="/user?id=${user}" variant="flat">
+          Account
+        </Button>
+      </NavbarItem>
       <NavbarItem className="hidden sm:flex gap-2">
           <ThemeSwitch />
         </NavbarItem>

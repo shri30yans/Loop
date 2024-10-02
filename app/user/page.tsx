@@ -5,6 +5,7 @@ import { fetchProjects } from "./actions";
 import ProjectCard from "@/components/projectcard";
 import { Skeleton } from "@nextui-org/skeleton";
 import  {ProjectType}  from "../types";
+import { heading } from "@/components/primitives";
 
 export default function FeedPage() {
   const type = [
@@ -38,6 +39,7 @@ export default function FeedPage() {
 
   return (
     <div className="space-y-4">
+      <div className={heading()}></div>
       <div className="flex gap-4">
         <Select label="Feed" selectionMode="multiple" className="w-40">
           {type.map((data) => (
