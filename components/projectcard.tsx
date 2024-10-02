@@ -11,17 +11,17 @@ interface ProjectCardProps {
   isLoaded: boolean;
   title: string;
   body: string;
-  category: string;
+  tags?: string;
 }
 
 export default function ProjectCard({
   title,
   body,
-  category,
+  tags,
 }: ProjectCardProps) {
   return (
     <div>
-      <Card className="my-4">
+      <Card isPressable isBlurred className="my-4">
         <CardBody className="overflow-visible ">
           <div>
             <Image
@@ -35,7 +35,7 @@ export default function ProjectCard({
         </CardBody>
         <CardFooter className="px-4 pt-0 flex-col items-start">
           <Chip size="md" radius="sm" variant="bordered">
-            {category}
+            {tags}
           </Chip>
         </CardFooter>
       </Card>
