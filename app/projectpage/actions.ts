@@ -1,18 +1,17 @@
-// actions.ts
-import { createClient } from '@/utils/supabase/client'; 
-import {ProjectType} from "../types"
+'use server'
 
-export async function fetchProjectInfo(id:String){
-    const supabase= createClient();
-    const { data, error } = await supabase
-        .from('projects')
-        .select()
-        .eq("id",id)
-        .single()
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-    if (error) {
-        console.error('Error fetching post info', error);
-        return null;
+// Fetch a specific project
+export async function getProjectInfo(id: string) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/projects/${id}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch project ${id}`);
     }
-  return data as ProjectType;
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching project ${id}:`, error);
+    throw error;
+  }
 }

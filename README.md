@@ -29,4 +29,4 @@ Team up with other creators to collaborate on projects. Combine your skills and 
 
 ### Techstack
 - Next.js + NextUI
-- Supabase
+- MySQL DB
