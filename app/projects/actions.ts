@@ -1,16 +1,31 @@
-// actions.ts
-import { createClient } from '@/utils/supabase/client'; 
+'use server'
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export async function fetchProjects(type:string, sortBy:string,timeRange:string){
-    const supabase= createClient();
-    const { data, error } = await supabase
-        .from('projects')
-        .select("id,title,description,tags")
-
-    if (error) {
-        console.error('Error adding post: ', error);
-        return null;
+// Fetch all projects
+export async function getAllProjects() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/projects`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch projects');
     }
-  return data;
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    throw error;
+  }
+}
+
+// Fetch projects by status
+export async function getProjectsByStatus(status: string) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/projects/status?status=${status}`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch projects with status ${status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching projects with status ${status}:`, error);
+    throw error;
+  }
 }
