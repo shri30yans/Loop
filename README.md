@@ -21,7 +21,7 @@ git clone <repository-url>
 cd <repository-directory>
 ```
 2. Installations
-- Download [Go](https://go.dev/dl/) and (Node.js)[https://nodejs.org/en]
+- Download [Go](https://go.dev/dl/) and [Node.js](https://nodejs.org/en)
 - Download and install [PostgreSQL](https://www.postgresql.org/download/) on your local machine.
 
 After installation, create a new PostgreSQL database:
