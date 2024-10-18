@@ -4,7 +4,7 @@ import { Image } from "@nextui-org/image";
 import { subheading, heading } from "@/components/primitives";
 import { ProjectType } from "../types";
 import { useEffect, useState } from "react";
-import { fetchProjectInfo } from "./actions";
+import { getProjectInfo } from "./actions";
 import { Chip } from "@nextui-org/chip";
 
 export default function ProjectPage() {
@@ -14,7 +14,7 @@ export default function ProjectPage() {
   useEffect(() => {
     // Ensure 'id' is not undefined or empty
     if (id) {
-      fetchProjectInfo(String(id)).then(
+      getProjectInfo(String(id)).then(
         (fetchedProject: ProjectType | null) => {
           if (fetchedProject) {
             setProject(fetchedProject);
