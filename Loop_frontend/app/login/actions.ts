@@ -1,17 +1,45 @@
-'use server'
+'use server';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-// Fetch a specific project
-export async function getProjectInfo(id: string) {
+export async function login(email: string, password: string) {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/projects/${id}`);
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
     if (!response.ok) {
-      throw new Error(`Failed to fetch project ${id}`);
+      throw new Error('Login failed');
     }
-    return await response.json();
+
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error(`Error fetching project ${id}:`, error);
-    throw error;
+    throw new Error('Login failed');
+  }
+}
+
+export async function register(email: string, password: string) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!response.ok) {
+      throw new Error('Registration failed');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error('Registration failed');
   }
 }

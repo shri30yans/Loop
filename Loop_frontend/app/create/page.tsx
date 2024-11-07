@@ -1,5 +1,5 @@
 "use client";
-import { subheading } from "@/components/primitives";
+import { subheading } from "@/components/ui/primitives";
 import { Textarea, Input } from "@nextui-org/input";
 import { Tab, Tabs } from "@nextui-org/tabs";
 import { Card, CardBody } from "@nextui-org/card";

@@ -2,10 +2,10 @@
 import { Select, SelectItem } from "@nextui-org/select";
 import { useEffect, useState } from "react";
 import { fetchProjects } from "./actions";
-import ProjectCard from "@/components/projectcard";
+import ProjectCard from "@/components/ui/projectcard";
 import { Skeleton } from "@nextui-org/skeleton";
 import { ProjectType } from "../types";
-import { heading } from "@/components/primitives";
+import { heading } from "@/components/ui/primitives";
 
 export default function FeedPage() {
   const types = [

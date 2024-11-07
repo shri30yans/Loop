@@ -4,8 +4,8 @@ import { Code } from "@nextui-org/code";
 import { button as buttonStyles } from "@nextui-org/theme";
 
 import { siteConfig } from "@/config/site";
-import { landingpagetext, subtitle, subheading } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+import { landingpagetext, subtitle, subheading } from "@/components/ui/primitives";
+import { GithubIcon } from "@/components/ui/icons";
 
 export default function Home() {
   return (

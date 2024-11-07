@@ -1,4 +1,4 @@
-import { title } from "@/components/primitives";
+import { title } from "@/components/ui/primitives";
 
 export default function CommunitiesPage() {
   return (
