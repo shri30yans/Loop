@@ -1,4 +1,4 @@
-import { landingpagetext,subheading} from "@/components/primitives";
+import { landingpagetext,subheading} from "@/components/ui/primitives";
 
 export default function AboutPage() {
   return (

@@ -4,6 +4,7 @@ export interface PostType {
 };
 
 export interface ProjectType {
+    id: string;
     title: string;
     description: string;
     introduction: string;
