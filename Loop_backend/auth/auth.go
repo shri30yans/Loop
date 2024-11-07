@@ -38,8 +38,3 @@ var (
 	JwtSecret = []byte("your-secret-key") // In production, use environment variable
 	//emailRegex = regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
 )
-
-// // Check if error is due to duplicate email
-// func isDuplicateEmail(err error) bool {
-//     return err.Error().Contains("unique constraint") && err.Error().Contains("email")
-// }

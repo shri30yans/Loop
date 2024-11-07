@@ -1,7 +1,7 @@
 "use client";
 import { Card, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
-import { subheading, heading } from "@/components/primitives";
+import { subheading, heading } from "@/components/ui/primitives";
 import { ProjectType } from "../types";
 import { useEffect, useState } from "react";
 import { getProjectInfo } from "./actions";

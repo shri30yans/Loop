@@ -1,8 +1,9 @@
 package main
 
 import (
-	auth "Loop/auth"
-	"Loop/handler"
+	"Loop/auth"
+	db "Loop/database"
+	"Loop/projects"
 	"fmt"
 	"log"
 	"net/http"
@@ -13,24 +14,24 @@ import (
 
 func main() {
 	fmt.Println("Starting server...")
-	handler.StartServer()
+	db.StartServer()
 	if secretKey := os.Getenv("JWT_SECRET"); secretKey != "" {
 		auth.JwtSecret = []byte(secretKey)
 	}
 	router := mux.NewRouter()
 	apiRouter := router.PathPrefix("/api").Subrouter()
 
-	apiRouter.HandleFunc("/", handler.Root).Methods("GET")
+	apiRouter.HandleFunc("/", db.Root).Methods("GET")
 
 	// Auth routes /api/auth
 	authRouter := apiRouter.PathPrefix("/auth").Subrouter()
-	authRouter.HandleFunc("/register", handler.HandleRegister).Methods("POST")
-	authRouter.HandleFunc("/login", handler.HandleLogin).Methods("POST")
+	authRouter.HandleFunc("/register", auth.HandleRegister).Methods("POST")
+	authRouter.HandleFunc("/login", auth.HandleLogin).Methods("POST")
 
 	// Project routes /api/project
 	projectRouter := apiRouter.PathPrefix("/project").Subrouter()
-	projectRouter.HandleFunc("/fetch_projects", auth.AuthMiddleware(handler.HandleGetProjects)).Methods("GET")
-	projectRouter.HandleFunc("/create_project", auth.AuthMiddleware(handler.HandleCreateProject)).Methods("POST")
+	projectRouter.HandleFunc("/fetch_projects", auth.AuthMiddleware(projects.HandleGetProjects)).Methods("GET")
+	projectRouter.HandleFunc("/create_project", auth.AuthMiddleware(projects.HandleCreateProject)).Methods("POST")
 
 	// Global middleware
 	router.Use(corsMiddleware)

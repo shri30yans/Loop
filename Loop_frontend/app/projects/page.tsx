@@ -1,8 +1,8 @@
 "use client";
 import { Select, SelectItem } from "@nextui-org/select";
 import { useEffect, useState } from "react";
-import { fetchProjects } from "./actions";
-import ProjectCard from "@/components/projectcard";
+import { getAllProjects } from "./actions";
+import ProjectCard from "@/components/ui/projectcard";
 import { Skeleton } from "@nextui-org/skeleton";
 import  {ProjectType}  from "../types";
 
@@ -23,7 +23,7 @@ export default function FeedPage() {
 
 
   useEffect(() => {
-    fetchProjects("", "", "").then((fetchedProjects: any | null) => {
+    getAllProjects().then((fetchedProjects: any | null) => {
       if (fetchedProjects) {
         setProjects(fetchedProjects);
       }
@@ -54,7 +54,7 @@ export default function FeedPage() {
       <div className="flex flex-wrap gap-4 w-full">
         {projects.map((project) => (
           <div className="w-1/4">
-            <a href={`/projectpage?id=${project.id}`}>
+            <a href={`/projectpage?id=${project.}`}>
             <ProjectCard isLoaded={isLoaded} title={project.title} body={project.description} tags={project.tags} />
             </a>
           </div>

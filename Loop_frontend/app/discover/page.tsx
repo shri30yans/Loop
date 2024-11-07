@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchPosts } from "./actions";
-import PostCard from "@/components/postcard";
+import PostCard from "@/components/ui/postcard";
 import { Select, SelectItem } from "@nextui-org/select";
 import { PostType } from "../types";
 import { Skeleton } from "@nextui-org/skeleton";
