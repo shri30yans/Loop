@@ -33,7 +33,7 @@ export default function CreatePage() {
     description: "",
     introduction: "",
     sections: projectSection,
-    //owner_id: "",
+    owner_id: "",
     tags: "",
   };
   

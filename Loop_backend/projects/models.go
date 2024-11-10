@@ -2,18 +2,15 @@ package projects
 
 import (
 	"time"
-
-	"github.com/google/uuid"
 )
 
 // ----------------------------------------------------------------------------
 // Project Structures
 // ----------------------------------------------------------------------------
 
-
 // Project represents a project in the database.
 type Project struct {
-	ProjectID    uuid.UUID        `json:"project_id"`
+	ProjectID    int              `json:"project_id"`
 	OwnerID      int              `json:"owner_id"`
 	Title        string           `json:"title"`
 	Introduction string           `json:"introduction"`

@@ -3,7 +3,11 @@ package auth
 import (
 	db "Loop/database"
 	"context"
+	"strings"
+	"errors"
 )
+
+var ErrDuplicateEmail = errors.New("email already exists")
 
 func CreateUser(name string, email string, hashedPassword string) (db.User, error) {
 	var user db.User
@@ -12,7 +16,14 @@ func CreateUser(name string, email string, hashedPassword string) (db.User, erro
 		"INSERT INTO users (name, email, hashed_password) VALUES ($1, $2, $3) RETURNING id,name,email, hashed_password",
 		name, email, hashedPassword,
 	).Scan(&user.ID, &user.Name, &user.Email, &user.HashedPassword)
-	return user, err
+	
+	if err != nil {
+		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
+			return db.User{}, ErrDuplicateEmail
+		}
+		return db.User{}, err // return other types of errors as is
+	}
+	return user, nil
 }
 
 func GetUserByEmail(email string) (db.User, error) {

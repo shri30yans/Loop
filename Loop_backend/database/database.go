@@ -44,13 +44,15 @@ func InitDB() error {
 func createTables() error {
 	fmt.Println("Creating tables")
 	queries := []string{
-		DropAllTables,
+		//DropAllTables,
+		//DropProjectTables,
 		CreateUsersTable,
 		CreateProjectsTable,
-		CreateFeedbackTable,
-		CreateProjectUpdatesTable,
+		CreateCommentsTable,
+		CreateProjectSectionsTable,
 		CreateEventsTable,
 		CreateUserEventParticipationTable,
+		CreateSessionsTables,
 	}
 
 	for _, query := range queries {

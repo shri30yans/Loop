@@ -1,50 +1,64 @@
+// auth/middleware.go
 package auth
 
 import (
-    "fmt"
-    "net/http"
-    "github.com/golang-jwt/jwt/v5"
+	"fmt"
+	"net/http"
+	"strings"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
 )
 
-
 func AuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
-    return func(w http.ResponseWriter, r *http.Request) {
-        tokenString := r.Header.Get("Authorization")
-        if tokenString == "" {
-            http.Error(w, "Unauthorized", http.StatusUnauthorized)
-            return
-        }
+	return func(w http.ResponseWriter, r *http.Request) {
+		tokenString := r.Header.Get("Authorization")
+		if tokenString == "" {
+			http.Error(w, "Unauthorized: No token provided", http.StatusUnauthorized)
+			return
+		}
 
-        // Remove Bearer prefix
-        if len(tokenString) > 7 && tokenString[:7] == "Bearer " {
-            tokenString = tokenString[7:]
-        }
+		// Remove Bearer prefix
+		if len(tokenString) > 7 && strings.ToUpper(tokenString[:7]) == "BEARER " {
+			tokenString = tokenString[7:]
+		}
 
-        // Parse and validate token
-        claims := &Claims{}
-        token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-            if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-                return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-            }
-            return JwtSecret, nil
-        })
+		claims := &Claims{}
+		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+			}
+			return JwtSecret, nil
+		})
 
-        if err != nil {
-            if err == jwt.ErrTokenExpired {
-                http.Error(w, "Token expired", http.StatusUnauthorized)
-                return
-            }
-            http.Error(w, "Invalid token", http.StatusUnauthorized)
-            return
-        }
+		if err != nil || !token.Valid {
+			if err == jwt.ErrTokenExpired {
+				// Check if refresh token is present
+				refreshToken := r.Header.Get("X-Refresh-Token")
+				if refreshToken != "" {
+					if session, err := GetSessionByRefreshToken(refreshToken); err == nil && session.ExpiresAt.After(time.Now()) {
+						newToken, err := GenerateToken(session.UserID)
+						if err == nil {
+							w.Header().Set("X-New-Token", newToken)
+							r = r.WithContext(SetUserContext(r.Context(), session.UserID))
+							next.ServeHTTP(w, r)
+							return
+						} else {
+							fmt.Printf("Error generating new token: %v\n", err)
+						}
+					} else {
+						fmt.Println("Invalid or expired refresh token")
+					}
+				}
+			} else {
+				fmt.Println("Invalid token")
+			}
+			http.Error(w, "Invalid or expired token", http.StatusUnauthorized)
+			return
+		}
 
-        if !token.Valid {
-            http.Error(w, "Invalid token", http.StatusUnauthorized)
-            return
-        }
-
-        // Add user ID to request context
-        r = r.WithContext(SetUserContext(r.Context(), claims.UserID))
-        next.ServeHTTP(w, r)
-    }
+		// Token is valid, proceed with request
+		r = r.WithContext(SetUserContext(r.Context(), claims.UserID))
+		next.ServeHTTP(w, r)
+	}
 }

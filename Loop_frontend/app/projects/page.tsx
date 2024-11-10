@@ -54,7 +54,7 @@ export default function FeedPage() {
       <div className="flex flex-wrap gap-4 w-full">
         {projects.map((project) => (
           <div className="w-1/4">
-            <a href={`/projectpage?id=${project.}`}>
+            <a href={`/projectpage?id=${project.id}`}>
             <ProjectCard isLoaded={isLoaded} title={project.title} body={project.description} tags={project.tags} />
             </a>
           </div>
