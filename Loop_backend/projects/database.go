@@ -4,19 +4,31 @@ import (
 	db "Loop/database"
 	"context"
 	"fmt"
-	"github.com/google/uuid"
 )
 
-func CreateProject(title, description, introduction, tags string) (uuid.UUID, error) {
-	var projectID uuid.UUID
+func CreateProject(title, description, introduction, tags string, ownerID int, sections []ProjectSection) (int, error) {
+	var projectID int
 	err := db.DB.QueryRow(context.Background(),
-		"INSERT INTO projects (title, description, introduction, tags) VALUES ($1, $2, $3, $4) RETURNING project_id",
-		title, description, introduction, tags).Scan(&projectID)
+		"INSERT INTO projects (title, owner_id, description, introduction, tags) VALUES ($1, $2, $3, $4, $5) RETURNING project_id",
+		title, ownerID, description, introduction, tags).Scan(&projectID)
 	if err != nil {
-		return uuid.Nil, fmt.Errorf("error creating project: %v", err)
+		return 0, fmt.Errorf("error creating project: %v", err)
 	}
+	CreateProjectSections(projectID, sections)
 	fmt.Println("Created project", projectID)
 	return projectID, nil
+}
+
+func CreateProjectSections(projectID int, sections []ProjectSection) error {
+	for _, section := range sections {
+		fmt.Println("Creating project section", section.UpdateNumber)
+		_, err := db.DB.Exec(context.Background(),
+			"INSERT INTO project_sections (section_id, project_id, title, body) VALUES ($1, $2, $3, $4)", section.UpdateNumber, projectID, section.Title,section.Body)
+		if err != nil {
+			return fmt.Errorf("error creating project section: %v", err)
+		}
+	}
+	return nil
 }
 
 func FetchProjects() ([]Project, error) {

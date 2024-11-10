@@ -26,7 +26,7 @@ func HandleCreateProject(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println()
-	projectID, err := CreateProject(newProject.Title, newProject.Description, newProject.Introduction, newProject.Tags)
+	projectID, err := CreateProject(newProject.Title, newProject.Description, newProject.Introduction, newProject.Tags, newProject.OwnerID, newProject.Sections)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
