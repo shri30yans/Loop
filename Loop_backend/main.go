@@ -27,6 +27,7 @@ func main() {
 	authRouter := apiRouter.PathPrefix("/auth").Subrouter()
 	authRouter.HandleFunc("/register", auth.HandleRegister).Methods("POST")
 	authRouter.HandleFunc("/login", auth.HandleLogin).Methods("POST")
+	authRouter.HandleFunc("/verify", auth.HandleVerify).Methods("GET")
 
 	// Project routes /api/project
 	projectRouter := apiRouter.PathPrefix("/project").Subrouter()

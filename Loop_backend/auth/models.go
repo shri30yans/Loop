@@ -1,7 +1,6 @@
 package auth
 
 import (
-	db "Loop/database"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -35,8 +34,15 @@ type RegisterRequest struct {
 
 // Auth response
 type AuthResponse struct {
-	Token string  `json:"token"`
-	User  db.User `json:"user"`
+	UserID       string `json:"user_id"`
+	RefreshToken string `json:"refresh_token"`
+	ExpiresAt    string `json:"expires_at"`
+}
+
+type RegisterResponse struct {
+	UserID       string `json:"user_id"`
+	Email        string `json:"email"`
+	HashedPassword string `json:"hashed_password"`
 }
 
 // Claims structure
