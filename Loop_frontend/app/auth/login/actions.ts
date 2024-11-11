@@ -1,7 +1,5 @@
 'use server';
 
-import { useAuthStore } from '../../../lib/auth/authStore';
-
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function login(email: string, password: string) {

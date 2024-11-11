@@ -46,11 +46,13 @@ const (
 	)`
 
 	CreateProjectSectionsTable = `CREATE TABLE IF NOT EXISTS project_sections (
-		section_id SERIAL PRIMARY KEY,
-		project_id SERIAL REFERENCES projects(project_id),
-		title VARCHAR(100),
-		body TEXT,
-		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    section_id SERIAL,
+    project_id INT,
+    title VARCHAR(100),
+    body TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (section_id, project_id),
+	FOREIGN KEY (project_id) REFERENCES projects(project_id)
 	)`
 
 	CreateEventsTable = `CREATE TABLE IF NOT EXISTS events (

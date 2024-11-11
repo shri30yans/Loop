@@ -4,7 +4,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 
 // Create a new project
-export async function createProject(projectData: any) {
+export async function createProject(projectData: any, user_id: string) {
   console.log(projectData);
     try {
       const response = await fetch(`${API_BASE_URL}/create_project`, {
@@ -12,7 +12,7 @@ export async function createProject(projectData: any) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(projectData),
+        body: JSON.stringify({...projectData, owner_id: user_id}),
       });
       console.log(JSON.stringify(projectData));
       if (!response.ok) {

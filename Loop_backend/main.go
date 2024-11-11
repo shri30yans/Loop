@@ -31,7 +31,8 @@ func main() {
 
 	// Project routes /api/project
 	projectRouter := apiRouter.PathPrefix("/project").Subrouter()
-	projectRouter.HandleFunc("/fetch_projects", auth.AuthMiddleware(projects.HandleGetProjects)).Methods("GET")
+	projectRouter.HandleFunc("/get_projects", auth.AuthMiddleware(projects.HandleGetProjects)).Methods("GET")
+	projectRouter.HandleFunc("/get_project_info", auth.AuthMiddleware(projects.HandleGetProjectInfo)).Methods("GET")
 	projectRouter.HandleFunc("/create_project", auth.AuthMiddleware(projects.HandleCreateProject)).Methods("POST")
 
 	// Global middleware

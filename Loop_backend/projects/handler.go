@@ -4,10 +4,33 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 )
 
 func HandleGetProjects(w http.ResponseWriter, r *http.Request) {
 	projects, err := FetchProjects()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(projects)
+}
+
+func HandleGetProjectInfo(w http.ResponseWriter, r *http.Request) {
+	projectID := r.URL.Query().Get("project-id")
+	if projectID == "" {
+		http.Error(w, "Missing project-id parameter", http.StatusBadRequest)
+		return
+	}
+
+	projectIDInt, err := strconv.Atoi(projectID)
+	if err != nil {
+		http.Error(w, "Invalid project-id parameter", http.StatusBadRequest)
+		return
+	}
+	
+	projects, err := FetchProjectInfo(projectIDInt)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -31,7 +54,7 @@ func HandleCreateProject(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	newProject.ProjectID = projectID
+
 	json.NewEncoder(w).Encode(newProject)
 }

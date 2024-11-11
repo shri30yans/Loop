@@ -3,9 +3,7 @@ package auth
 import (
 	db "Loop/database"
 	"context"
-	"github.com/golang-jwt/jwt/v5"
 	"time"
-	"fmt"
 )
 
 const (
@@ -13,16 +11,6 @@ const (
 	TokenDuration   = 15 * time.Minute
 )
 
-func GenerateJWT(userID int) (string, error) {
-	claims := &jwt.RegisteredClaims{
-		Subject:   fmt.Sprintf("%d", userID),
-		ExpiresAt: jwt.NewNumericDate(time.Now().Add(7 * 24 * time.Hour)), // Set expiration time
-		IssuedAt:  jwt.NewNumericDate(time.Now()),
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(JwtSecret)
-}
 
 func CreateSession(userID int) (*Session, error) {
 	refreshToken, err := GenerateJWT(userID)
@@ -55,6 +43,16 @@ func GetSessionByRefreshToken(refreshToken string) (*Session, error) {
          FROM sessions 
          WHERE refresh_token = $1`,
 		refreshToken,
+	).Scan(&session.SessionID, &session.UserID, &session.RefreshToken, &session.ExpiresAt, &session.CreatedAt)
+	return session, err
+}
+
+func GetSessionByUserID(userID int) (*Session, error) {
+	session := &Session{}
+	err := db.DB.QueryRow(
+		context.Background(),
+		`SELECT id, user_id, refresh_token, expires_at, created_at FROM sessions WHERE user_id = $1`,
+		userID,
 	).Scan(&session.SessionID, &session.UserID, &session.RefreshToken, &session.ExpiresAt, &session.CreatedAt)
 	return session, err
 }
