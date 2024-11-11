@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -23,7 +24,7 @@ func HandleRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := CreateUser(req.Name, req.Email, string(hashedPassword))
+	user, err := CreateUser(req.Name, strings.ToLower(req.Email), string(hashedPassword))
 	if err != nil {
 		if errors.Is(err, ErrDuplicateEmail) {
 			http.Error(w, "Email already exists", http.StatusConflict)
@@ -46,8 +47,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	fmt.Println(req.Email, req.Password)
-	user, err := GetUserByEmail(req.Email)
+	user, err := GetUserByEmail(strings.ToLower(req.Email))
 	if err != nil {
 		http.Error(w, "Invalid user", http.StatusUnauthorized)
 		return
@@ -58,7 +58,19 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Create session
+	// Check if a session already exists
+	existingSession, err := GetSessionByUserID(user.ID)
+	if err == nil {
+		// Return existing session
+		json.NewEncoder(w).Encode(AuthResponse{
+			UserID:       fmt.Sprintf("%d", user.ID),
+			RefreshToken: existingSession.RefreshToken,
+			ExpiresAt:    existingSession.ExpiresAt.Format(time.RFC3339),
+		})
+		return
+	}
+
+	// Create new session if no existing session is found
 	session, err := CreateSession(user.ID)
 	if err != nil {
 		http.Error(w, "Error creating session", http.StatusInternalServerError)
@@ -105,7 +117,7 @@ func HandleRefreshToken(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := GenerateToken(session.UserID)
+	token, err := GenerateJWT(session.UserID)
 	if err != nil {
 		http.Error(w, "Error generating token", http.StatusInternalServerError)
 		return

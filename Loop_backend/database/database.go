@@ -33,10 +33,10 @@ func InitDB() error {
 	}
 	fmt.Println("Connected to Database")
 
-	err = createTables()
-	if err != nil {
-		return fmt.Errorf("error creating tables: %v", err)
-	}
+	// err = createTables()
+	// if err != nil {
+	// 	return fmt.Errorf("error creating tables: %v", err)
+	// }
 
 	return nil
 }
@@ -44,7 +44,7 @@ func InitDB() error {
 func createTables() error {
 	fmt.Println("Creating tables")
 	queries := []string{
-		//DropAllTables,
+		DropAllTables,
 		//DropProjectTables,
 		CreateUsersTable,
 		CreateProjectsTable,

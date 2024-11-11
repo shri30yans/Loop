@@ -37,7 +37,7 @@ func AuthMiddleware(next http.HandlerFunc) http.HandlerFunc {
 				refreshToken := r.Header.Get("X-Refresh-Token")
 				if refreshToken != "" {
 					if session, err := GetSessionByRefreshToken(refreshToken); err == nil && session.ExpiresAt.After(time.Now()) {
-						newToken, err := GenerateToken(session.UserID)
+						newToken, err := GenerateJWT(session.UserID)
 						if err == nil {
 							w.Header().Set("X-New-Token", newToken)
 							r = r.WithContext(SetUserContext(r.Context(), session.UserID))

@@ -5,8 +5,9 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 // Fetch all projects
 export async function getAllProjects() {
   try {
-    const response = await fetch(`${API_BASE_URL}/project/fetch_projects`);
+    const response = await fetch(`${API_BASE_URL}/project/get_projects`);
     if (!response.ok) {
+      console.log(response)
       throw new Error('Failed to fetch projects');
     }
     return await response.json();

@@ -9,6 +9,7 @@ import { createProject } from "./actions";
 import { Select, SelectItem } from "@nextui-org/select";
 import { Image } from "@nextui-org/image";
 import { ProjectSectionType, ProjectType } from "../types";
+import { useAuthStore } from '../../lib/auth/authStore';
 
 export default function CreatePage() {
   const type = [
@@ -81,8 +82,9 @@ export default function CreatePage() {
 
   const handlePublish = (event: any) => {
     event.preventDefault();
+    const user_id = useAuthStore.getState().user_id;
     console.log('Submitting', project);
-    createProject(project);
+    createProject(project, user_id);
     
     // Reset all fields 
     setProject(initialProject);

@@ -7,11 +7,13 @@ import (
 	"time"
 )
 
+var JwtSecret = []byte("your-secret-key")
+
 type contextKey string
 
-const UserContextKey contextKey = "user"
+const UserContextKey contextKey = "user_id"
 
-func GenerateToken(userID int) (string, error) {
+func GenerateJWT(userID int) (string, error) {
 	claims := &Claims{
 		userID,
 		jwt.RegisteredClaims{
@@ -34,7 +36,3 @@ func GetUserFromContext(ctx context.Context) (int, bool) {
 	return userID, ok
 }
 
-var (
-	JwtSecret = []byte("your-secret-key") // In production, use environment variable
-	//emailRegex = regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
-)
