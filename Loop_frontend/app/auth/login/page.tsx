@@ -28,6 +28,11 @@ export default function LoginPage() {
       const data = await login(email, password);
       // Update Zustand with the token and user info
       useAuthStore.getState().setAuth(data.refresh_token, data.user_id, data.expires_at);
+      const newState = useAuthStore.getState();
+      console.log('Updated auth state:', newState);
+      
+      // Check if cookie was set
+      console.log('Cookies:', document.cookie);
       router.push('/');
     } catch (error) {
       setError('Invalid email or password. Please try again.');

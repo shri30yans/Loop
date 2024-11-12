@@ -8,6 +8,7 @@ import { Providers } from "./providers";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/ui/navbar";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 
 export const metadata: Metadata = {
   title: {
@@ -35,12 +36,11 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head />
-      <body
-        className={clsx(
+      <body className={clsx(
           "min-h-screen bg-background font-sans antialiased",
           fontSans.variable,
-        )}
-      >
+        )}>
+      <AuthProvider>
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen">
             <Navbar />
@@ -52,6 +52,7 @@ export default function RootLayout({
             </footer>
           </div>
         </Providers>
+        </AuthProvider>
       </body>
     </html>
   );

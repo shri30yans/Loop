@@ -86,11 +86,23 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 
 func HandleVerify(w http.ResponseWriter, r *http.Request) {
 	token := r.Header.Get("Authorization")
+	if token == "" {
+		http.Error(w, "Unauthorized: No token provided", http.StatusUnauthorized)
+		return
+	}
+
+	// Remove Bearer prefix
+	if len(token) > 7 && strings.ToUpper(token[:7]) == "BEARER " {
+		token = token[7:]
+	}
+	fmt.Println("Verifying token", token)
+
 	session, err := GetSessionByRefreshToken(token)
 	if err != nil {
 		http.Error(w, "Invalid token", http.StatusUnauthorized)
 		return
 	}
+	fmt.Println(session)
 	json.NewEncoder(w).Encode(map[string]string{
 		"session_id": fmt.Sprintf("%d", session.SessionID),
 	})

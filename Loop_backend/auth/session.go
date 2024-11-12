@@ -4,6 +4,7 @@ import (
 	db "Loop/database"
 	"context"
 	"time"
+	"fmt"
 )
 
 const (
@@ -44,6 +45,7 @@ func GetSessionByRefreshToken(refreshToken string) (*Session, error) {
          WHERE refresh_token = $1`,
 		refreshToken,
 	).Scan(&session.SessionID, &session.UserID, &session.RefreshToken, &session.ExpiresAt, &session.CreatedAt)
+	fmt.Println(session,err)
 	return session, err
 }
 

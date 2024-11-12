@@ -1,41 +1,61 @@
-'use client';
-
-import { useEffect } from 'react';
+// AuthProvider.tsx
+'use client'
+import { useEffect, ReactNode } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuthStore } from '../../lib/auth/authStore';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const { setAuth } = useAuthStore();
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+const protectedPaths = ['/projects', '/create'];
+
+export function AuthProvider({ children }: AuthProviderProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { refresh_token, logout } = useAuthStore();
 
   useEffect(() => {
-    // Get the refresh_token from cookies
-    const token = document.cookie.replace(
-      /(?:(?:^|.*;\s*)refresh_token\s*=\s*([^;]*).*$)|^.*$/,
-      '$1'
-    );
+    async function verifyAuth() {
+      // Redirect if there's no refresh token on protected paths
+      if (!refresh_token && protectedPaths.includes(pathname)) {
+        router.push('/auth/login');
+        return;
+      }
 
-    if (token) {
-      fetch(`${API_BASE_URL}/auth/verify`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.user_id) {
-            setAuth(data.refresh_token, data.user_id, data.expires_at );
-          } else {
-            document.cookie = 'refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-            setAuth(null, null,null);
+      // If refresh token exists, verify it only once per session
+      if (refresh_token && protectedPaths.includes(pathname)) {
+        try {
+          const response = await fetch(`${API_BASE_URL}/auth/verify`, {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${refresh_token}`,
+              'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            mode: 'cors' 
+          });
+
+          if (!response.ok) {
+            throw new Error('Verification failed');
           }
-        })
-        .catch(() => {
-          document.cookie = 'refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
-          setAuth(null, null,null);
-        });
-    } else {
-      setAuth(null, null,null);
+
+          const data = await response.json();
+          if (!data.session_id) {
+            throw new Error('Invalid session');
+          }
+        } catch (error) {
+          console.error('Verification error:', error);
+          logout();
+          router.push('/auth/login');
+        }
+      }
     }
-  }, [setAuth]);
+
+    verifyAuth();
+  }, [refresh_token, pathname, router, logout]);
 
   return <>{children}</>;
 }
