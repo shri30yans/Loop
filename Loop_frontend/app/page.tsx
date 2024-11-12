@@ -1,9 +1,3 @@
-import { Link } from "@nextui-org/link";
-import { Snippet } from "@nextui-org/snippet";
-import { Code } from "@nextui-org/code";
-import { button as buttonStyles } from "@nextui-org/theme";
-import { AuthProvider } from "@/components/auth/AuthProvider";
-
 import { siteConfig } from "@/config/site";
 import { landingpagetext, subtitle, subheading } from "@/components/ui/primitives";
 import { GithubIcon } from "@/components/ui/icons";

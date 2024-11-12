@@ -15,7 +15,7 @@ export interface ProjectType {
     introduction: string;
     sections: ProjectSectionType[];
     owner_id: string;
-    tags: string;
+    tags: string[];
 };
 
 export type ProjectSectionType = {

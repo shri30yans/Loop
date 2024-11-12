@@ -18,7 +18,7 @@ type Project struct {
 	Description  string           `json:"description"`
 	Status       string           `json:"status"`
 	CreatedAt    time.Time        `json:"created_at"`
-	Tags         string           `json:"tags"`
+	Tags         []string         `json:"tags"`
 }
 type T struct {
 	Title        string `json:"title"`
@@ -42,6 +42,11 @@ type ProjectSection struct {
 	UpdateNumber int    `json:"update_number"`
 	Body         string `json:"body"`
 	ProjectID    int    `json:"project_id"`
+}
+
+type ProjectTag struct {
+	ProjectID      int    `json:"project_id"`
+	TagDescription string `json:"tag_description"`
 }
 
 // Event represents an event in the database.

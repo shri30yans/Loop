@@ -25,6 +25,7 @@ import {
   SearchIcon,
   Logo,
 } from "@/components/ui/icons";
+import { useEffect } from "react";
 
 export const Navbar = () => {
   const searchInput = (
@@ -85,8 +86,8 @@ export const Navbar = () => {
         </Button>
       </NavbarItem>
       <NavbarItem>
-      <Button className="hidden lg:flex font-extrabold" as={Link} color="primary" href="/auth/login" variant="flat">
-          Login
+        <Button className="hidden lg:flex font-extrabold" as={Link} color="primary" href="/user" variant="flat">
+          Account
         </Button>
       </NavbarItem>
       <NavbarItem className="hidden sm:flex gap-2">
@@ -129,3 +130,7 @@ export const Navbar = () => {
     </NextUINavbar>
   );
 };
+function useState(arg0: boolean): [any, any] {
+  throw new Error("Function not implemented.");
+}
+

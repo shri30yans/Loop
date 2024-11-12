@@ -12,17 +12,23 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      refresh_token: document.cookie.replace(/(?:(?:^|.*;\s*)refresh_token\s*=\s*([^;]*).*$)|^.*$/, '$1') || null,
+      refresh_token: typeof document !== 'undefined' 
+        ? document.cookie.replace(/(?:(?:^|.*;\s*)refresh_token\s*=\s*([^;]*).*$)|^.*$/, '$1') || null 
+        : null,
       user_id: null,
       expires_at: null,
       setAuth: (refresh_token, user_id, expires_at) => {
-        // Set cookie explicitly
-        document.cookie = `refresh_token=${refresh_token}; user_id=${user_id}; expires_at=${expires_at}`; // 7 days
+        // Set cookie explicitly only in the browser
+        if (typeof document !== 'undefined') {
+          document.cookie = `refresh_token=${refresh_token}; user_id=${user_id}; expires_at=${expires_at}; path=/; max-age=${60 * 60 * 24 * 7}`;
+        }
         set({ refresh_token, user_id, expires_at });
       },
       logout: () => {
         // Clear cookies and reset state on logout
-        document.cookie = 'refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+        if (typeof document !== 'undefined') {
+          document.cookie = 'refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+        }
         set({ user_id: null, refresh_token: null, expires_at: null });
       },
     }),
