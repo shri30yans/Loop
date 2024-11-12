@@ -3,35 +3,38 @@ package projects
 import (
 	db "Loop/database"
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/jackc/pgtype"
 )
 
-func CreateProject(title, description, introduction, tags string, ownerID int, sections []ProjectSection) (int, error) {
+func CreateProject(title, description, introduction string, tags []string, ownerID int, sections []ProjectSection) (int, error) {
 	var projectID int
-	fmt.Println("Creating project", title, ownerID, description, introduction, tags)
-	err := db.DB.QueryRow(context.Background(),
-		"INSERT INTO projects (title, owner_id, description, introduction, tags) VALUES ($1, $2, $3, $4, $5) RETURNING project_id",
-		title, ownerID, description, introduction, tags).Scan(&projectID)
+
+	sectionsJSON, err := json.Marshal(sections)
+	if err != nil {
+		return 0, fmt.Errorf("error marshaling sections: %v", err)
+	}
+
+	query := `SELECT create_project($1, $2, $3, $4, $5::text[], $6::jsonb)`
+
+	tagsArray := pgtype.TextArray{}
+	if err := tagsArray.Set(tags); err != nil {
+		return 0, fmt.Errorf("error converting tags to array: %v", err)
+	}
+
+	err = db.DB.QueryRow(
+		context.Background(),
+		query,
+		title, description, introduction, ownerID, tagsArray, sectionsJSON,
+	).Scan(&projectID)
 	if err != nil {
 		return 0, fmt.Errorf("error creating project: %v", err)
 	}
-	CreateProjectSections(projectID, sections)
-	fmt.Println("Created project", projectID)
-	return projectID, nil
-}
 
-func CreateProjectSections(projectID int, sections []ProjectSection) error {
-	for _, section := range sections {
-		fmt.Println("Creating project section", section.UpdateNumber)
-		_, err := db.DB.Exec(context.Background(),
-			"INSERT INTO project_sections (section_id, project_id, title, body) VALUES ($1, $2, $3, $4)", section.UpdateNumber, projectID, section.Title, section.Body)
-		if err != nil {
-			return fmt.Errorf("error creating project section: %v", err)
-		}
-	}
-	return nil
+	fmt.Println("Created project with ID:", projectID)
+	return projectID, nil
 }
 
 func FetchProjects() ([]Project, error) {
@@ -59,7 +62,6 @@ func FetchProjects() ([]Project, error) {
 
 	return projects, nil
 }
-
 
 func FetchProjectInfo(projectID int) ([]Project, error) {
 	rows, err := db.DB.Query(context.Background(), "SELECT project_id, owner_id, title, description, status, created_at FROM projects WHERE project_id = $1", projectID)

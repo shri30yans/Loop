@@ -10,6 +10,7 @@ import { Select, SelectItem } from "@nextui-org/select";
 import { Image } from "@nextui-org/image";
 import { ProjectSectionType, ProjectType } from "../types";
 import { useAuthStore } from '../../lib/auth/authStore';
+// import { Selection } from "react";
 
 export default function CreatePage() {
   const type = [
@@ -23,8 +24,8 @@ export default function CreatePage() {
 
   const initialProjectSection: ProjectSectionType[] = [
     { update_number: 1, title: "", body: "" },
-    { update_number: 2, title: "", body: "" },
-    { update_number: 3, title: "", body: "" },
+    //{ update_number: 2, title: "", body: "" },
+    //{ update_number: 3, title: "", body: "" },
   ];
 
   const [projectSection, setProjectSection] = useState<ProjectSectionType[]>(initialProjectSection);
@@ -35,12 +36,16 @@ export default function CreatePage() {
     introduction: "",
     sections: projectSection,
     owner_id: "",
-    tags: "",
+    tags: [],
   };
   
   const [project, setProject] = useState<ProjectType>(initialProject);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   
-  const handleProjectChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | { target: { name: string; value: string } }) => {
+  const handleProjectChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | 
+    { target: { name: string; value: string | string[] } }
+  ) => {
     const { name, value } = event.target;
     setProject((prevProject) => ({
       ...prevProject,
@@ -83,8 +88,8 @@ export default function CreatePage() {
   const handlePublish = (event: any) => {
     event.preventDefault();
     const user_id = useAuthStore.getState().user_id;
-    console.log('Submitting', project);
-    createProject(project, user_id);
+    project.owner_id = user_id
+    createProject(project);
     
     // Reset all fields 
     setProject(initialProject);
@@ -145,16 +150,24 @@ export default function CreatePage() {
                   <Select
                     isRequired
                     label="Tags"
-                    selectionMode="single"
+                    selectionMode="multiple"
                     className="w-full"
                     placeholder="What is your project about?"
                     name="tags"
-                    value={project.tags}
-                    onChange={handleProjectChange}
+                    onSelectionChange={(keys) => {
+                      handleProjectChange({
+                        target: {
+                          name: 'tags',
+                          value: Array.from(keys).map(String) 
+                        }
+                      });
+                    }}
                     required
                   >
                     {type.map((data) => (
-                      <SelectItem key={data.key}>{data.label}</SelectItem>
+                      <SelectItem key={data.key} value={data.key}>
+                        {data.label}
+                      </SelectItem>
                     ))}
                   </Select>
                 </div>

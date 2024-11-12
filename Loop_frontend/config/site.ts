@@ -20,10 +20,10 @@ export const siteConfig = {
       label: "Projects",
       href: "/projects",
     },
-    {
-      label: "Communities",
-      href: "/communities",
-    },
+    // {
+    //   label: "Communities",
+    //   href: "/communities",
+    // },
   ],
   navMenuItems: [
     // {

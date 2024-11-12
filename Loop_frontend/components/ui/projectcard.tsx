@@ -11,7 +11,7 @@ interface ProjectCardProps {
   isLoaded: boolean;
   title: string;
   body: string;
-  tags?: string;
+  tags?: string[];
 }
 
 export default function ProjectCard({
