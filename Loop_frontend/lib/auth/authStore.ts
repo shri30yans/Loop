@@ -12,19 +12,26 @@ interface AuthState {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      refresh_token: null,
+      refresh_token: document.cookie.replace(/(?:(?:^|.*;\s*)refresh_token\s*=\s*([^;]*).*$)|^.*$/, '$1') || null,
       user_id: null,
       expires_at: null,
-      setAuth: (refresh_token,user_id,expires_at) => set({ refresh_token,user_id,expires_at}),
+      setAuth: (refresh_token, user_id, expires_at) => {
+        // Set cookie explicitly
+        document.cookie = `refresh_token=${refresh_token}; user_id=${user_id}; expires_at=${expires_at}`; // 7 days
+        set({ refresh_token, user_id, expires_at });
+      },
       logout: () => {
-        // Remove the refresh token cookie
-        document.cookie = 'refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC'; 
-        set({user_id: null, refresh_token: null, expires_at: null });
+        // Clear cookies and reset state on logout
+        document.cookie = 'refresh_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+        set({ user_id: null, refresh_token: null, expires_at: null });
       },
     }),
     {
       name: 'auth-storage',
-      storage: createJSONStorage(() => localStorage), 
+      storage: createJSONStorage(() => localStorage),
+      onRehydrateStorage: () => (state) => {
+        console.log('Hydrated state:', state);
+      },
     }
   )
 );
