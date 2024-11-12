@@ -10,7 +10,7 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const protectedPaths = ['/projects', '/create'];
+const protectedPaths = ['/projects', '/create','/user'];
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
@@ -28,6 +28,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       // If refresh token exists, verify it only once per session
       if (refresh_token && protectedPaths.includes(pathname)) {
         try {
+          console.log("SENT TO VERIFY!!!")
           const response = await fetch(`${API_BASE_URL}/auth/verify`, {
             method: 'GET',
             headers: {

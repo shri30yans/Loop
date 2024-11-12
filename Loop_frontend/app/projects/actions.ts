@@ -2,11 +2,22 @@
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-// Fetch all projects
-export async function getAllProjects() {
+export async function getAllProjects(refresh_token: string) {
   try {
-    const response = await fetch(`${API_BASE_URL}/project/get_projects`);
-    if (!response.ok) {
+    const response = await fetch(`${API_BASE_URL}/project/get_projects`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${refresh_token}`,
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      mode: 'cors'
+    });
+
+    if (response.status === 401) {
+      throw new Error('Unauthorized');
+    }
+    else if (!response.ok) {
       console.log(response)
       throw new Error('Failed to fetch projects');
     }

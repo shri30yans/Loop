@@ -45,7 +45,7 @@ func createTables() error {
 	fmt.Println("Creating tables")
 	queries := []string{
 		DropAllTables,
-		//DropProjectTables,
+		DropProjectTables,
 		CreateUsersTable,
 		CreateProjectsTable,
 		CreateCommentsTable,
@@ -53,6 +53,8 @@ func createTables() error {
 		CreateEventsTable,
 		CreateUserEventParticipationTable,
 		CreateSessionsTables,
+		CreateProjectTagsTable,
+		CreateProjectSQLFunction,
 	}
 
 	for _, query := range queries {

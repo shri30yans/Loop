@@ -1,21 +1,23 @@
 'use server'
+import { ProjectSectionType, ProjectType } from "../types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 
 // Create a new project
-export async function createProject(projectData: any, user_id: string) {
-  console.log(projectData);
+export async function createProject(project : ProjectType) {
+  console.log(project);
     try {
-      const response = await fetch(`${API_BASE_URL}/create_project`, {
+      const response = await fetch(`${API_BASE_URL}/project/create_project`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({...projectData, owner_id: user_id}),
+        body: JSON.stringify({...project}),
       });
-      console.log(JSON.stringify(projectData));
+      console.log(JSON.stringify(project));
       if (!response.ok) {
+        console.log(response);
         throw new Error('Failed to create project');
       }
       return await response.json();

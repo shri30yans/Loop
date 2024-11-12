@@ -5,7 +5,6 @@ export default async function CommunitiesLayout({
 }: {
   children: React.ReactNode
 }) {
-  const projects = await getAllProjects();
 
   return (
     <div>
