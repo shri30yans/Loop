@@ -49,11 +49,13 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	user, err := GetUserByEmail(strings.ToLower(req.Email))
 	if err != nil {
+		fmt.Println("Invalid User")
 		http.Error(w, "Invalid user", http.StatusUnauthorized)
 		return
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.HashedPassword), []byte(req.Password)); err != nil {
+		fmt.Println("Invalid Password")
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 		return
 	}
@@ -102,7 +104,7 @@ func HandleVerify(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid token", http.StatusUnauthorized)
 		return
 	}
-	fmt.Println(session)
+	//fmt.Println(session)
 	json.NewEncoder(w).Encode(map[string]string{
 		"session_id": fmt.Sprintf("%d", session.SessionID),
 	})

@@ -13,6 +13,9 @@ import { useAuthStore } from '../../lib/auth/authStore';
 // import { Selection } from "react";
 
 export default function CreatePage() {
+
+  const refresh_token = useAuthStore((state) => state.refresh_token); // Moved inside component
+
   const type = [
     { key: "ai", label: "AI/ML" },
     { key: "web", label: "Web" },
@@ -23,9 +26,7 @@ export default function CreatePage() {
   ];
 
   const initialProjectSection: ProjectSectionType[] = [
-    { update_number: 1, title: "", body: "" },
-    //{ update_number: 2, title: "", body: "" },
-    //{ update_number: 3, title: "", body: "" },
+    { section_number: 1, title: "", body: "" },
   ];
 
   const [projectSection, setProjectSection] = useState<ProjectSectionType[]>(initialProjectSection);
@@ -47,18 +48,29 @@ export default function CreatePage() {
     { target: { name: string; value: string | string[] } }
   ) => {
     const { name, value } = event.target;
-    setProject((prevProject) => ({
-      ...prevProject,
-      [name]: value,
-    }));
+    
+    // Special handling for tags array
+    if (name === 'tags') {
+      const tagsArray = Array.isArray(value) ? value : value.split(',').map(tag => tag.trim());
+      setProject(prevProject => ({
+        ...prevProject,
+        tags: tagsArray
+      }));
+    } else {
+      // Handle other fields normally
+      setProject(prevProject => ({
+        ...prevProject,
+        [name]: value
+      }));
+    }
   };
 
   const handleProjectSectionChange = (event: any) => {
     const { name, value, id } = event.target;
-    const updateNumber = parseInt(id, 10);
+    const sectionNumber = parseInt(id, 10);
   
     const updatedSections = projectSection.map((section) => {
-      if (section.update_number === updateNumber) {
+      if (section.section_number === sectionNumber) {
         return { ...section, [name]: value };
       }
       return section;
@@ -78,7 +90,7 @@ export default function CreatePage() {
       return;
     }
     const newCard: ProjectSectionType = {
-      update_number: projectSection.length + 1,
+      section_number: projectSection.length + 1,
       title: "",
       body: "",
     };
@@ -89,7 +101,9 @@ export default function CreatePage() {
     event.preventDefault();
     const user_id = useAuthStore.getState().user_id;
     project.owner_id = user_id
-    createProject(project);
+    if (refresh_token){
+    createProject(refresh_token,project);
+  }
     
     // Reset all fields 
     setProject(initialProject);
@@ -155,10 +169,11 @@ export default function CreatePage() {
                     placeholder="What is your project about?"
                     name="tags"
                     onSelectionChange={(keys) => {
+                      const tagsArray = Array.from(keys).map(String); // Convert numbers to strings
                       handleProjectChange({
                         target: {
                           name: 'tags',
-                          value: Array.from(keys).map(String) 
+                          value: tagsArray
                         }
                       });
                     }}
@@ -209,20 +224,20 @@ export default function CreatePage() {
           //------------------------------------------
         }
         {projectSection.map((card) => (
-          <div className="flex w-full flex-col space-y-6" key={card.update_number}>
+          <div className="flex w-full flex-col space-y-6" key={card.section_number}>
             <Card isBlurred>
               <CardBody>
                 <div className="space-y-2">
                   <div className="w-full space-y-2 px-6 pb-6 pt-2">
                     <div className={subheading({ size: "lg" })}>
-                      Update {card.update_number}
+                      Update {card.section_number}
                     </div>
                     <Input
                       isRequired
                       className="w-full"
                       type="text"
                       label="Title"
-                      id={card.update_number.toString()}
+                      id={card.section_number.toString()}
                       name="title"
                       value={card.title}
                       onChange={handleProjectSectionChange}
@@ -235,7 +250,7 @@ export default function CreatePage() {
                       label="Body"
                       className="w-full"
                       isRequired
-                      id={card.update_number.toString()}
+                      id={card.section_number.toString()}
                       name="body"
                       value={card.body}
                       onChange={handleProjectSectionChange}

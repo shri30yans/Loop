@@ -63,7 +63,6 @@ func createTables() error {
 			return err
 		}
 	}
-
 	fmt.Println("Created tables")
 
 	return nil

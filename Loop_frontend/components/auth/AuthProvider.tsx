@@ -10,7 +10,18 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-const protectedPaths = ['/projects', '/create','/user'];
+// Define path patterns with regex
+const protectedPathPatterns = [
+  /^\/projects(\/.*)?$/, // Matches /projects and all sub-paths
+  /^\/create(\/.*)?$/,   // Matches /create and all sub-paths
+  /^\/user(\/.*)?$/,     // Matches /user and all sub-paths
+  /^\/edit\/\d+(\/.*)?$/ // Matches /edit/123 and similar paths
+];
+
+// Helper function to check if path needs protection
+const isProtectedPath = (path: string): boolean => {
+  return protectedPathPatterns.some(pattern => pattern.test(path));
+};
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
@@ -20,13 +31,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     async function verifyAuth() {
       // Redirect if there's no refresh token on protected paths
-      if (!refresh_token && protectedPaths.includes(pathname)) {
+      if (!refresh_token && isProtectedPath(pathname)) {
         router.push('/auth/login');
         return;
       }
 
       // If refresh token exists, verify it only once per session
-      if (refresh_token && protectedPaths.includes(pathname)) {
+      if (refresh_token && isProtectedPath(pathname)) {
         try {
           console.log("SENT TO VERIFY!!!")
           const response = await fetch(`${API_BASE_URL}/auth/verify`, {

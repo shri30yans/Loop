@@ -6,31 +6,33 @@ import { ProjectType } from "../types";
 import { useEffect, useState } from "react";
 import { getProjectInfo } from "./actions";
 import { Chip } from "@nextui-org/chip";
+import { useAuthStore } from "@/lib/auth/authStore";
 
 export default function ProjectPage() {
   const [project, setProject] = useState<ProjectType | null>(null);
+  const refresh_token = useAuthStore((state) => state.refresh_token); // Moved inside component
   const queryParams = new URLSearchParams(window.location.search);
   const id = queryParams.get("id");
+
   useEffect(() => {
-    // Ensure 'id' is not undefined or empty
-    if (id) {
-      getProjectInfo(String(id)).then(
+    if (refresh_token) {
+      getProjectInfo(refresh_token, id!).then(
         (fetchedProject: ProjectType | null) => {
           if (fetchedProject) {
             setProject(fetchedProject);
             console.log(fetchedProject);
+            console.log(fetchedProject.owner_id)
           }
         }
       );
     }
-  }, [id]); // Add 'id' as a dependency to useEffect
+  }, [refresh_token, id]);
 
   if (!project) {
     return <div>Error!</div>;
   }
 
   return (
-    // <div className="max-w-full overflow-x-clip">
     <div className="max-w-full overflow-x-clip">
 
       {
@@ -73,7 +75,7 @@ export default function ProjectPage() {
       }
       <div>
         {project.sections.map((card) => (
-          <div className="flex w-full flex-col space-y-6" key={card.id}>
+          <div className="flex w-full flex-col space-y-6" key={card.section_number}>
             <div className="space-y-2">
               <div className="w-full space-y-2 px-6 pb-6 pt-2">
                 <div className={subheading({ size: "lg" })}>{card.title}</div>

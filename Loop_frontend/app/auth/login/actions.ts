@@ -12,6 +12,10 @@ export async function login(email: string, password: string) {
       body: JSON.stringify({ email, password }),
     });
 
+    if (response.status == 401) {
+      throw new Error('Invalid credentials');
+    }
+
     if (!response.ok) {
       throw new Error('Login failed');
     }
