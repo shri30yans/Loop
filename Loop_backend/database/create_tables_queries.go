@@ -45,12 +45,12 @@ const (
     )`
 
 	CreateProjectSectionsTable = `CREATE TABLE IF NOT EXISTS project_sections (
-       section_id SERIAL,
+       section_number INTEGER,
        project_id INTEGER,
        title VARCHAR(100),
        body TEXT,
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-       PRIMARY KEY (section_id, project_id),
+       PRIMARY KEY (section_number, project_id),
        FOREIGN KEY (project_id) REFERENCES projects(project_id)
     )`
 
@@ -81,6 +81,14 @@ const (
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`
 
+	CreateTokenExpiryTrigger = `CREATE TABLE IF NOT EXISTS sessions (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id) UNIQUE,
+      refresh_token VARCHAR(255) UNIQUE NOT NULL,
+      expires_at TIMESTAMP NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   `
+
 	CreateProjectSQLFunction = `CREATE OR REPLACE FUNCTION create_project(
        p_title TEXT,
        p_description TEXT,
@@ -102,11 +110,12 @@ const (
        SELECT new_project_id, unnest(p_tags);
 
        -- Insert sections associated with the project using JSONB
-       INSERT INTO project_sections (project_id, title, body)
+       INSERT INTO project_sections (project_id, title, body,section_number)
        SELECT
           new_project_id,
-          section->>'Title',
-          section->>'Body'
+          section->>'title',
+          section->>'body',
+          (section->>'section_number')::int
        FROM jsonb_array_elements(p_sections) AS section;
 
        -- Return the new project_id

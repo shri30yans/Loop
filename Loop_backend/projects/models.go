@@ -16,10 +16,11 @@ type Project struct {
 	Introduction string           `json:"introduction"`
 	Sections     []ProjectSection `json:"sections"`
 	Description  string           `json:"description"`
-	Status       string           `json:"status"`
+	Status       *string          `json:"status"`
 	CreatedAt    time.Time        `json:"created_at"`
 	Tags         []string         `json:"tags"`
 }
+
 type T struct {
 	Title        string `json:"title"`
 	Description  string `json:"description"`
@@ -38,10 +39,10 @@ type Feedback struct {
 
 // ProjectSection represents an update for a project.
 type ProjectSection struct {
-	Title        string `json:"title"`
-	UpdateNumber int    `json:"update_number"`
-	Body         string `json:"body"`
-	ProjectID    int    `json:"project_id"`
+	Title         string `json:"title"`
+	SectionNumber int    `json:"section_number"`
+	Body          string `json:"body"`
+	ProjectID     int    `json:"project_id"`
 }
 
 type ProjectTag struct {

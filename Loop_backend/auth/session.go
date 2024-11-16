@@ -4,11 +4,10 @@ import (
 	db "Loop/database"
 	"context"
 	"time"
-	"fmt"
 )
 
 const (
-	SessionDuration = 7 * 24 * time.Hour * 1000
+	SessionDuration = 7 * 24 * time.Hour 
 	TokenDuration   = 15 * time.Minute
 )
 
@@ -45,7 +44,6 @@ func GetSessionByRefreshToken(refreshToken string) (*Session, error) {
          WHERE refresh_token = $1`,
 		refreshToken,
 	).Scan(&session.SessionID, &session.UserID, &session.RefreshToken, &session.ExpiresAt, &session.CreatedAt)
-	fmt.Println(session,err)
 	return session, err
 }
 
@@ -68,10 +66,10 @@ func DeleteSession(sessionID int) error {
 	return err
 }
 
-func CleanupExpiredSessions() error {
-	_, err := db.DB.Exec(
-		context.Background(),
-		"DELETE FROM sessions WHERE expires_at < NOW()",
-	)
-	return err
-}
+// func CleanupExpiredSessions() error {
+// 	_, err := db.DB.Exec(
+// 		context.Background(),
+// 		"DELETE FROM sessions WHERE expires_at < NOW()",
+// 	)
+// 	return err
+// }

@@ -15,12 +15,16 @@ export async function register(name:string, email: string, password: string) {
     console.log(name, email, password);
     console.log(response);
 
-    if (!response.ok) {
-      throw new Error('Registration failed');
+    if (response.status == 409) {
+      throw new Error('User already exists');
     }
 
+    else if (!response.ok) {
+      throw new Error('Registration failed');
+    }
     const data = await response.json();
     return data;
+    
   } catch (error) {
     throw new Error('Registration failed');
   }

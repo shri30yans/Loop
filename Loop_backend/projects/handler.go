@@ -2,7 +2,6 @@ package projects
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 )
@@ -29,7 +28,7 @@ func HandleGetProjectInfo(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid project-id parameter", http.StatusBadRequest)
 		return
 	}
-	
+
 	projects, err := FetchProjectInfo(projectIDInt)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -43,12 +42,12 @@ func HandleCreateProject(w http.ResponseWriter, r *http.Request) {
 
 	var newProject Project
 	err := json.NewDecoder(r.Body).Decode(&newProject)
-	fmt.Println(newProject)
+	//fmt.Println(newProject)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	fmt.Println()
+	//fmt.Println()
 	projectID, err := CreateProject(newProject.Title, newProject.Description, newProject.Introduction, newProject.Tags, newProject.OwnerID, newProject.Sections)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
