@@ -9,7 +9,7 @@ export interface PostType {
 };
 
 export interface ProjectType {
-    id?: string;
+    project_id?: string;
     title: string;
     description: string;
     introduction: string;
@@ -19,7 +19,7 @@ export interface ProjectType {
 };
 
 export type ProjectSectionType = {
-    update_number: number;
+    section_number: number;
     title: string;
     body: string;
 };
