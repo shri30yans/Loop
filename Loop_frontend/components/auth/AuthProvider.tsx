@@ -14,7 +14,7 @@ interface AuthProviderProps {
 const protectedPathPatterns = [
   /^\/projects(\/.*)?$/, // Matches /projects and all sub-paths
   /^\/create(\/.*)?$/,   // Matches /create and all sub-paths
-  /^\/user(\/.*)?$/,     // Matches /user and all sub-paths
+  /^\/account(\/.*)?$/,     // Matches /user and all sub-paths
   /^\/edit\/\d+(\/.*)?$/ // Matches /edit/123 and similar paths
 ];
 

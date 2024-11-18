@@ -2,6 +2,7 @@
 package auth
 
 import (
+	. "Loop/models"
 	"fmt"
 	"net/http"
 	"strings"

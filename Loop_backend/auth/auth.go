@@ -5,6 +5,8 @@ import (
 	"context"
 	"github.com/golang-jwt/jwt/v5"
 	"time"
+	. "Loop/models"
+
 )
 
 var JwtSecret = []byte("your-secret-key")

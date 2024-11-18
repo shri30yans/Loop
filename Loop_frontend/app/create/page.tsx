@@ -14,7 +14,7 @@ import { useAuthStore } from '../../lib/auth/authStore';
 
 export default function CreatePage() {
 
-  const refresh_token = useAuthStore((state) => state.refresh_token); // Moved inside component
+  const refresh_token = useAuthStore((state) => state.refresh_token);
 
   const type = [
     { key: "ai", label: "AI/ML" },
@@ -41,7 +41,6 @@ export default function CreatePage() {
   };
   
   const [project, setProject] = useState<ProjectType>(initialProject);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   
   const handleProjectChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | 
@@ -57,7 +56,6 @@ export default function CreatePage() {
         tags: tagsArray
       }));
     } else {
-      // Handle other fields normally
       setProject(prevProject => ({
         ...prevProject,
         [name]: value
@@ -100,7 +98,9 @@ export default function CreatePage() {
   const handlePublish = (event: any) => {
     event.preventDefault();
     const user_id = useAuthStore.getState().user_id;
-    project.owner_id = user_id
+    if (user_id) {
+      project.owner_id = user_id;
+    }
     if (refresh_token){
     createProject(refresh_token,project);
   }
@@ -128,7 +128,7 @@ export default function CreatePage() {
                   height={400}
                   alt="NextUI hero Image"
                   className="p-2"
-                  src="https://i.imgur.com/8nLFCVP.png"
+                  src="https://www.liquidplanner.com/wp-content/uploads/2019/04/HiRes-17.jpg"
                 />
 
                 <div className="w-full space-y-2 px-6 ">

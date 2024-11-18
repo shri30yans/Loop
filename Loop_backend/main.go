@@ -27,6 +27,9 @@ func main() {
 
 	apiRouter.HandleFunc("/", db.Root).Methods("GET", "OPTIONS")
 
+	userRouter := apiRouter.PathPrefix("/user").Subrouter()
+	userRouter.HandleFunc("/get_user_info", auth.HandleGetUserInfo).Methods("GET", "OPTIONS")
+
 	// Auth routes /api/auth
 	authRouter := apiRouter.PathPrefix("/auth").Subrouter()
 	authRouter.HandleFunc("/register", auth.HandleRegister).Methods("POST", "OPTIONS")

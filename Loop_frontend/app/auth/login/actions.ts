@@ -17,12 +17,17 @@ export async function login(email: string, password: string) {
     }
 
     if (!response.ok) {
+      console.log('Login failed:', response.status, response.statusText);
       throw new Error('Login failed');
     }
 
-    const data = await response.json();
+    console.log('Login successful:', response);
 
+    const data = await response.json();
+    //console.log('Login data:', data);
     return data;
+
+
   } catch (error) {
     console.error('Login failed:', error);
     throw new Error('Login failed');
