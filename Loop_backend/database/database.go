@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"log"
 
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/joho/godotenv"
@@ -42,7 +41,7 @@ func InitDB() error {
 	return nil
 }
 
-func CreateTables() error {
+func createTables() error {
 	fmt.Println("Creating tables")
 	queries := []string{
 		DropAllTables,
@@ -56,9 +55,6 @@ func CreateTables() error {
 		CreateSessionsTables,
 		CreateProjectTagsTable,
 		CreateProjectSQLFunction,
-		CreateAuditTable,       
-   		CreateAuditFunction,    
-    	CreateAuditTrigger,
 	}
 
 	for _, query := range queries {
@@ -71,5 +67,3 @@ func CreateTables() error {
 
 	return nil
 }
-
-

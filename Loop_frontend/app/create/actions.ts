@@ -39,6 +39,7 @@ export async function createProject(refresh_token: string, project: ProjectType)
     }
     
     if (!response.ok) {
+      console.log(response)
       throw new Error('Failed to create project');
     }
 

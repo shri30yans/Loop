@@ -9,6 +9,7 @@ const (
        project_sections,
        comments,
        projects,
+       project_tags,
        users CASCADE
     `
 	DropProjectTables = `
@@ -36,34 +37,6 @@ const (
        status VARCHAR(50),
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )` // Removed the trailing comma
-    
-   CreateAuditTable = `CREATE TABLE IF NOT EXISTS project_audit (
-      audit_id SERIAL PRIMARY KEY,
-      project_id INTEGER,
-      action VARCHAR(50),
-      old_title VARCHAR(200),
-      new_title VARCHAR(200),
-      old_description TEXT,
-      new_description TEXT,
-      changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  )`
-  
-   CreateAuditFunction = `CREATE OR REPLACE FUNCTION audit_project_changes() RETURNS TRIGGER AS $$
-   BEGIN
-    IF TG_OP = 'UPDATE' THEN
-        INSERT INTO project_audit (project_id, action, old_title, new_title, old_description, new_description)
-        VALUES (OLD.project_id, 'UPDATE', OLD.title, NEW.title, OLD.description, NEW.description);
-    ELSIF TG_OP = 'DELETE' THEN
-        INSERT INTO project_audit (project_id, action, old_title, old_description)
-        VALUES (OLD.project_id, 'DELETE', OLD.title, OLD.description);
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;`
-
-   CreateAuditTrigger = `CREATE TRIGGER project_audit_trigger
-   AFTER UPDATE OR DELETE ON projects
-   FOR EACH ROW EXECUTE FUNCTION audit_project_changes();`
 
 	CreateCommentsTable = `CREATE TABLE IF NOT EXISTS comments (
        comments_id SERIAL PRIMARY KEY,
