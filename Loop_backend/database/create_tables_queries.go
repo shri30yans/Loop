@@ -9,6 +9,7 @@ const (
        project_sections,
        comments,
        projects,
+       project_tags,
        users CASCADE
     `
 	DropProjectTables = `
