@@ -1,19 +1,45 @@
 package projects
 
 import (
+	. "Loop/models"
 	"encoding/json"
 	"net/http"
 	"strconv"
 )
 
 func HandleGetProjects(w http.ResponseWriter, r *http.Request) {
-	projects, err := FetchProjects()
+	keyword := r.URL.Query().Get("keyword")
+	var projects []ProjectsResponse
+	var total int
+	var err error
+
+	if keyword != "" {
+		projects, total, err = FetchProjects(&keyword)
+	} else {
+		projects, total, err = FetchProjects(nil)
+	}
+
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		switch e := err.(type) {
+		case *ErrNoProjects:
+			http.Error(w, e.Error(), http.StatusNotFound)
+		default:
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
 		return
 	}
 
-	json.NewEncoder(w).Encode(projects)
+	// Create response with projects and total count
+	response := map[string]interface{}{
+		"total":    total,
+		"projects": projects,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(response); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
 }
 
 func HandleGetProjectInfo(w http.ResponseWriter, r *http.Request) {
@@ -42,7 +68,6 @@ func HandleCreateProject(w http.ResponseWriter, r *http.Request) {
 
 	var newProject Project
 	err := json.NewDecoder(r.Body).Decode(&newProject)
-	//fmt.Println(newProject)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

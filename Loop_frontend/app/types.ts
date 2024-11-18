@@ -1,7 +1,20 @@
-export interface User {
-    user_id: string;
+export interface UserType {
+    id: string;
     name: string;
+    email: string;
+    bio?: string;
+    location?: string;
+    avatar_url?: string;
+    created_at: string;
+    updated_at?: string;
+    projects?: ProjectType[];
 }
+
+interface Comment {
+    content: string;
+    author: string;
+    date: string;
+  }
 
 export interface PostType {
     title: string;
@@ -16,7 +29,10 @@ export interface ProjectType {
     sections: ProjectSectionType[];
     owner_id: string;
     tags: string[];
+    comments?: Comment[];
+    owner?: UserType;
 };
+
 
 export type ProjectSectionType = {
     section_number: number;
