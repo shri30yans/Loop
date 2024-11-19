@@ -8,16 +8,17 @@ import { useEffect, useState } from "react";
 import { getProjectInfo } from "./actions";
 import { Chip } from "@nextui-org/chip";
 import { useAuthStore } from "@/lib/auth/authStore";
+import { useSearchParams } from 'next/navigation';
 
 export default function ProjectPage() {
   const [project, setProject] = useState<ProjectType | null>(null);
   const refresh_token = useAuthStore((state) => state.refresh_token);
-  const queryParams = new URLSearchParams(window.location.search);
-  const id = queryParams.get("id");
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
 
   useEffect(() => {
-    if (refresh_token) {
-      getProjectInfo(refresh_token, id!).then(
+    if (refresh_token && id) {
+      getProjectInfo(refresh_token, id).then(
         (fetchedProject: ProjectType | null) => {
           if (fetchedProject) {
             setProject(fetchedProject);
