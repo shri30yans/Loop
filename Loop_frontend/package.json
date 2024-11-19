@@ -22,6 +22,7 @@
 		"@nextui-org/listbox": "2.1.21",
 		"@nextui-org/modal": "^2.0.41",
 		"@nextui-org/navbar": "2.0.32",
+		"@nextui-org/progress": "^2.0.34",
 		"@nextui-org/select": "^2.2.1",
 		"@nextui-org/skeleton": "^2.0.28",
 		"@nextui-org/snippet": "2.0.37",

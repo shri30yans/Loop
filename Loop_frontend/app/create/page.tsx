@@ -10,10 +10,11 @@ import { Select, SelectItem } from "@nextui-org/select";
 import { Image } from "@nextui-org/image";
 import { ProjectSectionType, ProjectType } from "../types";
 import { useAuthStore } from '../../lib/auth/authStore';
-// import { Selection } from "react";
+import { useRouter } from 'next/navigation';
+
 
 export default function CreatePage() {
-
+  const router = useRouter();
   const refresh_token = useAuthStore((state) => state.refresh_token);
 
   const type = [
@@ -95,19 +96,25 @@ export default function CreatePage() {
     setProjectSection([...projectSection, newCard]);
   };
 
-  const handlePublish = (event: any) => {
+  const handlePublish = async (event: any) => {
     event.preventDefault();
     const user_id = useAuthStore.getState().user_id;
-    if (user_id) {
-      project.owner_id = user_id;
+
+    if (refresh_token && user_id) {
+      try {
+        project.owner_id = user_id;
+        const response = await createProject(refresh_token, project);
+        const newProjectId = response.project_id;
+        setProject(initialProject);
+        setProjectSection(initialProjectSection);
+        router.push(`/projectpage?id=${newProjectId}`);
+      } catch (error) {
+        console.error('Error during project creation:', error);
+      }
     }
-    if (refresh_token){
-    createProject(refresh_token,project);
-  }
     
     // Reset all fields 
-    //setProject(initialProject);
-    //setProjectSection(initialProjectSection);
+
   };
 
   return (

@@ -78,11 +78,10 @@ export default function FeedPage() {
         )}
       </div>
 
-      {/* Render projects or fallback UI */}
-      <div className="flex flex-wrap gap-4 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
         {projects.length > 0 ? (
           projects.map((project) => (
-            <div key={project.project_id} className="w-1/4">
+            <div key={project.project_id}>
               <a href={`/projectpage?id=${project.project_id}`}>
                 <ProjectCard
                   isLoaded={isLoaded}
@@ -95,7 +94,7 @@ export default function FeedPage() {
           ))
         ) : (
           searchQuery && (
-            <div className="w-full text-center">
+            <div className="col-span-full text-center">
               <p className="text-gray-500">Try refining your search query.</p>
             </div>
           )

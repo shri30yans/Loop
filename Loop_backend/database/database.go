@@ -56,6 +56,9 @@ func createTables() error {
 		CreateProjectTagsTable,
 		CreateProjectFunction,
 		CreateUsersAndProjectsCountFunction,
+		CreateAuditTable,
+		CreateAuditProcedure,
+		CreateAuditTrigger,
 	}
 
 	for _, query := range queries {

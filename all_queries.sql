@@ -288,3 +288,37 @@ VALUES
     name,
     email,
     hashed_password 
+
+
+-- Audit Table
+CREATE TABLE IF NOT EXISTS project_audit (
+      audit_id SERIAL PRIMARY KEY,
+      project_id INTEGER,
+      action VARCHAR(50),
+      old_title VARCHAR(200),
+      new_title VARCHAR(200),
+      old_description TEXT,
+      new_description TEXT,
+      changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   )
+
+-- Audit Procedure
+CREATE OR REPLACE PROCEDURE audit_project_changes() 
+   LANGUAGE plpgsql AS $$
+   BEGIN
+      IF TG_OP = 'UPDATE' THEN
+          INSERT INTO project_audit (project_id, action, old_title, new_title, old_description, new_description)
+          VALUES (OLD.project_id, 'UPDATE', OLD.title, NEW.title, OLD.description, NEW.description);
+      ELSIF TG_OP = 'DELETE' THEN
+          INSERT INTO project_audit (project_id, action, old_title, old_description)
+          VALUES (OLD.project_id, 'DELETE', OLD.title, OLD.description);
+      END IF;
+   END;
+   $$;
+
+
+-- Create Audit Trigger
+CREATE TRIGGER project_audit_trigger
+   AFTER UPDATE OR DELETE ON projects
+   FOR EACH ROW EXECUTE PROCEDURE audit_project_changes();
+
