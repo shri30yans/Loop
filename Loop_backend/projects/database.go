@@ -20,13 +20,13 @@ func (e *ErrNoProjects) Error() string {
 
 func CreateProject(title, description, introduction string, tags []string, ownerID int, sections []ProjectSection) (int, error) {
 	var projectID int
-
+	fmt.Println("Creating project with title:", title)
 	sectionsJSON, err := json.Marshal(sections)
 	if err != nil {
 		return 0, fmt.Errorf("error marshaling sections: %v", err)
 	}
 
-	query := `CALL create_project($1, $2, $3, $4, $5::text[], $6::jsonb)`
+	query := `SELECT create_project($1, $2, $3, $4, $5::text[], $6::jsonb)`
 
 	tagsArray := pgtype.TextArray{}
 	if err := tagsArray.Set(tags); err != nil {
@@ -39,6 +39,7 @@ func CreateProject(title, description, introduction string, tags []string, owner
 		title, description, introduction, ownerID, tagsArray, sectionsJSON,
 	).Scan(&projectID)
 	if err != nil {
+		fmt.Println("Error creating project:", err)
 		return 0, fmt.Errorf("error creating project: %v", err)
 	}
 

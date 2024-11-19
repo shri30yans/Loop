@@ -2,8 +2,10 @@ package models
 
 import (
 	"time"
+
 	"github.com/golang-jwt/jwt/v5"
 )
+
 // ----------------------------------------------------------------------------
 // Authentication Structures
 // ----------------------------------------------------------------------------
@@ -32,14 +34,14 @@ type RegisterRequest struct {
 
 // Auth response
 type AuthResponse struct {
-	UserID       string `json:"user_id"`
+	UserID       int    `json:"user_id"`
 	RefreshToken string `json:"refresh_token"`
 	ExpiresAt    string `json:"expires_at"`
 }
 
 type RegisterResponse struct {
-	UserID       string `json:"user_id"`
-	Email        string `json:"email"`
+	UserID         int    `json:"user_id"`
+	Email          string `json:"email"`
 	HashedPassword string `json:"hashed_password"`
 }
 
