@@ -4,7 +4,6 @@ import { ProjectSectionType, ProjectType } from "../types";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function createProject(refresh_token: string, project: ProjectType) {
-  // Format project data to match backend structure
   const projectData = {
     title: project.title,
     description: project.description,
@@ -39,6 +38,7 @@ export async function createProject(refresh_token: string, project: ProjectType)
     }
     
     if (!response.ok) {
+      const errorData = await response.text();
       console.log(response)
       throw new Error('Failed to create project');
     }
