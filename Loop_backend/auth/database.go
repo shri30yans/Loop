@@ -47,20 +47,6 @@ func GetUserInfoById(id string) (UserInfoSummary, error) {
 					'introduction', p.introduction,
 					'status', p.status,
 					'created_at', to_char(p.created_at, 'YYYY-MM-DD"T"HH24:MI:SS"Z"'),
-					'sections', (
-						SELECT COALESCE(
-							json_agg(
-								json_build_object(
-									'section_id', section_number,
-									'title', title,
-									'body', body
-								)
-							),
-							'[]'
-						)
-						FROM project_sections
-						WHERE project_id = p.project_id
-					),
 					'tags', (
 						SELECT COALESCE(
 							array_agg(DISTINCT tag_description),
@@ -101,4 +87,3 @@ func GetUserByEmail(email string) (User, error) {
 	).Scan(&user.ID, &user.Email, &user.HashedPassword, &user.CreatedAt)
 	return user, err
 }
-
