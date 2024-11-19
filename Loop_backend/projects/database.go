@@ -10,15 +10,13 @@ import (
 	"github.com/jackc/pgtype"
 )
 
-
 type ErrNoProjects struct {
-    Keyword string
+	Keyword string
 }
 
 func (e *ErrNoProjects) Error() string {
-    return fmt.Sprintf("no projects found matching keyword: %s", e.Keyword)
+	return fmt.Sprintf("no projects found matching keyword: %s", e.Keyword)
 }
-
 
 func CreateProject(title, description, introduction string, tags []string, ownerID int, sections []ProjectSection) (int, error) {
 	var projectID int
@@ -28,7 +26,7 @@ func CreateProject(title, description, introduction string, tags []string, owner
 		return 0, fmt.Errorf("error marshaling sections: %v", err)
 	}
 
-	query := `SELECT create_project($1, $2, $3, $4, $5::text[], $6::jsonb)`
+	query := `CALL create_project($1, $2, $3, $4, $5::text[], $6::jsonb)`
 
 	tagsArray := pgtype.TextArray{}
 	if err := tagsArray.Set(tags); err != nil {
@@ -132,9 +130,8 @@ func FetchProjects(keyword *string) ([]ProjectsResponse, int, error) {
 	return projects, totalProjects, nil
 }
 
-
 func FetchProjectInfo(projectID int) ([]Project, error) {
-    query := `
+	query := `
         SELECT 
             p.project_id, 
             p.owner_id, 
@@ -189,7 +186,7 @@ func FetchProjectInfo(projectID int) ([]Project, error) {
 	for rows.Next() {
 		var p Project
 		var sectionsData []byte
-		var tagsJson string      
+		var tagsJson string
 		var bio, location *string
 
 		// Simple initialization
@@ -221,7 +218,7 @@ func FetchProjectInfo(projectID int) ([]Project, error) {
 
 		// Set owner ID from project's owner_id
 		p.Owner.ID = p.OwnerID
-		p.Owner.CreatedAt = p.CreatedAt 
+		p.Owner.CreatedAt = p.CreatedAt
 
 		// Decode sections
 		if err := json.Unmarshal(sectionsData, &p.Sections); err != nil {
