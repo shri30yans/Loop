@@ -106,8 +106,8 @@ export default function CreatePage() {
   }
     
     // Reset all fields 
-    setProject(initialProject);
-    setProjectSection(initialProjectSection);
+    //setProject(initialProject);
+    //setProjectSection(initialProjectSection);
   };
 
   return (

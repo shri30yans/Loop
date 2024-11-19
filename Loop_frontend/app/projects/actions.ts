@@ -21,6 +21,7 @@ export async function getAllProjects(refresh_token: string, searchKeyword?: stri
     });
 
     if (response.status === 401) {
+      console.log(response);
       throw new Error('Unauthorized');
     }
     else if (response.status ==404) {

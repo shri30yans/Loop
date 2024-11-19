@@ -11,7 +11,7 @@ import (
 // Project represents a project in the database.
 type Project struct {
 	ProjectID    int              `json:"project_id"`
-	OwnerID      int              `json:"owner_id"`
+	OwnerID      int           `json:"owner_id"`
 	Title        string           `json:"title"`
 	Description  string           `json:"description"`
 	Introduction string           `json:"introduction"`

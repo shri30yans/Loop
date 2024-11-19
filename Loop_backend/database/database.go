@@ -54,7 +54,8 @@ func createTables() error {
 		CreateUserEventParticipationTable,
 		CreateSessionsTables,
 		CreateProjectTagsTable,
-		CreateProjectSQLFunction,
+		CreateProjectFunction,
+		CreateUsersAndProjectsCountFunction,
 	}
 
 	for _, query := range queries {

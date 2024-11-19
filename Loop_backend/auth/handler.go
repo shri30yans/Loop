@@ -37,7 +37,7 @@ func HandleRegister(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(RegisterResponse{
-		UserID:         fmt.Sprintf("%d", user.ID),
+		UserID:         user.ID,
 		Email:          user.Email,
 		HashedPassword: string(hashedPassword),
 	})
@@ -67,7 +67,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		// Return existing session
 		json.NewEncoder(w).Encode(AuthResponse{
-			UserID:       fmt.Sprintf("%d", user.ID),
+			UserID:       user.ID,
 			RefreshToken: existingSession.RefreshToken,
 			ExpiresAt:    existingSession.ExpiresAt.Format(time.RFC3339),
 		})
@@ -82,7 +82,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	authResponse := AuthResponse{
-		UserID:       fmt.Sprintf("%d", user.ID),
+		UserID:       user.ID,
 		RefreshToken: session.RefreshToken,
 		ExpiresAt:    session.ExpiresAt.Format(time.RFC3339),
 	}
