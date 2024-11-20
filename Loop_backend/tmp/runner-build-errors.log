@@ -1,0 +1,2 @@
+# Loop/database
+database\database.go:60:3: undefined: CreateAuditFunction

@@ -8,6 +8,8 @@ import (
 	"strings"
 	"time"
 
+	. "Loop/models"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -26,7 +28,7 @@ func HandleRegister(w http.ResponseWriter, r *http.Request) {
 
 	user, err := CreateUser(req.Name, strings.ToLower(req.Email), string(hashedPassword))
 	if err != nil {
-		if errors.Is(err, ErrDuplicateEmail) {
+		if errors.Is(err, errors.New("email already exists")) {
 			http.Error(w, "Email already exists", http.StatusConflict)
 		} else {
 			http.Error(w, "Error creating user: "+err.Error(), http.StatusInternalServerError)
@@ -35,7 +37,7 @@ func HandleRegister(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(RegisterResponse{
-		UserID:         fmt.Sprintf("%d", user.ID),
+		UserID:         user.ID,
 		Email:          user.Email,
 		HashedPassword: string(hashedPassword),
 	})
@@ -65,7 +67,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 	if err == nil {
 		// Return existing session
 		json.NewEncoder(w).Encode(AuthResponse{
-			UserID:       fmt.Sprintf("%d", user.ID),
+			UserID:       user.ID,
 			RefreshToken: existingSession.RefreshToken,
 			ExpiresAt:    existingSession.ExpiresAt.Format(time.RFC3339),
 		})
@@ -79,11 +81,13 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	json.NewEncoder(w).Encode(AuthResponse{
-		UserID:       fmt.Sprintf("%d", user.ID),
+	authResponse := AuthResponse{
+		UserID:       user.ID,
 		RefreshToken: session.RefreshToken,
 		ExpiresAt:    session.ExpiresAt.Format(time.RFC3339),
-	})
+	}
+	fmt.Printf("AuthResponse: %+v\n", authResponse)
+	json.NewEncoder(w).Encode(authResponse)
 }
 
 func HandleVerify(w http.ResponseWriter, r *http.Request) {
@@ -98,7 +102,6 @@ func HandleVerify(w http.ResponseWriter, r *http.Request) {
 		token = token[7:]
 	}
 	fmt.Println("Verifying token", token)
-
 	session, err := GetSessionByRefreshToken(token)
 	if err != nil {
 		http.Error(w, "Invalid token", http.StatusUnauthorized)
@@ -140,6 +143,23 @@ func HandleRefreshToken(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{
 		"token": token,
 	})
+}
+
+func HandleGetUserInfo(w http.ResponseWriter, r *http.Request) {
+	userID := r.URL.Query().Get("user_id")
+	if userID == "" {
+		http.Error(w, "Unauthorized: No user ID provided", http.StatusUnauthorized)
+		return
+	}
+
+	user, err := GetUserInfoById(userID)
+	if err != nil {
+
+		http.Error(w, "Error fetching user: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	json.NewEncoder(w).Encode(user)
 }
 
 func HandleLogout(w http.ResponseWriter, r *http.Request) {

@@ -9,6 +9,7 @@ const (
        project_sections,
        comments,
        projects,
+       project_tags,
        users CASCADE
     `
 	DropProjectTables = `
@@ -81,15 +82,7 @@ const (
        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`
 
-	CreateTokenExpiryTrigger = `CREATE TABLE IF NOT EXISTS sessions (
-      id SERIAL PRIMARY KEY,
-      user_id INTEGER REFERENCES users(id) UNIQUE,
-      refresh_token VARCHAR(255) UNIQUE NOT NULL,
-      expires_at TIMESTAMP NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-   `
-
-	CreateProjectSQLFunction = `CREATE OR REPLACE FUNCTION create_project(
+	CreateProjectFunction = `CREATE OR REPLACE FUNCTION create_project(
        p_title TEXT,
        p_description TEXT,
        p_introduction TEXT,
@@ -122,4 +115,46 @@ const (
        RETURN new_project_id;
     END;
 $$ LANGUAGE plpgsql;`
+
+	CreateUsersAndProjectsCountFunction = `
+      CREATE OR REPLACE FUNCTION get_projects_and_users_count()
+   RETURNS TABLE(
+      total_projects INT,
+      total_users INT
+   ) AS $$
+   BEGIN
+      RETURN QUERY
+      SELECT 
+         (SELECT COUNT(*) FROM projects) AS total_projects,
+         (SELECT COUNT(*) FROM users) AS total_users;
+   END;
+   $$ LANGUAGE plpgsql;`
+
+	CreateAuditTable = `CREATE TABLE IF NOT EXISTS project_audit (
+      audit_id SERIAL PRIMARY KEY,
+      project_id INTEGER,
+      action VARCHAR(50),
+      old_title VARCHAR(200),
+      new_title VARCHAR(200),
+      old_description TEXT,
+      new_description TEXT,
+      changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   )`
+
+	CreateAuditProcedure = `CREATE OR REPLACE PROCEDURE audit_project_changes() 
+   LANGUAGE plpgsql AS $$
+   BEGIN
+      IF TG_OP = 'UPDATE' THEN
+          INSERT INTO project_audit (project_id, action, old_title, new_title, old_description, new_description)
+          VALUES (OLD.project_id, 'UPDATE', OLD.title, NEW.title, OLD.description, NEW.description);
+      ELSIF TG_OP = 'DELETE' THEN
+          INSERT INTO project_audit (project_id, action, old_title, old_description)
+          VALUES (OLD.project_id, 'DELETE', OLD.title, OLD.description);
+      END IF;
+   END;
+   $$;`
+
+	CreateAuditTrigger = `CREATE TRIGGER project_audit_trigger
+   AFTER UPDATE OR DELETE ON projects
+   FOR EACH ROW EXECUTE PROCEDURE audit_project_changes();`
 )

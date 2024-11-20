@@ -8,7 +8,6 @@ export default async function CommunitiesLayout({
 
   return (
     <div>
-      {/* Use projects data here */}
       {children}
     </div>
   )
