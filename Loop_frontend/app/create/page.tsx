@@ -10,11 +10,12 @@ import { Select, SelectItem } from "@nextui-org/select";
 import { Image } from "@nextui-org/image";
 import { ProjectSectionType, ProjectType } from "../types";
 import { useAuthStore } from '../../lib/auth/authStore';
-// import { Selection } from "react";
+import { useRouter } from 'next/navigation';
+
 
 export default function CreatePage() {
-
-  const refresh_token = useAuthStore((state) => state.refresh_token); // Moved inside component
+  const router = useRouter();
+  const refresh_token = useAuthStore((state) => state.refresh_token);
 
   const type = [
     { key: "ai", label: "AI/ML" },
@@ -41,7 +42,6 @@ export default function CreatePage() {
   };
   
   const [project, setProject] = useState<ProjectType>(initialProject);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   
   const handleProjectChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | 
@@ -57,7 +57,6 @@ export default function CreatePage() {
         tags: tagsArray
       }));
     } else {
-      // Handle other fields normally
       setProject(prevProject => ({
         ...prevProject,
         [name]: value
@@ -97,17 +96,25 @@ export default function CreatePage() {
     setProjectSection([...projectSection, newCard]);
   };
 
-  const handlePublish = (event: any) => {
+  const handlePublish = async (event: any) => {
     event.preventDefault();
     const user_id = useAuthStore.getState().user_id;
-    project.owner_id = user_id
-    if (refresh_token){
-    createProject(refresh_token,project);
-  }
+
+    if (refresh_token && user_id) {
+      try {
+        project.owner_id = user_id;
+        const response = await createProject(refresh_token, project);
+        const newProjectId = response.project_id;
+        setProject(initialProject);
+        setProjectSection(initialProjectSection);
+        router.push(`/projectpage?id=${newProjectId}`);
+      } catch (error) {
+        console.error('Error during project creation:', error);
+      }
+    }
     
     // Reset all fields 
-    setProject(initialProject);
-    setProjectSection(initialProjectSection);
+
   };
 
   return (
@@ -128,7 +135,7 @@ export default function CreatePage() {
                   height={400}
                   alt="NextUI hero Image"
                   className="p-2"
-                  src="https://i.imgur.com/8nLFCVP.png"
+                  src="https://www.liquidplanner.com/wp-content/uploads/2019/04/HiRes-17.jpg"
                 />
 
                 <div className="w-full space-y-2 px-6 ">

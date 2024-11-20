@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/mux"
 )
@@ -16,9 +15,6 @@ import (
 func main() {
 	fmt.Println("Starting server...")
 	db.StartServer()
-	if secretKey := os.Getenv("JWT_SECRET"); secretKey != "" {
-		auth.JwtSecret = []byte(secretKey)
-	}
 	router := mux.NewRouter()
 	apiRouter := router.PathPrefix("/api").Subrouter()
 
@@ -26,6 +22,9 @@ func main() {
 	router.Use(corsMiddleware)
 
 	apiRouter.HandleFunc("/", db.Root).Methods("GET", "OPTIONS")
+
+	userRouter := apiRouter.PathPrefix("/user").Subrouter()
+	userRouter.HandleFunc("/get_user_info", auth.HandleGetUserInfo).Methods("GET", "OPTIONS")
 
 	// Auth routes /api/auth
 	authRouter := apiRouter.PathPrefix("/auth").Subrouter()
