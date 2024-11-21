@@ -4,9 +4,12 @@ import (
 	db "Loop/database"
 	. "Loop/models"
 	"context"
+	"database/sql"
 	"errors"
 	"strings"
 )
+
+var ErrDuplicateEmail = errors.New("email already exists")
 
 func CreateUser(name string, email string, hashedPassword string) (User, error) {
 	var user User
@@ -15,6 +18,7 @@ func CreateUser(name string, email string, hashedPassword string) (User, error) 
 		"INSERT INTO users (name, email, hashed_password) VALUES ($1, $2, $3) RETURNING id,name,email, hashed_password",
 		name, email, hashedPassword,
 	).Scan(&user.ID, &user.Name, &user.Email, &user.HashedPassword)
+
 
 	if err != nil {
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
@@ -86,4 +90,44 @@ func GetUserByEmail(email string) (User, error) {
 		email,
 	).Scan(&user.ID, &user.Email, &user.HashedPassword, &user.CreatedAt)
 	return user, err
+}
+
+func GetUserByID(id int) (db.User, error) {
+	var user db.User
+	err := db.DB.QueryRow(
+		context.Background(),
+		"SELECT id, email, name, hashed_password, created_at FROM users WHERE id = $1",
+		id,
+	).Scan(&user.ID, &user.Email, &user.Name, &user.HashedPassword, &user.CreatedAt)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return db.User{}, errors.New("user not found")
+		}
+		return db.User{}, err
+	}
+	return user, nil
+}
+
+func UpdateUserPassword(userID int, hashedPassword string) error {
+	result, err := db.DB.Exec(
+		context.Background(),
+		"UPDATE users SET hashed_password = $1 WHERE id = $2",
+		hashedPassword,
+		userID,
+	)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return errors.New("user not found")
+	}
+
+	return nil
 }

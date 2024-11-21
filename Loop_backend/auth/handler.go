@@ -113,6 +113,50 @@ func HandleVerify(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func HandleChangePassword(w http.ResponseWriter, r *http.Request) {
+    var req struct {
+        CurrentPassword string `json:"currentPassword"`
+        NewPassword    string `json:"newPassword"`
+    }
+    
+    if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+        http.Error(w, "Invalid request body", http.StatusBadRequest)
+        return
+    }
+
+    // Get user from session
+    userID := r.Context().Value("userID").(int)
+    user, err := GetUserByID(userID)
+    if err != nil {
+        http.Error(w, "User not found", http.StatusUnauthorized)
+        return
+    }
+
+    // Verify current password
+    if err := bcrypt.CompareHashAndPassword([]byte(user.HashedPassword), []byte(req.CurrentPassword)); err != nil {
+        http.Error(w, "Current password is incorrect", http.StatusUnauthorized)
+        return
+    }
+
+    // Hash new password
+    hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.NewPassword), bcrypt.DefaultCost)
+    if err != nil {
+        http.Error(w, "Error processing password", http.StatusInternalServerError)
+        return
+    }
+
+    // Update password in database
+    if err := UpdateUserPassword(userID, string(hashedPassword)); err != nil {
+        http.Error(w, "Failed to update password", http.StatusInternalServerError)
+        return
+    }
+
+    w.WriteHeader(http.StatusOK)
+    json.NewEncoder(w).Encode(map[string]string{
+        "message": "Password updated successfully",
+    })
+}
+
 func HandleRefreshToken(w http.ResponseWriter, r *http.Request) {
 	var req struct {
 		RefreshToken string `json:"refresh_token"`
