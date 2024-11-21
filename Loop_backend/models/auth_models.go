@@ -35,6 +35,7 @@ type RegisterRequest struct {
 // Auth response
 type AuthResponse struct {
 	UserID       int    `json:"user_id"`
+	AccessToken string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 	ExpiresAt    string `json:"expires_at"`
 }

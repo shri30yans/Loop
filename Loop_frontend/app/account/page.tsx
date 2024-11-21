@@ -43,7 +43,7 @@ export default function AccountPage() {
             <h2 className="text-xl font-semibold mb-4">Profile</h2>
             <div className="space-y-4">
               <a
-                href={`/user?id=${user_id}`}
+                href={`/profile?id=${user_id}`}
                 className="text-blue-600 hover:underline block"
               >
                 View Public Profile
@@ -60,14 +60,14 @@ export default function AccountPage() {
 
           <Card className="p-6">
             <h2 className="text-xl font-semibold mb-4">Security</h2>
-            <div className="space-y-4">
-              {/* <Button
+            <div className="flex gap-2">
+              <Button
                 color="primary"
                 variant="flat"
-                onClick={() => router.push("/account/password")}
+                onClick={() => router.push("/auth/edit_password")}
               >
                 Change Password
-              </Button> */}
+              </Button>
               <Button
                 color="danger"
                 variant="flat"

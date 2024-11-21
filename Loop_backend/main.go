@@ -26,11 +26,11 @@ func main() {
 	userRouter := apiRouter.PathPrefix("/user").Subrouter()
 	userRouter.HandleFunc("/get_user_info", auth.HandleGetUserInfo).Methods("GET", "OPTIONS")
 
-	// Auth routes /api/auth
+	// Auth routes /api/auths
 	authRouter := apiRouter.PathPrefix("/auth").Subrouter()
 	authRouter.HandleFunc("/register", auth.HandleRegister).Methods("POST", "OPTIONS")
 	authRouter.HandleFunc("/login", auth.HandleLogin).Methods("POST", "OPTIONS")
-	authRouter.HandleFunc("/change_password", auth.HandleChangePassword).Methods("POST", "OPTIONS")
+	authRouter.HandleFunc("/edit_password", auth.HandleEditPassword).Methods("PUT", "OPTIONS")
 	authRouter.HandleFunc("/verify", auth.HandleVerify).Methods("GET", "OPTIONS")
 
 	// Project routes /api/project

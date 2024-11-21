@@ -65,7 +65,7 @@ export default function ProjectPage() {
                   {project.introduction}
                 </div>
                 <div className="absolute bottom-24 p-2">
-                <a href={`user?id=${project.owner_id}`} className="flex items-center space-x-3 pl-4 mt-8">
+                <a href={`profile?id=${project.owner_id}`} className="flex items-center space-x-3 pl-4 mt-8">
                   <Avatar
                     icon={<AvatarIcon />}
                     classNames={{
