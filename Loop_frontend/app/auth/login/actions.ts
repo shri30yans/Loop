@@ -12,9 +12,9 @@ export async function login(email: string, password: string) {
       body: JSON.stringify({ email, password }),
     });
 
-    if (response.status == 401) {
-      throw new Error('Invalid credentials');
-    }
+    // if (response.status == 401) {
+    //   throw new Error('Invalid credentials');
+    // }
 
     if (!response.ok) {
       console.log('Login failed:', response.status, response.statusText);
@@ -24,7 +24,6 @@ export async function login(email: string, password: string) {
     console.log('Login successful:', response);
 
     const data = await response.json();
-    //console.log('Login data:', data);
     return data;
 
 

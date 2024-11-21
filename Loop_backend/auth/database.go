@@ -19,7 +19,6 @@ func CreateUser(name string, email string, hashedPassword string) (User, error) 
 		name, email, hashedPassword,
 	).Scan(&user.ID, &user.Name, &user.Email, &user.HashedPassword)
 
-
 	if err != nil {
 		if strings.Contains(err.Error(), "duplicate key value violates unique constraint") {
 			return User{}, errors.New("email already exists")
@@ -92,8 +91,8 @@ func GetUserByEmail(email string) (User, error) {
 	return user, err
 }
 
-func GetUserByID(id int) (db.User, error) {
-	var user db.User
+func GetUserByID(id int) (User, error) {
+	var user User
 	err := db.DB.QueryRow(
 		context.Background(),
 		"SELECT id, email, name, hashed_password, created_at FROM users WHERE id = $1",
@@ -102,9 +101,9 @@ func GetUserByID(id int) (db.User, error) {
 
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return db.User{}, errors.New("user not found")
+			return User{}, errors.New("user not found")
 		}
-		return db.User{}, err
+		return User{}, err
 	}
 	return user, nil
 }
@@ -119,11 +118,7 @@ func UpdateUserPassword(userID int, hashedPassword string) error {
 	if err != nil {
 		return err
 	}
-
 	rowsAffected := result.RowsAffected()
-	if err != nil {
-		return err
-	}
 
 	if rowsAffected == 0 {
 		return errors.New("user not found")
