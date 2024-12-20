@@ -133,6 +133,72 @@ func HandleVerify(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func HandleDeleteAccount(w http.ResponseWriter, r *http.Request) {
+	tokenString := r.Header.Get("Authorization")
+	if tokenString == "" {
+		fmt.Println("no token provided")
+	}
+
+	// Remove "Bearer " prefix if present
+	tokenString = strings.TrimPrefix(tokenString, "Bearer ")
+
+	session, err := GetSessionByRefreshToken(tokenString)
+	if err != nil {
+		fmt.Println("Invalid session")
+		http.Error(w, "Invalid refresh token", http.StatusUnauthorized)
+		return
+	}
+	userID := session.UserID
+
+	if err := DeleteUser(userID); err != nil {
+		http.Error(w, "Failed to delete user", http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]string{
+		"message": "Account deleted successfully",
+	})
+}
+
+// func HandleEditProfile(w http.ResponseWriter, r *http.Request) {
+// 	var req struct {
+// 		Name  string `json:"name"`
+// 		Email string `json:"email"`
+// 	}
+
+// 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+// 		http.Error(w, err.Error(), http.StatusBadRequest)
+// 		return
+// 	}
+
+// 	tokenString := r.Header.Get("Authorization")
+// 	if tokenString == "" {
+// 		fmt.Println("no token provided")
+// 	}
+
+// 	// Remove "Bearer " prefix if present
+// 	tokenString = strings.TrimPrefix(tokenString, "Bearer ")
+
+// 	session, err := GetSessionByRefreshToken(tokenString)
+// 	if err != nil {
+// 		fmt.Println("Invalid session")
+// 		http.Error(w, "Invalid refresh token", http.StatusUnauthorized)
+// 		return
+// 	}
+// 	userID := session.UserID
+
+// 	if err := UpdateUserProfile(userID, req.Name, req.Email); err != nil {
+// 		http.Error(w, "Failed to update profile", http.StatusInternalServerError)
+// 		return
+// 	}
+
+// 	w.WriteHeader(http.StatusOK)
+// 	json.NewEncoder(w).Encode(map[string]string{
+// 		"message": "Profile updated successfully",
+// 	})
+// }
+
 func HandleEditPassword(w http.ResponseWriter, r *http.Request) {
 	var req struct {
 		CurrentPassword string `json:"currentPassword"`

@@ -9,14 +9,15 @@ import { Chip } from "@nextui-org/chip";
 import { subheading, heading } from "@/components/ui/primitives";
 import { useAuthStore } from "@/lib/auth/authStore";
 import { UserType } from "../types";
+import { useSearchParams } from 'next/navigation';
 
 
 export default function UserPage() {
   const [user, setUser] = useState<UserType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const queryParams = new URLSearchParams(window.location.search);
-  const user_id = queryParams.get("id");
+  const searchParams = useSearchParams();
+  const user_id = searchParams.get("id");
 
   const refresh_token = useAuthStore((state) => state.refresh_token);
 

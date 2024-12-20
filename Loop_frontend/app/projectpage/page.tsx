@@ -31,7 +31,7 @@ export default function ProjectPage() {
   }, [refresh_token, id]);
 
   if (!project) {
-    return <div>Error!</div>;
+    return <div>Loading...</div>;
   }
 
   return (

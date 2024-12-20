@@ -126,3 +126,12 @@ func UpdateUserPassword(userID int, hashedPassword string) error {
 
 	return nil
 }
+
+func DeleteUser(userID int) error {
+	_, err := db.DB.Exec(
+		context.Background(),
+		"DELETE FROM users WHERE id = $1",
+		userID,
+	)
+	return err
+}
