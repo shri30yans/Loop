@@ -11,7 +11,7 @@ import { Button } from "@nextui-org/button";
 
 export default function FeedPage() {
   const [projects, setProjects] = useState<ProjectType[]>([]);
-  const [totalProjects, setTotalProjects] = useState<number>(0); // State to store total project count
+  const [totalProjects, setTotalProjects] = useState<number>(0);
   const [isLoaded, setIsLoaded] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -23,7 +23,7 @@ export default function FeedPage() {
         if (fetchedData) {
           console.log(fetchedData);
           setProjects(fetchedData.projects || []);
-          setTotalProjects(fetchedData.total || 0); // Handle potential missing `total`
+          setTotalProjects(fetchedData.total || 0);
         }
       });
     }
