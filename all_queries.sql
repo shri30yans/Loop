@@ -8,43 +8,40 @@ CREATE TABLE IF NOT EXISTS users (
     bio TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) 
+);
 
 CREATE TABLE IF NOT EXISTS projects (
     project_id SERIAL PRIMARY KEY,
-    owner_id INTEGER REFERENCES users(id),
+    owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     title VARCHAR(200),
     introduction TEXT,
     description TEXT,
     status VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) 
+);
 
 CREATE TABLE IF NOT EXISTS project_sections (
     section_number INTEGER,
-    project_id INTEGER,
+    project_id INTEGER REFERENCES projects(project_id) ON DELETE CASCADE,
     title VARCHAR(100),
     body TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (section_number, project_id),
-    FOREIGN KEY (project_id) REFERENCES projects(project_id)
-) 
+    PRIMARY KEY (section_number, project_id)
+);
 
 CREATE TABLE IF NOT EXISTS project_tags (
     tag_description VARCHAR(50),
-    project_id INTEGER REFERENCES projects(project_id),
+    project_id INTEGER REFERENCES projects(project_id) ON DELETE CASCADE,
     PRIMARY KEY (project_id, tag_description)
-) 
+);
 
 CREATE TABLE IF NOT EXISTS sessions (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) UNIQUE,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE UNIQUE,
     refresh_token VARCHAR(255) UNIQUE NOT NULL,
     expires_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-) 
-
-
+);
 
 -- Get User By ID
 SELECT 
@@ -114,20 +111,25 @@ $$ LANGUAGE plpgsql;
 -- Create Project
 SELECT create_project($ 1, $ 2, $ 3, $ 4, $ 5 :: text [], $ 6 :: jsonb) 
 
+-- Log Procedure
+CREATE TABLE IF NOT EXISTS daily_status_log 
+    log_id SERIAL PRIMARY KEY,
+    total_users INTEGER NOT NULL,
+    total_projects INTEGER NOT NULL,
+    logged_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
--- Users and Projects count Function
 CREATE OR REPLACE FUNCTION get_projects_and_users_count()
-    RETURNS TABLE(
-        total_projects INT,
-        total_users INT
-    ) AS $$
-    BEGIN
-        RETURN QUERY
-        SELECT 
-            (SELECT COUNT(*) FROM projects) AS total_projects,
-            (SELECT COUNT(*) FROM users) AS total_users;
-    END;
-    $$ LANGUAGE plpgsql;
+RETURNS TABLE(
+    total_projects INT,
+    total_users INT
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+    (SELECT COUNT(*) FROM projects) AS total_projects,
+    (SELECT COUNT(*) FROM users) AS total_users;
+END;
+$$ LANGUAGE plpgsql
 
 -- Fetch Projects based on Keyword
 SELECT
@@ -302,23 +304,53 @@ CREATE TABLE IF NOT EXISTS project_audit (
       changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
    )
 
--- Audit Procedure
-CREATE OR REPLACE PROCEDURE audit_project_changes() 
-   LANGUAGE plpgsql AS $$
-   BEGIN
-      IF TG_OP = 'UPDATE' THEN
-          INSERT INTO project_audit (project_id, action, old_title, new_title, old_description, new_description)
-          VALUES (OLD.project_id, 'UPDATE', OLD.title, NEW.title, OLD.description, NEW.description);
-      ELSIF TG_OP = 'DELETE' THEN
-          INSERT INTO project_audit (project_id, action, old_title, old_description)
-          VALUES (OLD.project_id, 'DELETE', OLD.title, OLD.description);
-      END IF;
-   END;
-   $$;
+-- Audit Function
+CREATE OR REPLACE FUNCTION audit_project_changes() 
+RETURNS TRIGGER LANGUAGE plpgsql AS $$
+BEGIN
+   IF TG_OP = 'UPDATE' THEN
+      INSERT INTO project_audit (project_id, action, old_title, new_title, old_description, new_description)
+      VALUES (OLD.project_id, 'UPDATE', OLD.title, NEW.title, OLD.description, NEW.description);
+    ELSIF TG_OP = 'INSERT' THEN
+    INSERT INTO project_audit (project_id, action, new_title, new_description)
+    VALUES (NEW.project_id, 'INSERT', NEW.title, NEW.description);
+   ELSIF TG_OP = 'DELETE' THEN
+      INSERT INTO project_audit (project_id, action, old_title, old_description)
+      VALUES (OLD.project_id, 'DELETE', OLD.title, OLD.description);
+   END IF;
 
+   RETURN NULL;  
+END;
+$$;
 
--- Create Audit Trigger
+-- Audit Trigger
 CREATE TRIGGER project_audit_trigger
-   AFTER UPDATE OR DELETE ON projects
-   FOR EACH ROW EXECUTE PROCEDURE audit_project_changes();
+   AFTER INSERT OR UPDATE OR DELETE ON projects
+   FOR EACH ROW EXECUTE FUNCTION audit_project_changes();
 
+-- Update password
+UPDATE users SET hashed_password = $1 WHERE id = $2
+
+-- Delete Account
+DELETE FROM users WHERE id = $1
+
+-- User and Projects Count Table
+CREATE TABLE IF NOT EXISTS daily_status_log (
+      log_id SERIAL PRIMARY KEY,
+      total_users INTEGER NOT NULL,
+      total_projects INTEGER NOT NULL,
+      logged_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+   )
+
+CREATE OR REPLACE FUNCTION get_projects_and_users_count()
+   RETURNS TABLE(
+     total_projects INT,
+     total_users INT
+   ) AS $$
+   BEGIN
+     RETURN QUERY
+     SELECT 
+       (SELECT COUNT(*) FROM projects) AS total_projects,
+       (SELECT COUNT(*) FROM users) AS total_users;
+   END;
+   $$ LANGUAGE plpgsql;

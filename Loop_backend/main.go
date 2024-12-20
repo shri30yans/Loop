@@ -25,6 +25,7 @@ func main() {
 
 	userRouter := apiRouter.PathPrefix("/user").Subrouter()
 	userRouter.HandleFunc("/get_user_info", auth.HandleGetUserInfo).Methods("GET", "OPTIONS")
+	userRouter.HandleFunc("/delete_account", auth.HandleDeleteAccount).Methods("PUT", "OPTIONS")
 
 	// Auth routes /api/auths
 	authRouter := apiRouter.PathPrefix("/auth").Subrouter()
