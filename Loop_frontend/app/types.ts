@@ -35,7 +35,7 @@ export interface ProjectType {
 
 
 export type ProjectSectionType = {
-    section_number: number;
+    index: number;
     title: string;
-    body: string;
+    content: string;
 };
