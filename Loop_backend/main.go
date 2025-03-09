@@ -1,63 +1,111 @@
-// main.go
 package main
 
 import (
-	"Loop/auth"
-	db "Loop/database"
-	"Loop/projects"
 	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	"Loop_backend/config"
+	"Loop_backend/internal/handlers"
+	"Loop_backend/internal/repositories"
+	"Loop_backend/internal/services"
+	postgres "Loop_backend/platform/database/postgres"
 )
 
-func main() {
-	fmt.Println("Starting server...")
-	db.StartServer()
-	router := mux.NewRouter()
-	apiRouter := router.PathPrefix("/api").Subrouter()
-
-	// Apply CORS middleware to all routes
-	router.Use(corsMiddleware)
-
-	apiRouter.HandleFunc("/", db.Root).Methods("GET", "OPTIONS")
-
-	userRouter := apiRouter.PathPrefix("/user").Subrouter()
-	userRouter.HandleFunc("/get_user_info", auth.HandleGetUserInfo).Methods("GET", "OPTIONS")
-	userRouter.HandleFunc("/delete_account", auth.HandleDeleteAccount).Methods("PUT", "OPTIONS")
-
-	// Auth routes /api/auths
-	authRouter := apiRouter.PathPrefix("/auth").Subrouter()
-	authRouter.HandleFunc("/register", auth.HandleRegister).Methods("POST", "OPTIONS")
-	authRouter.HandleFunc("/login", auth.HandleLogin).Methods("POST", "OPTIONS")
-	authRouter.HandleFunc("/edit_password", auth.HandleEditPassword).Methods("PUT", "OPTIONS")
-	authRouter.HandleFunc("/verify", auth.HandleVerify).Methods("GET", "OPTIONS")
-
-	// Project routes /api/project
-	projectRouter := apiRouter.PathPrefix("/project").Subrouter()
-	projectRouter.HandleFunc("/get_projects", auth.AuthMiddleware(projects.HandleGetProjects)).Methods("GET", "OPTIONS")
-	projectRouter.HandleFunc("/get_project_info", auth.AuthMiddleware(projects.HandleGetProjectInfo)).Methods("GET", "OPTIONS")
-	projectRouter.HandleFunc("/create_project", auth.AuthMiddleware(projects.HandleCreateProject)).Methods("POST", "OPTIONS")
-
-	log.Fatal(http.ListenAndServe(":8080", router))
+type application struct {
+	config         *config.Config
+	authService    services.AuthService
+	userService    services.UserService
+	projectService services.ProjectService
+	authHandler    *handlers.AuthHandler
+	userHandler    *handlers.UserHandler
+	projectHandler *handlers.ProjectHandler
 }
 
-func corsMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Set CORS headers
-		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-		w.Header().Set("Access-Control-Allow-Credentials", "true")
-		w.Header().Set("Access-Control-Max-Age", "86400") // 24 hours
+func main() {
+	// Load Configuration
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		log.Fatalf("Failed to load config: %v", err)
+	}
 
-		// Handle preflight requests
-		if r.Method == "OPTIONS" {
-			w.WriteHeader(http.StatusOK)
-			return
-		}
+	app, err := initializeApp(cfg)
+	if err != nil {
+		log.Fatalf("Failed to initialize application: %v", err)
+	}
 
-		next.ServeHTTP(w, r)
-	})
+	// Initialize Router
+	mux := app.routes()
+
+	// Setup graceful shutdown
+	defer postgres.Close()
+
+	// Start Server
+	serverAddr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
+	log.Printf("Server running at %s", serverAddr)
+
+	server := &http.Server{
+		Addr:    serverAddr,
+		Handler: mux,
+	}
+
+	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		log.Fatalf("Server failed: %v", err)
+	}
+}
+
+func initializeApp(cfg *config.Config) (*application, error) {
+	// Initialize Database and Run Migrations
+	dbConfig := &postgres.Config{
+		Host:     cfg.Database.Host,
+		Port:     cfg.Database.Port,
+		User:     cfg.Database.User,
+		Password: cfg.Database.Password,
+		Name:     cfg.Database.Name,
+	}
+	if err := postgres.InitDB(dbConfig); err != nil {
+		return nil, fmt.Errorf("failed to initialize database: %v", err)
+	}
+
+	// Get Database Instance
+	db := postgres.GetDB()
+
+	// Initialize Repositories
+	userRepo := repositories.NewUserRepository(db)
+	projectRepo := repositories.NewProjectRepository(db)
+	authRepo := repositories.NewAuthRepository(db)
+
+	// Initialize Services
+	authService := services.NewAuthService(cfg.JWT.Secret, authRepo)
+	userService := services.NewUserService(userRepo)
+	projectService := services.NewProjectService(projectRepo)
+
+	// Initialize Handlers
+	userHandler := handlers.NewUserHandler(userService)
+	authHandler := handlers.NewAuthHandler(userService, authService)
+	projectHandler := handlers.NewProjectHandler(projectService)
+
+	return &application{
+		config:         cfg,
+		authService:    authService,
+		userService:    userService,
+		projectService: projectService,
+		authHandler:    authHandler,
+		userHandler:    userHandler,
+		projectHandler: projectHandler,
+	}, nil
+}
+
+func (app *application) routes() http.Handler {
+	mux := http.NewServeMux()
+
+	// Create a new RouteRegister that handles auth middleware
+	routeRegister := handlers.NewRouteRegister(mux, app.authService)
+
+	// Register routes for all handlers
+	app.authHandler.RegisterRoutes(routeRegister)
+	app.userHandler.RegisterRoutes(routeRegister)
+	app.projectHandler.RegisterRoutes(routeRegister)
+
+	return mux
 }
