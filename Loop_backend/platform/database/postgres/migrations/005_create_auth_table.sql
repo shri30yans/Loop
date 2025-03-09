@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS passwords (
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE UNIQUE,
+    hashed_password VARCHAR(255) NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS sessions (
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE UNIQUE,
+    refresh_token VARCHAR(255) UNIQUE NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+

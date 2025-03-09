@@ -5,7 +5,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function createProject(refresh_token: string, project: ProjectType) {  
   try {
-    const response = await fetch(`${API_BASE_URL}/project/create_project`, {
+    const response = await fetch(`${API_BASE_URL}/project/create`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${refresh_token}`,
