@@ -62,7 +62,6 @@ func (r *authRepository) CheckIfUserIdExists(id string) error {
     return nil
 }
 
-
 func (r *authRepository) GetAuthenticatedUser(email string) (*models.AuthenticatedUser, error) {
     query := `
     SELECT users.id, hashed_password
