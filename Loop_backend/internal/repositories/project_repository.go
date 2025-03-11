@@ -12,12 +12,11 @@ import (
 )
 
 type ProjectRepository interface {
-	FindByID(id string) (*models.Project, error)
-	FindByOwner(ownerID string) ([]*models.Project, error)
-	Search(keyword string) ([]*models.Project, int, error)
+	GetProject(id string) (*models.Project, error)
+	SearchProjects(keyword string) ([]*models.Project, error)
 	CreateProject(project *models.Project) error
-	Update(project *models.Project) error
-	Delete(id string) error
+	UpdateProject(project *models.Project) error
+	DeleteProject(id string) error
 }
 
 type projectRepository struct {
@@ -29,7 +28,7 @@ func NewProjectRepository(db *pgxpool.Pool) ProjectRepository {
 	return &projectRepository{db: db}
 }
 
-func (r *projectRepository) FindByID(id string) (*models.Project, error) {
+func (r *projectRepository) GetProject(id string) (*models.Project, error) {
 	query := `
     SELECT p.project_id, p.title, p.description, p.introduction, p.owner_id, 
            p.created_at, p.updated_at, p.project_sections::TEXT
@@ -65,18 +64,18 @@ func (r *projectRepository) FindByID(id string) (*models.Project, error) {
 	return &p, nil
 }
 
-func (r *projectRepository) FindByOwner(ownerID string) ([]*models.Project, error) {
+func (r *projectRepository) SearchProjects(keyword string) ([]*models.Project, error) {
 	query := `
     SELECT p.project_id, p.title, p.description, p.introduction, p.owner_id, 
            p.created_at, p.updated_at, p.project_sections::TEXT
     FROM projects p
-    WHERE p.owner_id = $1
+    WHERE p.title ILIKE $1 OR p.description ILIKE $1
     ORDER BY p.created_at DESC
     `
 
-	rows, err := r.db.Query(context.Background(), query, ownerID)
+	rows, err := r.db.Query(context.Background(), query, "%"+keyword+"%")
 	if err != nil {
-		return nil, fmt.Errorf("error querying projects: %v", err)
+		return nil, fmt.Errorf("error searching projects: %v", err)
 	}
 	defer rows.Close()
 
@@ -106,67 +105,7 @@ func (r *projectRepository) FindByOwner(ownerID string) ([]*models.Project, erro
 
 		projects = append(projects, &p)
 	}
-
-	if len(projects) == 0 {
-		return nil, fmt.Errorf("no projects found for owner")
-	}
-
 	return projects, nil
-}
-
-func (r *projectRepository) Search(keyword string) ([]*models.Project, int, error) {
-	query := `
-    SELECT p.project_id, p.title, p.description, p.introduction, p.owner_id, 
-           p.created_at, p.updated_at, p.project_sections::TEXT
-    FROM projects p
-    WHERE p.title ILIKE $1 OR p.description ILIKE $1
-    ORDER BY p.created_at DESC
-    `
-
-	rows, err := r.db.Query(context.Background(), query, "%"+keyword+"%")
-	if err != nil {
-		return nil, 0, fmt.Errorf("error searching projects: %v", err)
-	}
-	defer rows.Close()
-
-	var projects []*models.Project
-	for rows.Next() {
-		var p models.Project
-		var sectionsJSON string
-
-		err := rows.Scan(
-			&p.ProjectID,
-			&p.Title,
-			&p.Description,
-			&p.Introduction,
-			&p.OwnerID,
-			&p.CreatedAt,
-			&p.UpdatedAt,
-			&sectionsJSON,
-		)
-		if err != nil {
-			return nil, 0, fmt.Errorf("error scanning project row: %v", err)
-		}
-
-		// Unmarshal JSONB to Go struct
-		if err := json.Unmarshal([]byte(sectionsJSON), &p.Sections); err != nil {
-			return nil, 0, fmt.Errorf("error unmarshalling project sections: %v", err)
-		}
-
-		projects = append(projects, &p)
-	}
-
-	var total int
-	countQuery := `
-    SELECT COUNT(*) FROM projects 
-    WHERE title ILIKE $1 OR description ILIKE $1
-    `
-	err = r.db.QueryRow(context.Background(), countQuery, "%"+keyword+"%").Scan(&total)
-	if err != nil {
-		return nil, 0, fmt.Errorf("error counting projects: %v", err)
-	}
-
-	return projects, total, nil
 }
 
 func (r *projectRepository) CreateProject(p *models.Project) error {
@@ -199,7 +138,7 @@ func (r *projectRepository) CreateProject(p *models.Project) error {
 	return nil
 }
 
-func (r *projectRepository) Update(p *models.Project) error {
+func (r *projectRepository) UpdateProject(p *models.Project) error {
 	query := `
     UPDATE projects
     SET title = $1, description = $2, introduction = $3, 
@@ -228,7 +167,7 @@ func (r *projectRepository) Update(p *models.Project) error {
 	return nil
 }
 
-func (r *projectRepository) Delete(id string) error {
+func (r *projectRepository) DeleteProject(id string) error {
 	result, err := r.db.Exec(context.Background(), "DELETE FROM projects WHERE project_id = $1", id)
 	if err != nil {
 		return fmt.Errorf("error deleting project: %v", err)

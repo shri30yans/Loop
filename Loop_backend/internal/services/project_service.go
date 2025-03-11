@@ -11,7 +11,6 @@ import (
 
 type ProjectService interface {
 	GetProject(project_id string) (*models.Project, error)
-	GetUserProjects(ownerID string) ([]*models.Project, error)
 	SearchProjects(keyword string) ([]*models.Project, int, error)
 	CreateProject(req dto.CreateProjectRequest) (*models.Project, error)
 	DeleteProject(project_id string) error
@@ -27,18 +26,17 @@ func NewProjectService(repo repositories.ProjectRepository) ProjectService {
 }
 
 func (s *projectService) GetProject(project_id string) (*models.Project, error) {
-	return s.repo.FindByID(project_id)
+	return s.repo.GetProject(project_id)
 }
 
-func (s *projectService) GetUserProjects(ownerID string) ([]*models.Project, error) {
-	return s.repo.FindByOwner(ownerID)
-}
 
 func (s *projectService) SearchProjects(keyword string) ([]*models.Project, int, error) {
-	if keyword == "" {
-		return nil, 0, errors.New("empty search keyword")
+	
+	projects, err := s.repo.SearchProjects(keyword)
+	if err != nil {
+		return nil, 0, nil
 	}
-	return s.repo.Search(keyword)
+	return projects, len(projects), nil
 }
 
 func (s *projectService) CreateProject(req dto.CreateProjectRequest) (*models.Project, error) {
@@ -61,5 +59,5 @@ func (s *projectService) CreateProject(req dto.CreateProjectRequest) (*models.Pr
 }
 
 func (s *projectService) DeleteProject(project_id string) error {
-	return s.repo.Delete(project_id)
+	return s.repo.DeleteProject(project_id)
 }
