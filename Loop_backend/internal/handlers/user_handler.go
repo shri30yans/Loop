@@ -44,4 +44,5 @@ func (h *UserHandler) DeleteAccount(w http.ResponseWriter, r *http.Request) {
 func (h *UserHandler) RegisterRoutes(r *RouteRegister) {
     r.RegisterProtectedRoute("/api/users/info", h.GetUserInfo)
     r.RegisterProtectedRoute("/api/users/delete", h.DeleteAccount)
+
 }

@@ -22,19 +22,13 @@ func NewProjectHandler(projectService services.ProjectService) *ProjectHandler {
 }
 
 func (h *ProjectHandler) SearchProjects(w http.ResponseWriter, r *http.Request) {
-	userID := r.Context().Value(middleware.UserIDKey).(string)
-
 	keyword := r.URL.Query().Get("keyword")
+
 	var projects []*models.Project
-	var total int
+	var count int
 	var err error
 
-	if keyword != "" {
-		projects, total, err = h.projectService.SearchProjects(keyword)
-	} else {
-		projects, err = h.projectService.GetUserProjects(userID)
-		total = len(projects)
-	}
+	projects, count, err = h.projectService.SearchProjects(keyword)
 
 	if err != nil {
 		response.RespondWithError(w, http.StatusInternalServerError, err.Error())
@@ -42,7 +36,7 @@ func (h *ProjectHandler) SearchProjects(w http.ResponseWriter, r *http.Request) 
 	}
 
 	response.RespondWithJSON(w, http.StatusOK, map[string]interface{}{
-		"total":    total,
+		"count":    count,
 		"projects": projects,
 	})
 }

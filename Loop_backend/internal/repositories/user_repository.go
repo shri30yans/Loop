@@ -13,7 +13,7 @@ import (
 )
 
 type UserRepository interface {
-	FindByID(user_id string) (*models.User, error)
+	GetUser(user_id string) (*models.User, error)
 	Create(user *models.User) error
 	Update(user *models.User) error
 	Delete(user_id string) error
@@ -28,9 +28,9 @@ func NewUserRepository(db *pgxpool.Pool) UserRepository {
 	return &userRepository{db: db}
 }
 
-func (r *userRepository) FindByID(id string) (*models.User, error) {
+func (r *userRepository) GetUser(id string) (*models.User, error) {
 	query := `
-    SELECT id, email, username, bio, location, created_at, updated_at
+    SELECT id, email, username, bio, location, created_at
     FROM users
     WHERE id = $1
     `
@@ -43,7 +43,6 @@ func (r *userRepository) FindByID(id string) (*models.User, error) {
 		&u.Bio,
 		&u.Location,
 		&u.CreatedAt,
-		&u.UpdatedAt,
 	)
 
 	if err != nil {
@@ -86,7 +85,7 @@ func (r *userRepository) Create(u *models.User) error {
 func (r *userRepository) Update(u *models.User) error {
 	query := `
     UPDATE users
-    SET email = $1, username = $2, bio = $3, location = $4, updated_at = $5
+    SET email = $1, username = $2, bio = $3, location = $4
     WHERE id = $6
     `
 
