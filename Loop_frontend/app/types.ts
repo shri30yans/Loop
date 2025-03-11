@@ -33,9 +33,8 @@ export interface ProjectType {
     owner?: UserType;
 };
 
-
 export type ProjectSectionType = {
-    index: number;
+    index : number;
     title: string;
     content: string;
 };
