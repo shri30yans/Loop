@@ -3,7 +3,6 @@ package services
 import (
 	"Loop_backend/internal/models"
 	"Loop_backend/internal/repositories"
-	"errors"
 	"Loop_backend/internal/dto"
 	"fmt"
 )
