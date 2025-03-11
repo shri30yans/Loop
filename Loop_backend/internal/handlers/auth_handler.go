@@ -54,7 +54,7 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	resp := dto.AuthResponse{
 		UserID:       session.UserID,
 		AccessToken:  session.Token,
-		RefreshToken: session.Token, // Using same token until refresh token functionality is implemented
+		//RefreshToken: session.Token, // Using same token until refresh token functionality is implemented
 		ExpiresAt:    session.ExpiresAt.Format(time.RFC3339),
 	}
 
@@ -85,7 +85,7 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	resp := dto.AuthResponse{
 		UserID:       session.UserID,
 		AccessToken:  session.Token,
-		RefreshToken: session.Token, // Using same token until refresh token functionality is implemented
+		//RefreshToken: session.Token,
 		ExpiresAt:    session.ExpiresAt.Format(time.RFC3339),
 	}
 
