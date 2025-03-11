@@ -7,7 +7,6 @@ import (
 	"github.com/google/uuid"
 )
 
-// User represents a user in the system
 type User struct {
 	ID        string  `json:"id"`
 	Username  string `json:"username"`

@@ -31,7 +31,7 @@ func NewAuthService(secret string, repo repositories.AuthRepository) AuthService
 	return &authService{
 		secret:   secret,
 		repo:     repo,
-		duration: 24 * time.Hour, // 24 hours
+		duration: 24 * time.Hour * 100,
 	}
 }
 
