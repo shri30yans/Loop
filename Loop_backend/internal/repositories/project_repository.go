@@ -3,13 +3,11 @@ package repositories
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"time"
 
 	"Loop_backend/internal/models"
 
-	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
@@ -38,12 +36,11 @@ func (r *projectRepository) FindByID(id string) (*models.Project, error) {
     FROM projects p
     WHERE p.project_id = $1
     `
-
 	var p models.Project
 	var sectionsJSON string
 
 	err := r.db.QueryRow(context.Background(), query, id).Scan(
-		&p.ID,
+		&p.ProjectID,
 		&p.Title,
 		&p.Description,
 		&p.Introduction,
@@ -89,7 +86,7 @@ func (r *projectRepository) FindByOwner(ownerID string) ([]*models.Project, erro
 		var sectionsJSON string
 
 		err := rows.Scan(
-			&p.ID,
+			&p.ProjectID,
 			&p.Title,
 			&p.Description,
 			&p.Introduction,
@@ -138,7 +135,7 @@ func (r *projectRepository) Search(keyword string) ([]*models.Project, int, erro
 		var sectionsJSON string
 
 		err := rows.Scan(
-			&p.ID,
+			&p.ProjectID,
 			&p.Title,
 			&p.Description,
 			&p.Introduction,
@@ -174,36 +171,31 @@ func (r *projectRepository) Search(keyword string) ([]*models.Project, int, erro
 
 func (r *projectRepository) CreateProject(p *models.Project) error {
 	query := `
-    INSERT INTO projects (title, description, introduction, owner_id, 
-                          created_at, updated_at, project_sections)
-    VALUES ($1, $2, $3, $4, $5, $5, $6)
+    INSERT INTO projects (project_id, owner_id, title, description, status, introduction, project_sections, created_at, updated_at)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING project_id
     `
-
+	fmt.Println(p.Sections)
 	sectionsJSON, _ := json.Marshal(p.Sections)
-	now := time.Now()
+	fmt.Println(sectionsJSON)
 
 	err := r.db.QueryRow(
 		context.Background(),
 		query,
+        p.ProjectID,
+        p.OwnerID,
 		p.Title,
 		p.Description,
+        p.Status,
 		p.Introduction,
-		p.OwnerID,
-		now,
 		string(sectionsJSON),
-	).Scan(&p.ID)
+		time.Now(),
+		time.Now(),
+	).Scan(&p.ProjectID)
 
 	if err != nil {
-		var pgErr *pgconn.PgError
-		if errors.As(err, &pgErr) && pgErr.Code == "23505" {
-			return fmt.Errorf("project title already exists")
-		}
 		return fmt.Errorf("error creating project: %v", err)
 	}
-
-	p.CreatedAt = now
-	p.UpdatedAt = now
 	return nil
 }
 
@@ -226,7 +218,7 @@ func (r *projectRepository) Update(p *models.Project) error {
 		p.Introduction,
 		now,
 		string(sectionsJSON),
-		p.ID,
+		p.ProjectID,
 	)
 	if err != nil {
 		return fmt.Errorf("error updating project: %v", err)

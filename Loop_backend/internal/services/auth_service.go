@@ -17,6 +17,7 @@ type AuthService interface {
 	CreateSession(userID string) (*models.Session, error)
 	ValidateToken(token string) (*models.Claims, error)
 	AuthenticateUser(email string, password string) (string, error)
+	RegisterUserPassword(userID, password string) error
 }
 
 type authService struct {
@@ -34,11 +35,27 @@ func NewAuthService(secret string, repo repositories.AuthRepository) AuthService
 	}
 }
 
+func (s *authService) RegisterUserPassword(userID, password string) error {
+	// Hash the password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return fmt.Errorf("failed to hash password: %w", err)
+	}
+
+	// Call repository to store user and password
+	err = s.repo.InsertUserPassword(userID, string(hashedPassword))
+	if err != nil {
+		return fmt.Errorf("failed to register user: %w", err)
+	}
+
+	return nil
+}
+
 func (s *authService) AuthenticateUser(email string, password string) (string, error) {
 
 	user, err := s.repo.GetAuthenticatedUser(email)
 	if err != nil {
-		return "", fmt.Errorf("email not found")
+		return "", fmt.Errorf("user not found")
 	}
 
 	// Check password
@@ -99,6 +116,13 @@ func (s *authService) ValidateToken(authHeader string) (*models.Claims, error) {
 	if !ok || !token.Valid {
 		return nil, models.ErrInvalidToken
 	}
+
+	if err := s.repo.CheckIfUserIdExists(claims.UserID); err != nil {
+		fmt.Println(err)
+		// User not found
+		return nil, models.ErrInvalidToken
+	}
+	
 
 	return claims, nil
 }

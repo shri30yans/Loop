@@ -4,28 +4,16 @@ import (
 	"Loop_backend/internal/models"
 	"Loop_backend/internal/repositories"
 	"errors"
+	"Loop_backend/internal/dto"
+	"fmt"
 )
 
-// Project DTO types
-type CreateProjectRequest struct {
-	Title        string           `json:"title"`
-	Description  string           `json:"description"`
-	Introduction string           `json:"introduction"`
-	OwnerID      string              `json:"owner_id"`
-	Tags         []string         `json:"tags"`
-	Sections     []SectionRequest `json:"sections"`
-}
-
-type SectionRequest struct {
-	Title   string `json:"title"`
-	Content string `json:"content"`
-}
 
 type ProjectService interface {
 	GetProject(project_id string) (*models.Project, error)
 	GetUserProjects(ownerID string) ([]*models.Project, error)
 	SearchProjects(keyword string) ([]*models.Project, int, error)
-	CreateProject(req CreateProjectRequest) (*models.Project, error)
+	CreateProject(req dto.CreateProjectRequest) (*models.Project, error)
 	DeleteProject(project_id string) error
 }
 
@@ -53,28 +41,17 @@ func (s *projectService) SearchProjects(keyword string) ([]*models.Project, int,
 	return s.repo.Search(keyword)
 }
 
-func (s *projectService) CreateProject(req CreateProjectRequest) (*models.Project, error) {
-	if req.Title == "" {
-		return nil, models.ErrInvalidTitle
-	}
-
-	newProject := &models.Project{
-		OwnerID:      string(req.OwnerID),
-		Title:        req.Title,
-		Description:  req.Description,
-		Introduction: req.Introduction,
-		Tags:         req.Tags,
-		Sections:     make([]models.Section, len(req.Sections)),
-	}
-
-	// Convert SectionRequest to models.Section
-	for i, s := range req.Sections {
-		section, err := models.NewSection(s.Title, s.Content)
-		if err != nil {
-			return nil, err
-		}
-		newProject.Sections[i] = *section
-	}
+func (s *projectService) CreateProject(req dto.CreateProjectRequest) (*models.Project, error) {
+	fmt.Println(req.Sections)
+	newProject, _ := models.NewProject(
+		req.OwnerID,
+		req.Title,
+		req.Description,
+		req.Status,
+		req.Introduction,
+		req.Tags,
+		req.Sections,
+	)
 
 	if err := s.repo.CreateProject(newProject); err != nil {
 		return nil, err
