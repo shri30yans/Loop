@@ -25,7 +25,11 @@ func (s *userService) GetUser(user_id string) (*models.User, error) {
     if user_id == "" {
         return nil, models.ErrInvalidID
     }
-    return s.repo.FindByID(user_id)
+    return s.repo.GetUser(user_id)
+}
+
+func (s *userService) GetUserProjects(user_id string) (*models.User, error) {
+    return s.repo.GetUser(user_id)
 }
 
 func (s *userService) CreateUser(email, username string) (*models.User, error) {
@@ -46,7 +50,7 @@ func (s *userService) CreateUser(email, username string) (*models.User, error) {
 
 func (s *userService) UpdateUser(user_id string, email, username string) (*models.User, error) {
     // Get existing user
-    existingUser, err := s.repo.FindByID(user_id)
+    existingUser, err := s.repo.GetUser(user_id)
     if err != nil {
         return nil, err
     }
