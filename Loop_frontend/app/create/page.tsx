@@ -27,7 +27,7 @@ export default function CreatePage() {
   ];
 
   const initialProjectSection: ProjectSectionType[] = [
-    { section_number: 1, title: "", body: "" },
+    { index: 1, title: "", content: "" },
   ];
 
   const [projectSection, setProjectSection] = useState<ProjectSectionType[]>(initialProjectSection);
@@ -66,10 +66,10 @@ export default function CreatePage() {
 
   const handleProjectSectionChange = (event: any) => {
     const { name, value, id } = event.target;
-    const sectionNumber = parseInt(id, 10);
+    const sectionNumber = parseInt(id || '0', 10);
   
     const updatedSections = projectSection.map((section) => {
-      if (section.section_number === sectionNumber) {
+      if (section.index === sectionNumber) {
         return { ...section, [name]: value };
       }
       return section;
@@ -89,9 +89,9 @@ export default function CreatePage() {
       return;
     }
     const newCard: ProjectSectionType = {
-      section_number: projectSection.length + 1,
+      index: projectSection.length + 1,
       title: "",
-      body: "",
+      content: "",
     };
     setProjectSection([...projectSection, newCard]);
   };
@@ -103,7 +103,8 @@ export default function CreatePage() {
     if (refresh_token && user_id) {
       try {
         project.owner_id = user_id;
-        const response = await createProject(refresh_token, project);
+        const sectionsWithoutIndex = project.sections.map(({ title, content }) => ({ title, content }));
+        const response = await createProject(refresh_token, { ...project, sections: sectionsWithoutIndex as any });
         const newProjectId = response.project_id;
         setProject(initialProject);
         setProjectSection(initialProjectSection);
@@ -231,20 +232,20 @@ export default function CreatePage() {
           //------------------------------------------
         }
         {projectSection.map((card) => (
-          <div className="flex w-full flex-col space-y-6" key={card.section_number}>
+          <div className="flex w-full flex-col space-y-6" key={card.index}>
             <Card isBlurred>
               <CardBody>
                 <div className="space-y-2">
                   <div className="w-full space-y-2 px-6 pb-6 pt-2">
                     <div className={subheading({ size: "lg" })}>
-                      Update {card.section_number}
+                      Update {card.index}
                     </div>
                     <Input
                       isRequired
                       className="w-full"
                       type="text"
                       label="Title"
-                      id={card.section_number.toString()}
+                      id={card.index.toString()}
                       name="title"
                       value={card.title}
                       onChange={handleProjectSectionChange}
@@ -257,9 +258,9 @@ export default function CreatePage() {
                       label="Body"
                       className="w-full"
                       isRequired
-                      id={card.section_number.toString()}
+                      id={card.index.toString()}
                       name="body"
-                      value={card.body}
+                      value={card.content}
                       onChange={handleProjectSectionChange}
                       // maxLength={2000}
                       // minLength={50}
