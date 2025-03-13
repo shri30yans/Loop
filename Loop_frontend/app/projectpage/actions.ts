@@ -4,12 +4,12 @@ import { ProjectType } from "../types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export async function getProjectInfo(refresh_token: string, id: string): Promise<ProjectType> {
+export async function getProjectInfo(access_token: string, id: string): Promise<ProjectType> {
   try {
     const response = await fetch(`${API_BASE_URL}/project/get_project_info?project-id=${id}`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${refresh_token}`,
+        'Authorization': `Bearer ${access_token}`,
         'Content-Type': 'application/json'
       },
       credentials: 'include',
