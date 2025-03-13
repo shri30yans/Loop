@@ -1,13 +1,13 @@
-DROP TABLE IF EXISTS user_event_participation,
-        passwords,
-      events,
-      sessions,
-      project_sections,
-      comments,
-      projects,
-      project_tags,
-      users
-   ;
+-- DROP TABLE IF EXISTS user_event_participation,
+--       passwords,
+--       events,
+--       sessions,
+--       project_sections,
+--       comments,
+--       projects,
+--       project_tags,
+--       users
+--    ;
 
 CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(100) PRIMARY KEY,
