@@ -23,7 +23,7 @@ export default function AccountPage() {
   const user_id = useAuthStore((state) => state.user_id);
   const logout = useAuthStore((state) => state.logout);
   const router = useRouter();
-  const refresh_token = useAuthStore((state) => state.refresh_token);
+  const access_token = useAuthStore((state) => state.access_token);
 
   const handleLogout = async () => {
     try {
@@ -40,8 +40,8 @@ export default function AccountPage() {
   const handleDeleteAccount = async () => {
     try {
       setIsLoading(true);
-      if (refresh_token){
-      await deleteAccount(refresh_token);
+      if (access_token){
+      await deleteAccount(access_token);
       console.log("Account deleted for user:", user_id);
       router.push("/");
       }

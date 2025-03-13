@@ -19,13 +19,13 @@ export default function UserPage() {
   const searchParams = useSearchParams();
   const user_id = searchParams.get("id");
 
-  const refresh_token = useAuthStore((state) => state.refresh_token);
+  const access_token = useAuthStore((state) => state.access_token);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        if (refresh_token && user_id){
-          const userInfo = await getUserInfo(refresh_token,user_id);
+        if (access_token && user_id){
+          const userInfo = await getUserInfo(access_token,user_id);
           setUser(userInfo);
         }
       } catch (err) {
@@ -37,7 +37,7 @@ export default function UserPage() {
     };
 
     fetchUserData();
-  }, [user_id, refresh_token]);
+  }, [user_id, access_token]);
 
   if (loading) {
     return <div>Loading user details...</div>;
