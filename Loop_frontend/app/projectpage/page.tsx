@@ -12,13 +12,13 @@ import { useSearchParams } from 'next/navigation';
 
 export default function ProjectPage() {
   const [project, setProject] = useState<ProjectType | null>(null);
-  const refresh_token = useAuthStore((state) => state.refresh_token);
+  const access_token = useAuthStore((state) => state.access_token);
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-
+  
   useEffect(() => {
-    if (refresh_token && id) {
-      getProjectInfo(refresh_token, id).then(
+    if (access_token && id) {
+      getProjectInfo(access_token, id).then(
         (fetchedProject: ProjectType | null) => {
           if (fetchedProject) {
             setProject(fetchedProject);
@@ -28,7 +28,7 @@ export default function ProjectPage() {
         }
       );
     }
-  }, [refresh_token, id]);
+  }, [access_token, id]);
 
   if (!project) {
     return <div>Loading...</div>;
@@ -100,12 +100,12 @@ export default function ProjectPage() {
           {project.sections.map((card) => (
             <div
               className="flex w-full flex-col space-y-6"
-              key={card.section_number}
+              // key
             >
               <div className="space-y-2">
                 <div className="w-full space-y-2 px-6 pb-6 pt-2">
                   <div className={subheading({ size: "lg" })}>{card.title}</div>
-                  <div className="wrap-text break-words">{card.body}</div>
+                  <div className="wrap-text break-words">{card.content}</div>
                 </div>
               </div>
             </div>

@@ -12,7 +12,7 @@ export default function EditPasswordPage() {
   const router = useRouter();
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
-  const refresh_token = useAuthStore((state) => state.refresh_token);
+  const access_token = useAuthStore((state) => state.access_token);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -31,8 +31,8 @@ export default function EditPasswordPage() {
     }
 
     try {
-      if (refresh_token) {
-        await updatePassword(refresh_token, currentPassword, newPassword);
+      if (access_token) {
+        await updatePassword(access_token, currentPassword, newPassword);
         router.push('/account');
       }
     } catch (err) {

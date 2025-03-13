@@ -3,12 +3,12 @@ import { ProjectSectionType, ProjectType } from "../types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export async function createProject(refresh_token: string, project: ProjectType) {  
+export async function createProject(access_token: string, project: ProjectType) {  
   try {
     const response = await fetch(`${API_BASE_URL}/project/create`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${refresh_token}`,
+        'Authorization': `Bearer ${access_token}`,
         'Content-Type': 'application/json'
       },
       credentials: 'include',
