@@ -2,11 +2,10 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface AuthState {
-  refresh_token: string | null;
   access_token: string | null;
   user_id: string | null;
   expires_at: Date | null;
-  setAuth: (refresh_token: string | null, access_token: string | null, user_id: string | null, expires_at: Date | null) => void;
+  setAuth: (access_token: string | null, user_id: string | null, expires_at: Date | null) => void;
   logout: () => Promise<void>;
 }
 
@@ -31,34 +30,33 @@ const getCookie = (name: string): string | null => {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      refresh_token: getCookie('refresh_token'),
       access_token: getCookie('access_token'),
       user_id: getCookie('user_id'),
       expires_at: (() => {
         const expiresAtStr = getCookie('expires_at');
         return expiresAtStr ? new Date(expiresAtStr) : null;
       })(),
-      setAuth: (refresh_token, access_token, user_id, expires_at) => {
+      setAuth: (access_token, user_id, expires_at) => {
         const expiresAtDate = expires_at instanceof Date ? expires_at : expires_at ? new Date(expires_at) : null;
         if (expiresAtDate === null || isNaN(expiresAtDate.getTime())) {
           console.error('Invalid expires_at:', expires_at);
           return;
         }
 
-        const maxAge = 60 * 60 * 24 * 7; // 1 week
-        setCookie('refresh_token', refresh_token, maxAge);
+        const maxAge = 60 * 60 * 24 * 7 * 52; // 1 year
         setCookie('access_token', access_token, maxAge);
         setCookie('user_id', user_id, maxAge);
         setCookie('expires_at', expiresAtDate.toISOString(), maxAge);
 
-        set({ refresh_token, access_token, user_id, expires_at: expiresAtDate });
+        set({access_token, user_id, expires_at: expiresAtDate });
       },
       logout: async () => {
         try {
-          const cookiesToClear = ['refresh_token', 'access_token', 'user_id', 'expires_at'];
+          const cookiesToClear = ['access_token', 'user_id', 'expires_at'];
           cookiesToClear.forEach((cookie) => setCookie(cookie, null));
-          set({ refresh_token: null, access_token: null, user_id: null, expires_at: null });
-        } catch (error) {
+          set({access_token: null, user_id: null, expires_at: null });
+        } 
+        catch (error) {
           console.error('Logout failed:', error);
           throw error;
         }

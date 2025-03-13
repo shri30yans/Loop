@@ -4,6 +4,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 
 export async function register(name:string, email: string, password: string) {
+  console.log(API_BASE_URL);
   try {
     const response = await fetch(`${API_BASE_URL}/auth/register`, {
       method: 'POST',
@@ -19,14 +20,17 @@ export async function register(name:string, email: string, password: string) {
       throw new Error('User already exists');
     }
 
+
     else if (!response.ok) {
-      throw new Error('Registration failed');
+    console.log(response);
+
+    throw new Error('Registration failed');
     }
     const data = await response.json();
     return data;
     
   } catch (error) {
+    console.error('Error details:', error);
     throw new Error('Registration failed');
   }
 }
-

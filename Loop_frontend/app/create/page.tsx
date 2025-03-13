@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 
 export default function CreatePage() {
   const router = useRouter();
-  const refresh_token = useAuthStore((state) => state.refresh_token);
+  const access_token = useAuthStore((state) => state.access_token);
 
   const type = [
     { key: "ai", label: "AI/ML" },
@@ -100,11 +100,11 @@ export default function CreatePage() {
     event.preventDefault();
     const user_id = useAuthStore.getState().user_id;
 
-    if (refresh_token && user_id) {
+    if (access_token && user_id) {
       try {
         project.owner_id = user_id;
         const sectionsWithoutIndex = project.sections.map(({ title, content }) => ({ title, content }));
-        const response = await createProject(refresh_token, { ...project, sections: sectionsWithoutIndex as any });
+        const response = await createProject(access_token, { ...project, sections: sectionsWithoutIndex as any });
         const newProjectId = response.project_id;
         setProject(initialProject);
         setProjectSection(initialProjectSection);
