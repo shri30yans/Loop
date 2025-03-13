@@ -17,7 +17,7 @@ interface ProjectCardProps {
 export default function ProjectCard({
   title,
   body,
-  tags,
+  tags = [],
 }: ProjectCardProps) {
   return (
     <div>
@@ -27,16 +27,18 @@ export default function ProjectCard({
             <Image
               alt="Card background"
               className="object-cover rounded-xl pb-2"
-              src="https://nextui.org/images/hero-card-complete.jpeg"
+              src="https://www.liquidplanner.com/wp-content/uploads/2019/04/HiRes-17.jpg"
             />
           </div>
           <div className="text-2xl font-semibold">{title}</div>
           <div className="text-sm">{body}</div>
         </CardBody>
-        <CardFooter className="px-4 pt-0 flex-col items-start">
-          <Chip size="md" radius="sm" variant="bordered">
-            {tags}
-          </Chip>
+        <CardFooter className="px-4 pt-0 flex items-center flex-wrap gap-2">
+          {tags.map((tag, index) => (
+            <Chip key={index} size="sm" radius="sm" variant="bordered">
+              {tag}
+            </Chip>
+          ))}
         </CardFooter>
       </Card>
     </div>

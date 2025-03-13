@@ -1,0 +1,4 @@
+/Loop_backend/tmp
+/Loop_backend/.env
+/Loop_frontend/.env
+Loop_backend/tmp/runner-build.exe

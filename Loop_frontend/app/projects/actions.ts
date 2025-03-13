@@ -2,9 +2,15 @@
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export async function getAllProjects(refresh_token: string) {
+export async function getAllProjects(refresh_token: string, searchKeyword?: string) {
   try {
-    const response = await fetch(`${API_BASE_URL}/project/get_projects`, {
+    // Build URL with optional search parameter
+    let url = `${API_BASE_URL}/project/get_projects`;
+    if (searchKeyword) {
+      url += `?keyword=${encodeURIComponent(searchKeyword)}`;
+    }
+
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${refresh_token}`,
@@ -15,10 +21,15 @@ export async function getAllProjects(refresh_token: string) {
     });
 
     if (response.status === 401) {
+      console.log(response);
       throw new Error('Unauthorized');
     }
+    else if (response.status ==404) {
+      return [];
+      //throw new Error('No projects found');
+    }
     else if (!response.ok) {
-      console.log(response)
+      console.log(response);
       throw new Error('Failed to fetch projects');
     }
     return await response.json();
