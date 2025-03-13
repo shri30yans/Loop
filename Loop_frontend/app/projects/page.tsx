@@ -15,11 +15,11 @@ export default function FeedPage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const refresh_token = useAuthStore((state) => state.refresh_token);
+  const access_token = useAuthStore((state) => state.access_token);
 
   useEffect(() => {
-    if (refresh_token) {
-      getAllProjects(refresh_token).then((fetchedData: any | null) => {
+    if (access_token) {
+      getAllProjects(access_token).then((fetchedData: any | null) => {
         if (fetchedData) {
           console.log(fetchedData);
           setProjects(fetchedData.projects || []);
@@ -27,7 +27,7 @@ export default function FeedPage() {
         }
       });
     }
-  }, [refresh_token]);
+  }, [access_token]);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -35,8 +35,8 @@ export default function FeedPage() {
 
   const handleSearch = async () => {
     try {
-      if (refresh_token) {
-        const fetchedData = await getAllProjects(refresh_token, searchQuery);
+      if (access_token) {
+        const fetchedData = await getAllProjects(access_token, searchQuery);
         setProjects(fetchedData.projects || []);
         setTotalProjects(fetchedData.total || 0); 
       }

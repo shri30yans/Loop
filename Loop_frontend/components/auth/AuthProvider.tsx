@@ -26,28 +26,27 @@ const isProtectedPath = (path: string): boolean => {
 export function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { refresh_token, logout } = useAuthStore();
+  const { access_token, logout } = useAuthStore();
 
   useEffect(() => {
     async function verifyAuth() {
-      // Redirect if there's no refresh token on protected paths
-      if (!refresh_token && isProtectedPath(pathname)) {
+      // Redirect if there's no access token on protected paths
+      if (!access_token && isProtectedPath(pathname)) {
         router.push('/auth/login');
         return;
       }
 
-      // If refresh token exists, verify it only once per session
-      if (refresh_token && isProtectedPath(pathname)) {
+      // If access token exists, verify it only once per session
+      if (access_token && isProtectedPath(pathname)) {
         try {
           console.log("SENT TO VERIFY!!!")
           const response = await fetch(`${API_BASE_URL}/auth/verify`, {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${refresh_token}`,
-              'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            mode: 'cors' 
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${access_token}`,
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
           });
 
           if (!response.ok) {
@@ -67,7 +66,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     verifyAuth();
-  }, [refresh_token, pathname, router, logout]);
+  }, [access_token, pathname, router, logout]);
 
   return <>{children}</>;
 }
