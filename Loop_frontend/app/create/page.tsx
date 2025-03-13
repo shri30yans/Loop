@@ -10,11 +10,12 @@ import { Select, SelectItem } from "@nextui-org/select";
 import { Image } from "@nextui-org/image";
 import { ProjectSectionType, ProjectType } from "../types";
 import { useAuthStore } from '../../lib/auth/authStore';
-// import { Selection } from "react";
+import { useRouter } from 'next/navigation';
+
 
 export default function CreatePage() {
-
-  const refresh_token = useAuthStore((state) => state.refresh_token); // Moved inside component
+  const router = useRouter();
+  const refresh_token = useAuthStore((state) => state.refresh_token);
 
   const type = [
     { key: "ai", label: "AI/ML" },
@@ -26,7 +27,7 @@ export default function CreatePage() {
   ];
 
   const initialProjectSection: ProjectSectionType[] = [
-    { section_number: 1, title: "", body: "" },
+    { index: 1, title: "", content: "" },
   ];
 
   const [projectSection, setProjectSection] = useState<ProjectSectionType[]>(initialProjectSection);
@@ -41,7 +42,6 @@ export default function CreatePage() {
   };
   
   const [project, setProject] = useState<ProjectType>(initialProject);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   
   const handleProjectChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | 
@@ -57,7 +57,6 @@ export default function CreatePage() {
         tags: tagsArray
       }));
     } else {
-      // Handle other fields normally
       setProject(prevProject => ({
         ...prevProject,
         [name]: value
@@ -67,10 +66,10 @@ export default function CreatePage() {
 
   const handleProjectSectionChange = (event: any) => {
     const { name, value, id } = event.target;
-    const sectionNumber = parseInt(id, 10);
+    const sectionNumber = parseInt(id || '0', 10);
   
     const updatedSections = projectSection.map((section) => {
-      if (section.section_number === sectionNumber) {
+      if (section.index === sectionNumber) {
         return { ...section, [name]: value };
       }
       return section;
@@ -90,24 +89,33 @@ export default function CreatePage() {
       return;
     }
     const newCard: ProjectSectionType = {
-      section_number: projectSection.length + 1,
+      index: projectSection.length + 1,
       title: "",
-      body: "",
+      content: "",
     };
     setProjectSection([...projectSection, newCard]);
   };
 
-  const handlePublish = (event: any) => {
+  const handlePublish = async (event: any) => {
     event.preventDefault();
     const user_id = useAuthStore.getState().user_id;
-    project.owner_id = user_id
-    if (refresh_token){
-    createProject(refresh_token,project);
-  }
+
+    if (refresh_token && user_id) {
+      try {
+        project.owner_id = user_id;
+        const sectionsWithoutIndex = project.sections.map(({ title, content }) => ({ title, content }));
+        const response = await createProject(refresh_token, { ...project, sections: sectionsWithoutIndex as any });
+        const newProjectId = response.project_id;
+        setProject(initialProject);
+        setProjectSection(initialProjectSection);
+        router.push(`/projectpage?id=${newProjectId}`);
+      } catch (error) {
+        console.error('Error during project creation:', error);
+      }
+    }
     
     // Reset all fields 
-    setProject(initialProject);
-    setProjectSection(initialProjectSection);
+
   };
 
   return (
@@ -128,7 +136,7 @@ export default function CreatePage() {
                   height={400}
                   alt="NextUI hero Image"
                   className="p-2"
-                  src="https://i.imgur.com/8nLFCVP.png"
+                  src="https://www.liquidplanner.com/wp-content/uploads/2019/04/HiRes-17.jpg"
                 />
 
                 <div className="w-full space-y-2 px-6 ">
@@ -224,20 +232,20 @@ export default function CreatePage() {
           //------------------------------------------
         }
         {projectSection.map((card) => (
-          <div className="flex w-full flex-col space-y-6" key={card.section_number}>
+          <div className="flex w-full flex-col space-y-6" key={card.index}>
             <Card isBlurred>
               <CardBody>
                 <div className="space-y-2">
                   <div className="w-full space-y-2 px-6 pb-6 pt-2">
                     <div className={subheading({ size: "lg" })}>
-                      Update {card.section_number}
+                      Update {card.index}
                     </div>
                     <Input
                       isRequired
                       className="w-full"
                       type="text"
                       label="Title"
-                      id={card.section_number.toString()}
+                      id={card.index.toString()}
                       name="title"
                       value={card.title}
                       onChange={handleProjectSectionChange}
@@ -250,9 +258,9 @@ export default function CreatePage() {
                       label="Body"
                       className="w-full"
                       isRequired
-                      id={card.section_number.toString()}
+                      id={card.index.toString()}
                       name="body"
-                      value={card.body}
+                      value={card.content}
                       onChange={handleProjectSectionChange}
                       // maxLength={2000}
                       // minLength={50}

@@ -4,30 +4,7 @@ import { ProjectType } from "../types";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-function mapToProjectType(data: any): ProjectType {
-  const projectData = Array.isArray(data) ? data[0] : data;
-
-  // // Split tags string if it's a single string
-  // const formattedTags = Array.isArray(projectData.tags) 
-  //   ? projectData.tags[0].split(', ')
-  //   : [];
-
-  return {
-    project_id: projectData.project_id.toString(),
-    title: projectData.title,
-    description: projectData.description,
-    introduction: projectData.introduction,
-    owner_id: projectData.owner_id.toString(),
-    tags: projectData.tags,
-    sections: projectData.sections.map((section: any) => ({
-      section_number: section.section_number,
-      title: section.title,
-      body: section.body
-    }))
-  };
-}
-
-export async function getProjectInfo(refresh_token: string, id: string) {
+export async function getProjectInfo(refresh_token: string, id: string): Promise<ProjectType> {
   try {
     const response = await fetch(`${API_BASE_URL}/project/get_project_info?project-id=${id}`, {
       method: 'GET',
@@ -48,7 +25,8 @@ export async function getProjectInfo(refresh_token: string, id: string) {
     }
     
     const data = await response.json();
-    return mapToProjectType(data);
+    // Return first item if response is an array
+    return Array.isArray(data) ? data[0] : data;
   } catch (error) {
     console.error('Error fetching projects:', error);
     throw error;

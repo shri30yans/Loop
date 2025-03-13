@@ -8,7 +8,7 @@ export default function Home() {
     <div className="flex h-screen pb-11" >
       <div className="inline-block max-w-3xl text-center justify-center m-auto">
         <h1 className={landingpagetext({size: "lg"})}>Create with the </h1>
-        <h1 className={landingpagetext({size: "lg", color: "blue" })}>world.</h1>
+        <h1 className={landingpagetext({size: "lg", color: "blue" })}>World.</h1>
         <h2 className={subtitle({size: "lg", class: "mt-4" })}>
           Build the next big thing.
         </h2>
