@@ -86,7 +86,7 @@ export const Navbar = () => {
         </Button>
       </NavbarItem>
       <NavbarItem>
-        <Button className="hidden lg:flex font-extrabold" as={Link} color="primary" href="/user" variant="flat">
+        <Button className="hidden lg:flex font-extrabold" as={Link} color="primary" href="/account" variant="flat">
           Account
         </Button>
       </NavbarItem>

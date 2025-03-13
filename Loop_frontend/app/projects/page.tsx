@@ -10,92 +10,96 @@ import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 
 export default function FeedPage() {
-  const type = [
-    { key: "projects", label: "Posts" },
-    { key: "projects", label: "Projects" },
-  ];
-  const sortby = [
-    { key: "best", label: "Best" },
-    { key: "new", label: "New" },
-    { key: "top", label: "Top" },
-    { key: "controversial", label: "Controversial" },
-  ];
-
   const [projects, setProjects] = useState<ProjectType[]>([]);
+  const [totalProjects, setTotalProjects] = useState<number>(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const refresh_token = useAuthStore((state) => state.refresh_token);
 
   useEffect(() => {
     if (refresh_token) {
-      getAllProjects(refresh_token).then((fetchedProjects: any | null) => {
-        if (fetchedProjects) {
-          console.log(fetchedProjects)
-          setProjects(fetchedProjects);
+      getAllProjects(refresh_token).then((fetchedData: any | null) => {
+        if (fetchedData) {
+          console.log(fetchedData);
+          setProjects(fetchedData.projects || []);
+          setTotalProjects(fetchedData.total || 0);
         }
       });
     }
   }, [refresh_token]);
 
   useEffect(() => {
-    if (projects.length > 0) {
-      setIsLoaded(true);
-    }
+    setIsLoaded(true);
   }, [projects]);
+
+  const handleSearch = async () => {
+    try {
+      if (refresh_token) {
+        const fetchedData = await getAllProjects(refresh_token, searchQuery);
+        setProjects(fetchedData.projects || []);
+        setTotalProjects(fetchedData.total || 0); 
+      }
+    } catch (error) {
+      console.error("Search failed:", error);
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   return (
     <div className="space-y-4">
       <div className="flex gap-4">
-        {/* <Select label="Feed" selectionMode="multiple" className="w-40">
-          {type.map((data) => (
-            <SelectItem key={data.key}>{data.label}</SelectItem>
-          ))}
-        </Select> */}
-        {/* <Select label="Sort by" className="w-40">
-          {sortby.map((data) => (
-            <SelectItem key={data.key}>{data.label}</SelectItem>
-          ))}
-        </Select> */}
-        <Input
-          type="text"
-          placeholder="Search..."
-          className="w-1/4"
-        />
-        <Button
-        type = "submit"
-        color="primary"
-        className="">
-          Search
-        </Button>
+        <div className="flex gap-2 w-1/4">
+          <Input
+            type="text"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={handleKeyPress}
+            className="w-full"
+          />
+          <Button onClick={handleSearch} variant="flat" color="primary">
+            Search
+          </Button>
+        </div>
+      </div>
+      <div>
+        {totalProjects > 0 ? (
+          <p className="text-gray-600 text-md">
+            Search results: {totalProjects} project(s) found
+          </p>
+        ) : (
+          <p className="text-gray-600">No projects found.</p>
+        )}
       </div>
 
-      <div className="flex flex-wrap gap-4 w-full">
-        {projects.map((project) => (
-          <div key={project.project_id} className="w-1/4">
-            <a href={`/projectpage?id=${project.project_id}`}>
-              <ProjectCard
-                isLoaded={isLoaded}
-                title={project.title}
-                body={project.description}
-                tags={project.tags}
-              />
-            </a>
-          </div>
-        ))}
-      </div>
-      {/* Uncomment this section to show skeleton loading UI */}
-      {/* <div className="flex gap-4 w-full">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <div key={index} className="w-1/4 py-4">
-            <div className="space-y-3 p-8">
-              <Skeleton isLoaded={isLoaded} className="rounded-lg h-36 w-50" />
-              <Skeleton isLoaded={isLoaded} className="w-3/5 h-3 rounded-lg" />
-              <Skeleton isLoaded={isLoaded} className="w-4/5 h-2 rounded-lg" />
-              <Skeleton isLoaded={isLoaded} className="w-3/5 h-2 rounded-lg" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+        {projects.length > 0 ? (
+          projects.map((project) => (
+            <div key={project.project_id}>
+              <a href={`/projectpage?id=${project.project_id}`}>
+                <ProjectCard
+                  isLoaded={isLoaded}
+                  title={project.title}
+                  body={project.description}
+                  tags={project.tags}
+                />
+              </a>
             </div>
-          </div>
-        ))}
-      </div> */}
+          ))
+        ) : (
+          searchQuery && (
+            <div className="col-span-full text-center">
+              <p className="text-gray-500">Try refining your search query.</p>
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 }
