@@ -53,10 +53,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
             throw new Error('Verification failed');
           }
 
-          const data = await response.json();
-          if (!data.session_id) {
-            throw new Error('Invalid session');
-          }
+          // const data = await response.json();
+          // if (!data.session_id) {
+          //   throw new Error('Invalid session');
+          // }
         } catch (error) {
           console.error('Verification error:', error);
           logout();

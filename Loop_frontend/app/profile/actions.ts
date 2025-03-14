@@ -6,7 +6,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function getUserInfo(token: string, id: string): Promise<UserType | null> {
   try {
-    const response = await fetch(`${API_BASE_URL}/user/get_user_info?user_id=${id}`, {
+    const response = await fetch(`${API_BASE_URL}/users/info?user_id=${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
