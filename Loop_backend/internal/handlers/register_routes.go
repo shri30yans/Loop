@@ -20,11 +20,11 @@ func NewRouteRegister(mux *http.ServeMux, authService services.AuthService) *Rou
 
 // Protected registers a route that requires authentication
 func (r *RouteRegister) RegisterProtectedRoute(path string, handler http.HandlerFunc) {
-    r.mux.HandleFunc(path, middleware.WithAuth(handler, r.authService))
+    r.mux.HandleFunc(path, middleware.LogPayload(middleware.WithAuth(handler, r.authService)))
 }
 
 // Public registers a route that doesn't require authentication
 func (r *RouteRegister) RegisterPublicRoute(path string, handler http.HandlerFunc) {
-    r.mux.HandleFunc(path, handler)
+    r.mux.HandleFunc(path, middleware.LogPayload(handler))
 }
 

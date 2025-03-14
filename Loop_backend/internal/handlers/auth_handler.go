@@ -98,6 +98,7 @@ func (h *AuthHandler) Verify(w http.ResponseWriter, r *http.Request) {
 	}
 
 	claims, err := h.authService.ValidateToken(authHeader)
+	fmt.Println(claims)
 
 	if err != nil {
 		response.RespondWithError(w, http.StatusUnauthorized, err.Error())
