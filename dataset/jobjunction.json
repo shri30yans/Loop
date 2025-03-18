@@ -1,0 +1,38 @@
+{
+    "title": "JobJunction",
+    "description": "JobJunction is a job search platform matching candidates with opportunities based on skills and cultural fit.",
+    "introduction": "JobJunction aims to revolutionize the job search experience by connecting candidates with employers based on skills and cultural alignment, addressing the inefficiencies of traditional job boards and the importance of workplace culture.",
+    "status": "draft",
+    "tags": [
+        "job search",
+        "employment",
+        "AI",
+        "matching algorithm",
+        "skills",
+        "cultural fit",
+        "HR",
+        "recruitment"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The motivation behind JobJunction stemmed from the frustrations with traditional job boards that often overlook cultural fit and skill alignment. We recognized the need for a platform that prioritizes these aspects to create more meaningful connections between candidates and employers."
+        },
+        {
+            "title": "Initial Development",
+            "body": "We started by selecting Python for the backend and React for the frontend to ensure scalability and a dynamic user interface. Developing the matching algorithm was challenging, but we successfully created a system that weighs both skills and cultural fit to provide accurate job matches."
+        },
+        {
+            "title": "Prototype",
+            "body": "The prototype included core features like user profiles, job listings, and the matching algorithm. User testing provided valuable feedback, leading to iterations that enhanced usability and the overall user experience."
+        },
+        {
+            "title": "Launch",
+            "body": "At launch, JobJunction offered features such as advanced search filters, detailed company profiles, and a user-friendly interface. Despite initial challenges in user acquisition, our targeted marketing strategies successfully attracted both candidates and employers, leading to positive user feedback."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Future plans include integrating AI for personalized job recommendations and improving the UI/UX for better accessibility. We also aim to expand the platform globally and introduce premium features to enhance the job search experience."
+        }
+    ]
+}

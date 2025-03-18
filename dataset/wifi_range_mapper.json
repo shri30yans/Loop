@@ -1,0 +1,36 @@
+{
+    "title": "Wi-Fi Range Mapper",
+    "description": "A Raspberry Pi-based system that maps Wi-Fi signal strengths across different areas.",
+    "introduction": "Wi-Fi Range Mapper is a project aimed at visualizing Wi-Fi signal strength across various locations, helping to identify coverage gaps and optimize network setups.",
+    "status": "draft",
+    "tags": [
+        "Raspberry Pi",
+        "Wi-Fi",
+        "signal mapping",
+        "network optimization",
+        "Python",
+        "data visualization"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for Wi-Fi Range Mapper arose from the frustration of dealing with inconsistent Wi-Fi coverage in large spaces. By creating a tool to map signal strengths, we can better understand where coverage is lacking and improve network reliability. We chose the Raspberry Pi for its portability and versatility in handling both hardware and software tasks."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "We started by setting up a Raspberry Pi with Kali Linux to leverage its built-in Wi-Fi capabilities. Using Python scripts, we collected signal strength data from various access points. Initial challenges included handling multiple Wi-Fi interfaces and ensuring accurate readings across different environments."
+        },
+        {
+            "title": "Data Visualization",
+            "body": "To present the data effectively, we utilized Heatmap libraries in Python. This allowed us to create visual representations of Wi-Fi signal strengths, making it easier to identify patterns and dead zones. We also integrated GPS data to map the signal strengths geographically."
+        },
+        {
+            "title": "Challenges and Solutions",
+            "body": "One major challenge was dealing with signal variability due to environmental factors. We addressed this by taking multiple readings at each location and averaging them. Another issue was mapping in multi-floor buildings, which required adjusting our algorithm to account for 3D space."
+        },
+        {
+            "title": "Future Enhancements",
+            "body": "Looking ahead, we plan to expand the system to support 5GHz bands and implement machine learning to predict coverage areas. Additionally, we aim to develop a web interface for easier data access and sharing, making the tool more accessible to a broader audience."
+        }
+    ]
+}

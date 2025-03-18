@@ -1,0 +1,35 @@
+{
+    "title": "SafeNet",
+    "description": "SafeNet is a network security tool designed to monitor and protect home Wi-Fi systems from intrusions.",
+    "introduction": "In today's connected world, home Wi-Fi networks are increasingly vulnerable to cyber threats. SafeNet aims to provide a robust security solution that not only monitors but also protects home networks from unauthorized access and malicious activities. By leveraging advanced technologies, SafeNet ensures a safe and secure internet environment for all users.",
+    "status": "draft",
+    "tags": [
+        "network-security",
+        "cybersecurity",
+        "home-wifi",
+        "intrusion-detection",
+        "ai-driven"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The rising number of cyber threats targeting home networks inspired the creation of SafeNet. Many homeowners lack the technical expertise to secure their Wi-Fi systems, leaving them vulnerable to attacks. SafeNet's motivation is to provide an easy-to-use, AI-driven solution that offers real-time protection and peace of mind."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "The initial prototype of SafeNet was developed using Python and machine learning libraries. We faced challenges in accurately detecting anomalies in network traffic, but by implementing a deep learning model, we achieved high precision in identifying potential threats. The prototype also included a user-friendly dashboard for monitoring network activity."
+        },
+        {
+            "title": "Integration with Existing Routers",
+            "body": "To ensure compatibility, we worked on integrating SafeNet with popular home router firmware. This involved reverse engineering and creating custom modules to collect network data. We encountered compatibility issues with certain router models, but through rigorous testing and updates, we achieved seamless integration."
+        },
+        {
+            "title": "Current Features",
+            "body": "SafeNet currently offers real-time network monitoring, intrusion detection, and automated threat response. The system also provides detailed reports on network usage and potential vulnerabilities. We incorporated a machine learning algorithm that continuously improves its threat detection capabilities based on user data."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Our roadmap includes expanding SafeNet to support small business networks and integrating with popular smart home devices. We are also exploring the use of blockchain technology to enhance data security and privacy. Additionally, we plan to introduce a mobile app for on-the-go network monitoring and control."
+        }
+    ]
+}

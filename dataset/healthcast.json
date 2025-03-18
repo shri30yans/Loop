@@ -1,0 +1,35 @@
+{
+    "title": "HealthCast",
+    "description": "A live health and wellness streaming platform connecting medical professionals with real-time information and collaboration opportunities.",
+    "introduction": "In the rapidly evolving field of healthcare, real-time information sharing is crucial. HealthCast aims to bridge this gap by providing a dedicated space for medical professionals to share knowledge, innovations, and collaborate live, fostering a more connected and informed community.",
+    "status": "draft",
+    "tags": [
+        "healthcare",
+        "streaming",
+        "medical professionals",
+        "real-time collaboration",
+        "health tech"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The motivation behind HealthCast stemmed from the realization that medical professionals often lack a dedicated platform for real-time sharing and collaboration. Traditional methods like conferences and journals are slow and don't allow for immediate interaction, highlighting the need for a live platform."
+        },
+        {
+            "title": "Initial Development",
+            "body": "The initial development phase involved selecting appropriate technologies. React was chosen for the frontend to ensure a dynamic user interface, while Node.js was used for the backend to handle real-time data efficiently. Live streaming functionality was integrated using WebRTC, enabling peer-to-peer communication."
+        },
+        {
+            "title": "Challenges",
+            "body": "Key challenges included ensuring low latency for real-time streaming and handling high traffic. Data security was paramount due to the sensitive nature of medical information. Implementing robust user authentication and authorization mechanisms was essential to ensure only verified professionals could access the platform."
+        },
+        {
+            "title": "Launch",
+            "body": "The launch phase saw the initial rollout of HealthCast, with positive feedback from the medical community. Initial live streams were well-received, though minor technical hiccups were addressed promptly. User feedback led to iterations, enhancing the platform's usability and performance."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Future plans for HealthCast include adding a library of recorded streams and advanced search features. AI-driven recommendations based on user interests are also in development. Expanding the platform to include more medical specialties and allowing medical students to join for educational purposes are additional goals."
+        }
+    ]
+}

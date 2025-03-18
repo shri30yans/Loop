@@ -1,0 +1,36 @@
+{
+    "title": "HomeCraft",
+    "description": "A DIY home improvement app with video tutorials and project planning tools.",
+    "introduction": "HomeCraft is designed to empower DIY enthusiasts and homeowners by providing a comprehensive platform for learning and executing home improvement projects. The app aims to simplify the DIY process through guided video tutorials and robust project planning tools, making it easier for users to bring their ideas to life.",
+    "status": "draft",
+    "tags": [
+        "DIY",
+        "home-improvement",
+        "video-tutorials",
+        "project-planning",
+        "mobile-app",
+        "innovation"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for HomeCraft was born out of a personal struggle to find reliable, easy-to-follow DIY guides. Many existing resources are either too vague or lack the depth needed for complex projects. Our motivation is to fill this gap by creating a user-friendly app that combines step-by-step video tutorials with practical project planning tools, catering to both beginners and experienced DIYers."
+        },
+        {
+            "title": "Initial Prototype",
+            "body": "We started by developing a basic prototype using React Native for cross-platform compatibility. The initial version included a library of video tutorials and a simple project planner. User feedback revealed the need for more interactive features, such as a materials calculator and a progress tracking system. We incorporated these features while ensuring the app remained intuitive and easy to navigate."
+        },
+        {
+            "title": "Feature Development",
+            "body": "We focused on enhancing the app's core features, including a dynamic video player with adjustable speed and a project timeline editor. A major challenge was integrating a real-time materials estimator, which required precise calculations based on user inputs. We overcame this by implementing a robust algorithm that adapts to different project scales and complexities."
+        },
+        {
+            "title": "Beta Testing",
+            "body": "During the beta phase, we gathered valuable feedback from a diverse group of users. Key insights included the need for offline access to tutorials and improved search functionality. We addressed these by implementing a download feature for videos and enhancing the app's search algorithm to deliver more relevant results. This phase was crucial in refining the user experience."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Moving forward, we plan to expand HomeCraft by adding a community feature where users can share their projects and collaborate with others. We also aim to integrate augmented reality (AR) tools to help users visualize projects in their own spaces. Additionally, we are exploring partnerships with hardware stores to offer exclusive discounts and streamline the material purchasing process."
+        }
+    ]
+}

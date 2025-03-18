@@ -1,0 +1,36 @@
+{
+    "title": "QuickTutor",
+    "description": "QuickTutor is an on-demand tutoring service that provides instant academic help to students.",
+    "introduction": "QuickTutor addresses the pressing need for immediate academic support, offering students instant access to expert tutors whenever they need it.",
+    "status": "draft",
+    "tags": [
+        "tutoring",
+        "education",
+        "on-demand",
+        "instant-help",
+        "learning-platform",
+        "edtech"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The motivation behind QuickTutor stemmed from the common struggle students face in finding timely academic support. Traditional tutoring services often require scheduling in advance, leaving students without help during critical moments. This gap inspired the creation of a platform that offers immediate assistance."
+        },
+        {
+            "title": "Prototype",
+            "body": "The initial prototype of QuickTutor was developed using React for the frontend and Node.js for the backend. Real-time features were integrated using WebSockets to enable instant communication between students and tutors. The prototype focused on core functionalities like user registration, tutor matching, and chat interface."
+        },
+        {
+            "title": "Initial Stages",
+            "body": "After developing the prototype, extensive user testing was conducted to gather feedback. This phase involved refining the user interface to enhance accessibility and improving the tutor matching algorithm to ensure quick and accurate pairings. Initial optimizations also focused on reducing response times and improving the overall user experience."
+        },
+        {
+            "title": "Current Features",
+            "body": "QuickTutor currently offers instant matching with qualified tutors, real-time chat capabilities, and the ability to schedule future sessions. Additionally, the platform incorporates learning analytics to track student progress and provide personalized recommendations for improvement."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Future developments for QuickTutor include integrating AI-powered tutoring to assist during off-peak hours and expanding the range of subjects offered. There are also plans to partner with educational institutions to offer institutional accounts and potentially integrate with existing learning management systems."
+        }
+    ]
+}

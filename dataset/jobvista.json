@@ -1,0 +1,37 @@
+{
+    "title": "JobVista: Your Career Compass",
+    "description": "A career portal offering personalized job recommendations and networking opportunities for professionals.",
+    "introduction": "JobVista is a cutting-edge career platform designed to revolutionize the way professionals find jobs and network. By leveraging AI-driven personalized recommendations and advanced networking tools, JobVista aims to bridge the gap between job seekers and employers, creating a seamless and efficient career development ecosystem.",
+    "status": "draft",
+    "tags": [
+        "job-search",
+        "career-development",
+        "AI",
+        "machine-learning",
+        "networking",
+        "professionals",
+        "career-growth"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The traditional job search process is often fragmented and inefficient, with generic job boards failing to cater to individual needs. We were inspired to create JobVista to address this gap by offering a personalized and intelligent platform that connects professionals with the right opportunities. Our vision is to empower job seekers with tools that make their career journey more targeted and fulfilling."
+        },
+        {
+            "title": "Initial Development",
+            "body": "We began by researching user pain points and market needs. Using Python and Django for the backend, and React for the frontend, we built the initial version of JobVista. The core features included user profiling, basic job recommendations, and a networking module. Early challenges included data collection for training our recommendation engine and ensuring a seamless user experience."
+        },
+        {
+            "title": "AI Integration",
+            "body": "To enhance the platform, we integrated machine learning algorithms to power our recommendation engine. Natural Language Processing (NLP) was used to analyze resumes and job descriptions, enabling smarter matches. This phase also saw the introduction of a skill-based ranking system. However, fine-tuning the AI to deliver accurate recommendations proved challenging and required extensive testing and iteration."
+        },
+        {
+            "title": "Launch & User Feedback",
+            "body": "After a successful beta launch, we gathered valuable feedback from early adopters. Users praised the personalized recommendations but requested more robust networking features. We responded by adding real-time messaging and virtual meeting capabilities. This phase also saw the integration of Elasticsearch for faster search and matching processes."
+        },
+        {
+            "title": "Future Roadmap",
+            "body": "Looking ahead, we plan to expand JobVista with features like AI-driven career path predictions and a mobile app for on-the-go access. We are also exploring blockchain technology to secure user data and ensure privacy. Additionally, we aim to partner with educational institutions to offer tailored career guidance for students and recent graduates."
+        }
+    ]
+}

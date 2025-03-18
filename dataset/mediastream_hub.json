@@ -1,0 +1,37 @@
+{
+    "title": "MediaStream Hub",
+    "description": "A Raspberry Pi-based media center for streaming and playing multimedia content.",
+    "introduction": "In an era where media consumption is diverse and widespread, the MediaStream Hub offers a centralized solution for organizing and streaming various types of multimedia content. This project aims to provide an efficient and user-friendly way to enjoy media using the versatile Raspberry Pi, catering to both casual users and tech enthusiasts.",
+    "status": "draft",
+    "tags": [
+        "Raspberry Pi",
+        "media center",
+        "streaming",
+        "Kodi",
+        "Plex",
+        "DIY",
+        "home automation"
+    ],
+    "sections": [
+        {
+            "title": "Initial Setup and Motivation",
+            "body": "The motivation behind the MediaStream Hub was to create a cost-effective and easy-to-use media center. I chose the Raspberry Pi for its affordability and versatility. Initial challenges included setting up the operating system and ensuring hardware compatibility. By using Raspberry Pi OS, I was able to create a stable foundation for the project."
+        },
+        {
+            "title": "Software Installation and Configuration",
+            "body": "Installing media streaming applications like Kodi and Plex was crucial. I faced some issues with software compatibility, but after researching and tweaking settings, I managed to get both applications running smoothly. This phase involved configuring libraries and ensuring seamless media playback."
+        },
+        {
+            "title": "Networking and Connectivity",
+            "body": "Setting up the network was essential for streaming. I encountered Wi-Fi connectivity problems, which I resolved by adjusting network settings and using a wired connection for stability. Ensuring smooth streaming without buffering was a challenge, but optimizing network settings and using quality of service (QoS) helped achieve this."
+        },
+        {
+            "title": "Adding Features and Enhancements",
+            "body": "To enhance user experience, I added remote access using SSH and integrated the media center with other devices. Setting up a user-friendly interface was important, so I customized Kodi's skin and set up Plex's web app for easy access. These features make the MediaStream Hub more accessible and convenient."
+        },
+        {
+            "title": "Future Plans and Improvements",
+            "body": "Looking ahead, I plan to integrate AI for better content recommendations and improve the UI/UX. Additionally, integrating with smart home devices using Home Assistant is on the horizon. These enhancements will make the MediaStream Hub even more versatile and user-friendly."
+        }
+    ]
+}

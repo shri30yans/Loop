@@ -22,7 +22,7 @@ export interface PostType {
 };
 
 export interface ProjectType {
-    project_id?: string;
+    id?: string;
     title: string;
     description: string;
     introduction: string;
@@ -34,7 +34,6 @@ export interface ProjectType {
 };
 
 export type ProjectSectionType = {
-    index : number;
-    title: string;
-    content: string;
+    title : string;
+    body: string;
 };

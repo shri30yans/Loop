@@ -1,0 +1,36 @@
+{
+    "title": "HomeGuard Intrusion Detector",
+    "description": "A network intrusion detection system built using Raspberry Pi to monitor and alert for suspicious activities.",
+    "introduction": "HomeGuard is a cutting-edge project designed to enhance home security by detecting and alerting users of potential network intrusions. Using a Raspberry Pi, this system leverages advanced monitoring techniques to ensure your network remains safe and secure.",
+    "status": "draft",
+    "tags": [
+        "Raspberry Pi",
+        "network security",
+        "intrusion detection",
+        "IoT",
+        "machine learning",
+        "home automation"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "With the increasing number of connected devices in homes, network security has become a critical concern. HomeGuard was motivated by the need to provide an affordable and user-friendly solution for monitoring and detecting suspicious activities on home networks. The project aims to empower users with real-time alerts and insights to protect their digital environment."
+        },
+        {
+            "title": "Research and Development",
+            "body": "The development of HomeGuard began with extensive research into network intrusion detection systems. We explored various techniques, including packet sniffing, traffic analysis, and machine learning-based anomaly detection. The Raspberry Pi was chosen for its cost-effectiveness and versatility in handling network monitoring tasks. We utilized Python for scripting and integrated libraries like Scapy for packet analysis and TensorFlow for machine learning models."
+        },
+        {
+            "title": "Prototyping",
+            "body": "The first prototype of HomeGuard focused on basic network monitoring capabilities. We set up the Raspberry Pi to capture and analyze network traffic using Scapy. Initial tests revealed promising results in detecting unusual patterns, but the system lacked the sophistication to differentiate between benign and malicious activities. This led us to implement machine learning algorithms to improve accuracy."
+        },
+        {
+            "title": "Testing and Optimization",
+            "body": "Testing the system involved simulating various network scenarios, including normal usage, known attacks, and unknown anomalies. We encountered challenges with false positives and system performance under heavy traffic. To address these, we optimized the machine learning model by training it on a larger dataset and implemented multithreading to handle network traffic more efficiently."
+        },
+        {
+            "title": "Current State and Future Plans",
+            "body": "HomeGuard is now a functional intrusion detection system capable of monitoring network traffic, detecting anomalies, and sending alerts via email or SMS. Future plans include integrating a web-based dashboard for real-time monitoring, expanding the system to support multiple network interfaces, and enhancing the machine learning model with continuous learning capabilities. We also aim to explore hardware-based acceleration to improve performance."
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "title": "BudgetBite",
+    "description": "An app designed to split restaurant bills and manage shared dining expenses.",
+    "introduction": "BudgetBite is an innovative app that simplifies the process of splitting restaurant bills, making dining experiences more enjoyable and stress-free for everyone involved. By streamlining expense management, BudgetBite aims to enhance social interactions and eliminate the hassle of shared payments.",
+    "status": "draft",
+    "tags": [
+        "expense-management",
+        "bill-splitting",
+        "dining-app",
+        "group-payments",
+        "financial-tech"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for BudgetBite was born out of the common frustration of splitting bills after group dinners. We wanted to create a solution that would eliminate the awkwardness and time-consuming process of calculating individual shares, making social dining experiences more enjoyable."
+        },
+        {
+            "title": "Initial Development",
+            "body": "We started by developing the core features of BudgetBite, focusing on bill scanning, automatic splitting, and secure payment integration. Using Python for the backend and React for the frontend, we built a user-friendly interface that simplifies the entire process."
+        },
+        {
+            "title": "User Testing",
+            "body": "During user testing, we gathered valuable feedback that highlighted the need for a more intuitive interface and additional features like receipt storage and expense tracking. We addressed these issues, refining the app to better meet user needs."
+        },
+        {
+            "title": "Launch and Reception",
+            "body": "After launching BudgetBite, we received positive feedback from users who found it incredibly helpful for group dinners and outings. The app's ability to instantly split bills and manage expenses resonated well with our target audience."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Moving forward, we plan to enhance BudgetBite by adding features like multi-currency support and integration with popular payment platforms. We also aim to expand the app's functionality to include budget tracking for events and trips."
+        }
+    ]
+}

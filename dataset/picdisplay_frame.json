@@ -1,0 +1,35 @@
+{
+    "title": "PicDisplay Frame",
+    "description": "A digital photo frame that displays a slideshow of images stored on Raspberry Pi.",
+    "introduction": "In an era where digital memories are plentiful, the PicDisplay Frame offers a cost-effective and personalized way to showcase cherished moments. Utilizing a Raspberry Pi, this project combines nostalgia with modern technology, providing an affordable alternative to commercial digital frames while allowing for customization and flexibility.",
+    "status": "draft",
+    "tags": [
+        "Raspberry Pi",
+        "digital photo frame",
+        "DIY electronics",
+        "home automation",
+        "personalized technology"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The motivation behind creating the PicDisplay Frame stems from the desire to bridge the gap between nostalgic photo displays and contemporary technology. By leveraging the Raspberry Pi, the project aims to provide an economical solution for individuals seeking a personalized digital photo frame without the hefty price tag of commercial products."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "The initial prototype involved setting up the Raspberry Pi with appropriate software to display images in a slideshow format. Challenges included ensuring compatibility with various image formats and achieving seamless looping of the slideshow. The use of external storage devices was incorporated to enhance storage capacity."
+        },
+        {
+            "title": "Overcoming Challenges",
+            "body": "Optimizing performance for smooth image transitions and addressing storage limitations were key challenges. Solutions included implementing efficient image processing algorithms and optimizing the operating system for better performance. User interface improvements were also made to enhance accessibility and ease of use."
+        },
+        {
+            "title": "Current Features",
+            "body": "The PicDisplay Frame currently supports adjustable slideshow timing, multiple image formats, and remote access for uploading new images. These features provide users with flexibility and convenience, making the frame adaptable to various settings and preferences."
+        },
+        {
+            "title": "Future Enhancements",
+            "body": "Future plans include integrating touch screen support for easier navigation and exploring cloud storage integration for expanded storage options. Additionally, AI-powered photo organization is being considered to automatically categorize and display images based on user preferences."
+        }
+    ]
+}

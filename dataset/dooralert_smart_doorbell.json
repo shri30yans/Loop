@@ -1,0 +1,39 @@
+{
+    "title": "DoorAlert Smart Doorbell",
+    "description": "A smart doorbell that sends notifications and live video feed to smartphones.",
+    "introduction": "DoorAlert is an innovative smart doorbell designed to enhance home security and convenience. It provides real-time notifications and live video streaming, allowing users to monitor their doorstep remotely. This project aims to create a seamless and secure smart home experience.",
+    "status": "draft",
+    "tags": [
+        "smart-doorbell",
+        "home-security",
+        "IoT",
+        "AI",
+        "Raspberry Pi",
+        "Python",
+        "Flutter",
+        "WebRTC",
+        "machine learning"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The motivation behind DoorAlert was to address the growing need for enhanced home security solutions. Traditional doorbells often lack the functionality to provide real-time updates or video feeds. By integrating AI and IoT technologies, DoorAlert aims to revolutionize home security by offering a smart, user-friendly solution."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "The initial prototype of DoorAlert was developed using a Raspberry Pi for the hardware component and Python for the software. We integrated a camera module to capture live video feeds and implemented basic motion detection. The prototype was tested with a mobile app built using Flutter to ensure seamless communication between the doorbell and the smartphone."
+        },
+        {
+            "title": "Advanced Features",
+            "body": "To enhance the functionality of DoorAlert, we incorporated advanced features such as facial recognition using TensorFlow Lite and two-way audio communication. The facial recognition feature allows users to whitelist known individuals, while the two-way audio enables real-time communication with visitors. These features were implemented to improve user experience and security."
+        },
+        {
+            "title": "Challenges and Solutions",
+            "body": "One of the major challenges was ensuring low-latency video streaming and maintaining a stable connection between the doorbell and the smartphone. We addressed this by optimizing the video encoding process using H.264 and implementing WebRTC for real-time communication. Additionally, we ensured data security by encrypting all communications using SSL/TLS protocols."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Future plans for DoorAlert include integrating with popular smart home ecosystems like Amazon Alexa and Google Home. We also plan to enhance the AI capabilities by implementing machine learning models to detect suspicious activities and alert users. Furthermore, we aim to expand the product line to include indoor security cameras and other smart home devices."
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "title": "JobChain",
+    "description": "JobChain is a decentralized platform designed to verify work histories and credentials, creating a trustless ecosystem for job seekers and employers.",
+    "introduction": "JobChain aims to revolutionize the hiring process by leveraging blockchain technology to securely verify work credentials and provide a transparent, decentralized platform for job seekers and employers to connect.",
+    "status": "draft",
+    "tags": [
+        "blockchain",
+        "decentralized",
+        "job-market",
+        "credentials",
+        "verification",
+        "trustless-system",
+        "hiring"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The traditional job market often struggles with trust and inefficiency. Employers spend significant resources verifying credentials, while job seekers face challenges showcasing their skills. JobChain's motivation is to create a decentralized, trustless system where work histories and credentials are securely verified and easily accessible."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "We developed an initial prototype using Solidity for smart contracts and React for the frontend. The prototype allowed users to create profiles, upload credentials, and request verifications. Early feedback highlighted the need for a more user-friendly interface and faster verification processes."
+        },
+        {
+            "title": "Blockchain Integration",
+            "body": "We integrated Ethereum's blockchain to store and verify credentials immutably. Smart contracts automate the verification process, ensuring data integrity and reducing the need for intermediaries. This phase posed challenges with scalability, which we addressed by optimizing gas fees and implementing layer-2 solutions."
+        },
+        {
+            "title": "Current Features",
+            "body": "JobChain currently offers decentralized credential storage, real-time verification, and a marketplace for job seekers and employers. The platform uses IPFS for decentralized file storage and ensures privacy through zero-knowledge proofs. Employers can now trust the credentials presented by job seekers without intermediaries."
+        },
+        {
+            "title": "Future Roadmap",
+            "body": "Our roadmap includes expanding the platform to support decentralized identity verification, integrating AI-driven job matching, and enhancing user privacy controls. We also plan to partner with educational institutions and companies to further decentralize the ecosystem and create a global standard for credential verification."
+        }
+    ]
+}

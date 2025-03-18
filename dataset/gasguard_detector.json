@@ -1,0 +1,35 @@
+{
+    "title": "GasGuard Detector",
+    "description": "A system using Arduino to detect gas leaks and trigger alarms for safety.",
+    "introduction": "GasGuard Detector is an innovative project designed to enhance safety by detecting gas leaks early and alerting users through an alarm system. Built using Arduino, this project aims to prevent potential hazards by providing a reliable and timely warning system.",
+    "status": "draft",
+    "tags": [
+        "Arduino",
+        "gas-leak-detection",
+        "safety",
+        "electronics",
+        "DIY"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The primary motivation behind GasGuard Detector is to address the critical need for reliable gas leak detection in various environments. Gas leaks can lead to dangerous situations, and having an early warning system can prevent accidents. This project aims to provide an affordable and efficient solution using Arduino, making it accessible for both domestic and industrial use."
+        },
+        {
+            "title": "Initial Prototype",
+            "body": "The initial phase involved setting up the basic components: an MQ-2 gas sensor, a buzzer, and an Arduino Uno. The sensor detects gas levels, and the buzzer triggers an alarm when a certain threshold is exceeded. The circuit was assembled, and the code was written to read sensor values and activate the alarm accordingly."
+        },
+        {
+            "title": "Challenges and Solutions",
+            "body": "One major challenge was calibrating the sensor to accurately detect gas levels without false alarms. Adjusting the threshold value and implementing a delay before triggering the alarm helped overcome this. Additionally, ensuring the system's reliability in various environments required thorough testing and refinement."
+        },
+        {
+            "title": "Adding Features",
+            "body": "To enhance functionality, an LCD display was added to show gas levels in real-time. Wi-Fi connectivity was also integrated using an ESP8266 module, allowing users to receive notifications on their smartphones. These additions improved the system's usability and expanded its capabilities."
+        },
+        {
+            "title": "Current Status and Future Plans",
+            "body": "The GasGuard Detector is now a fully functional system with reliable gas detection and multiple alert mechanisms. Future plans include miniaturizing the design, adding a mobile app for remote monitoring, and exploring the use of different gas sensors for various applications."
+        }
+    ]
+}

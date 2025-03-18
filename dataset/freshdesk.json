@@ -1,0 +1,36 @@
+{
+    "title": "FreshDesk",
+    "description": "A customer support platform optimized for small and medium enterprises.",
+    "introduction": "FreshDesk is designed to empower small and medium enterprises with an intuitive and scalable customer support solution. By simplifying ticket management, automating routine tasks, and providing actionable insights, FreshDesk helps businesses deliver exceptional customer experiences without the complexity of enterprise-level tools.",
+    "status": "draft",
+    "tags": [
+        "customer-support",
+        "SME",
+        "web-development",
+        "python",
+        "react",
+        "entrepreneurship"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "Small and medium enterprises often struggle with customer support tools that are either too basic or overly complex. FreshDesk was born out of the need for a tailored solution that bridges this gap. We wanted to create a platform that is easy to use, affordable, and packed with features that matter most to SMEs. Using Flask and SQLite, we laid the foundation for a lightweight yet robust system."
+        },
+        {
+            "title": "MVP Development",
+            "body": "The Minimum Viable Product (MVP) focused on core functionalities: ticket creation, assignment, and resolution tracking. We built a simple yet intuitive interface using React, ensuring it was accessible to non-technical users. Initial challenges included balancing simplicity with functionality, but user testing helped refine the design. We also integrated basic natural language processing for automated ticket categorization."
+        },
+        {
+            "title": "User Feedback and Iterations",
+            "body": "After deploying the MVP, we gathered feedback from early adopters. Users praised the simplicity but requested more advanced features like custom workflows and analytics. We iterated quickly, adding these features while maintaining the platform's ease of use. This phase also saw the integration of Elasticsearch for improved search and reporting capabilities."
+        },
+        {
+            "title": "Scalability and Security",
+            "body": "As user adoption grew, scalability became a priority. We migrated from SQLite to PostgreSQL for better performance and reliability. Security was another focus, with the implementation of encryption for data at rest and in transit. We also ensured compliance with key data protection regulations to build trust with our users."
+        },
+        {
+            "title": "Future Roadmap",
+            "body": "Looking ahead, we plan to introduce AI-driven analytics for predictive customer support and expand multi-channel support capabilities. We are also exploring advanced customization options to cater to diverse industry needs. By continuously listening to our users, FreshDesk aims to remain the go-to support platform for SMEs worldwide."
+        }
+    ]
+}
