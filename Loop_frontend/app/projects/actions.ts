@@ -5,7 +5,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 export async function getAllProjects(access_token: string, searchKeyword?: string) {
   try {
     // Build URL with optional search parameter
-    let url = `${API_BASE_URL}/project/search`;
+    let url = `${API_BASE_URL}/project/get_projects`;
     if (searchKeyword) {
       url += `?keyword=${encodeURIComponent(searchKeyword)}`;
     }
