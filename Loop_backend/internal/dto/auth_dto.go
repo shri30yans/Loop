@@ -6,7 +6,7 @@ type LoginRequest struct {
 }
 
 type AuthResponse struct {
-    UserID       string    `json:"user_id"`
+    UserID       string `json:"user_id"`
     AccessToken  string `json:"access_token"`
     ExpiresAt    string `json:"expires_at"`
 }

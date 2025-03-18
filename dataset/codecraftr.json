@@ -1,0 +1,36 @@
+{
+    "title": "CodeCraftr",
+    "description": "CodeCraftr is a collaborative code editing and project management tool designed to streamline developer workflows and enhance teamwork.",
+    "introduction": "In the fast-paced world of software development, effective collaboration is crucial. CodeCraftr was created to address the gaps in traditional tools by providing a seamless environment where developers can code together in real-time, manage projects, and stay aligned on goals.",
+    "status": "draft",
+    "tags": [
+        "collaboration",
+        "coding",
+        "project-management",
+        "developers",
+        "real-time-editing",
+        "web-development"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for CodeCraftr arose from the frustration of using disjointed tools for coding and project management. Developers often juggle multiple platforms, leading to inefficiencies and miscommunication. Our goal was to create an all-in-one solution that integrates real-time collaboration, version control, and project tracking."
+        },
+        {
+            "title": "Initial Development",
+            "body": "We started by building the core features: real-time code editing and project management. Using WebSockets for real-time communication and React for the frontend, we ensured a responsive and intuitive user interface. The backend was built with Node.js and MongoDB to handle user data and project storage."
+        },
+        {
+            "title": "Challenges and Solutions",
+            "body": "One major challenge was ensuring low-latency real-time collaboration. We implemented a combination of operational transformation and WebSocket optimizations to achieve smooth performance. Another challenge was user authentication and access control, which we addressed using OAuth and role-based permissions."
+        },
+        {
+            "title": "Current Features",
+            "body": "CodeCraftr now offers real-time code editing, project management with Kanban boards, version control integration with Git, and team collaboration features like comments and @mentions. We also added a marketplace for developers to share and discover reusable code snippets."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Our roadmap includes adding AI-powered code suggestions, expanding the marketplace with paid templates, and introducing mobile apps for on-the-go access. We are also exploring blockchain for secure intellectual property management and decentralized workflows."
+        }
+    ]
+}

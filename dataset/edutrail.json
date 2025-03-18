@@ -1,0 +1,36 @@
+{
+    "title": "EduTrail",
+    "description": "EduTrail is a career guidance platform that maps education pathways for various professions, helping users navigate their career journeys.",
+    "introduction": "EduTrail is designed to empower students and professionals by providing a clear roadmap for achieving their career goals. By mapping education pathways, offering resources, and sharing insights, the platform aims to simplify the complex process of career planning and skill development.",
+    "status": "draft",
+    "tags": [
+        "career-guidance",
+        "education",
+        "edtech",
+        "career-development",
+        "skill-building",
+        "education-pathways"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for EduTrail was born out of the frustration of navigating unclear career paths and the lack of centralized resources for education and professional development. We wanted to create a platform that simplifies the process of identifying the right educational steps for any profession. Using Python and Django, we began building the backend to handle the complex data relationships between careers, courses, and institutions."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "We developed an early prototype of EduTrail that allowed users to explore career pathways and view recommended educational programs. The prototype included a basic algorithm for suggesting education paths based on user interests and career goals. We used React for the frontend to create an interactive and user-friendly interface, ensuring a smooth experience for users."
+        },
+        {
+            "title": "Initial Launch",
+            "body": "After refining the prototype, we launched the initial version of EduTrail with a limited set of career pathways. The platform quickly gained traction as users appreciated the clarity and structure it provided. We incorporated user feedback to expand the number of pathways and improve the recommendation algorithm, ensuring it better aligned with user needs and aspirations."
+        },
+        {
+            "title": "Current Features",
+            "body": "EduTrail now offers a comprehensive suite of features, including an interactive career explorer, personalized education recommendations, and a library of resources for skill development. The platform also includes success stories from professionals who have navigated similar paths, providing inspiration and practical insights. We have integrated machine learning to continuously improve the accuracy of our recommendations."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Looking ahead, we plan to enhance EduTrail with AI-driven career counseling, gamification elements to encourage user engagement, and partnerships with educational institutions to offer exclusive resources. We also aim to expand the platform to include global career pathways and language support for non-English speakers, making it a truly universal career guidance tool."
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "title": "SkyStream Drone",
+    "description": "A quadcopter drone controlled by Arduino with live video streaming over Wi-Fi.",
+    "introduction": "SkyStream Drone is an innovative project that combines the versatility of Arduino with the excitement of drone technology. This quadcopter is designed to provide live video streaming over Wi-Fi, offering a cost-effective solution for real-time monitoring and exploration.",
+    "status": "draft",
+    "tags": [
+        "drones",
+        "Arduino",
+        "quadcopter",
+        "Wi-Fi",
+        "live-streaming",
+        "robotics",
+        "electronics"
+    ],
+    "sections": [
+        {
+            "title": "Motivation and Initial Planning",
+            "body": "Driven by a fascination with drones and a desire to create an affordable, user-friendly solution, the SkyStream Drone project was initiated. The goal was to leverage Arduino's flexibility and cost-effectiveness to build a quadcopter capable of live streaming video over Wi-Fi, making it ideal for various applications such as surveillance and aerial photography."
+        },
+        {
+            "title": "Design and Prototyping",
+            "body": "The initial phase involved selecting components like the Arduino board, motors, propellers, and a suitable camera. Challenges during prototyping included achieving the right balance for stable flight and ensuring reliable video transmission. These issues were addressed through iterative testing and component adjustments."
+        },
+        {
+            "title": "Development and Testing",
+            "body": "The development phase focused on coding the Arduino to control the drone's movements and integrating a Wi-Fi module for live streaming. Testing revealed issues with signal stability and video latency, which were resolved by optimizing the code and enhancing the Wi-Fi module's configuration."
+        },
+        {
+            "title": "Optimization and Final Touches",
+            "body": "Efforts were made to optimize the drone's performance, improving video streaming quality and control stability. Additional features like telemetry data were integrated to enhance user experience and provide real-time feedback."
+        },
+        {
+            "title": "Deployment and Future Plans",
+            "body": "The SkyStream Drone has been successfully deployed and performs well in various environments. Future plans include integrating AI for autonomous navigation and improving the range and battery life to expand its applications."
+        }
+    ]
+}

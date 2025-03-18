@@ -1,0 +1,36 @@
+{
+    "title": "CodeCast",
+    "description": "A live coding and development streaming platform enabling real-time collaboration and learning.",
+    "introduction": "CodeCast is a platform designed to revolutionize the way developers collaborate and share knowledge. By enabling live coding streams, CodeCast fosters a community where developers can learn from each other, solve problems in real-time, and build projects collaboratively.",
+    "status": "draft",
+    "tags": [
+        "live-coding",
+        "web-development",
+        "real-time",
+        "collaboration",
+        "learning",
+        "community"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for CodeCast was born out of the need for a more interactive and engaging way for developers to share knowledge. Traditional platforms often lack the immediacy and collaboration that comes with live coding. We wanted to create a space where developers could not only watch but also participate in real-time, fostering a sense of community and shared learning."
+        },
+        {
+            "title": "Initial Development",
+            "body": "The initial development phase focused on building a robust backend using Node.js and a responsive frontend with React. We faced challenges in handling real-time video streaming and code synchronization. To address this, we implemented WebSockets for real-time communication and integrated a code editor that updates in sync with the streamer's input."
+        },
+        {
+            "title": "Alpha Release",
+            "body": "During the alpha release, we gathered feedback from a small group of developers. The initial version allowed users to stream their coding sessions and interact with viewers through a chat system. Based on feedback, we added features like code snippet sharing and the ability for viewers to take control of the coding session temporarily."
+        },
+        {
+            "title": "Community Growth",
+            "body": "As the platform grew, we introduced features to support community engagement, such as virtual coding challenges and collaborative project-building sessions. We also integrated machine learning to recommend relevant streams based on user interests and coding languages. This helped users discover content that aligned with their skills and learning goals."
+        },
+        {
+            "title": "Future Vision",
+            "body": "Moving forward, we plan to expand CodeCast with features like AI-powered code suggestions during live streams, gamification elements to encourage participation, and integrations with popular development tools. Our ultimate goal is to make CodeCast the go-to platform for developers to learn, collaborate, and grow together."
+        }
+    ]
+}

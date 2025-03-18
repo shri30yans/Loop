@@ -1,0 +1,36 @@
+{
+    "title": "TaskZen: Minimalist Productivity Companion",
+    "description": "TaskZen is a minimalistic productivity app designed to help users organize daily tasks and goals efficiently.",
+    "introduction": "TaskZen was created to address the growing need for a simple, distraction-free tool to manage daily tasks and long-term goals. By focusing on essential features and a clean interface, TaskZen aims to help users stay productive without the overwhelm of complex productivity suites.",
+    "status": "draft",
+    "tags": [
+        "productivity",
+        "task-management",
+        "minimalism",
+        "web-app",
+        "focus",
+        "efficiency"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for TaskZen was born out of frustration with overly complicated productivity tools. Many apps are cluttered with features that users don't need, leading to a paradox of choice. TaskZen's motivation is to strip productivity management down to its core, providing a minimalistic yet effective solution for organizing tasks and goals. We chose React and Node.js for the tech stack to ensure a smooth and scalable development process."
+        },
+        {
+            "title": "Initial Prototype",
+            "body": "The first prototype of TaskZen focused on the core functionality: creating, organizing, and tracking tasks. We implemented a clean, distraction-free interface using Tailwind CSS for styling. The prototype included basic features like task creation, prioritization, and due date setting. We also set up local storage to save user data, ensuring a seamless experience for early testers."
+        },
+        {
+            "title": "Alpha Release",
+            "body": "During the alpha phase, we introduced real-time data synchronization using Firebase. This allowed users to access their tasks across multiple devices. We also added a goal-setting feature, enabling users to break down larger objectives into smaller, actionable tasks. Early user feedback highlighted the need for better task prioritization options, which we addressed by implementing a drag-and-drop feature."
+        },
+        {
+            "title": "Beta Testing",
+            "body": "The beta release focused on refining the user experience based on feedback from alpha testers. We added a dark mode option and improved touch support for mobile users. The beta version also introduced a focus mode, which helps users concentrate on a single task by hiding distractions. We leveraged PWA technology to enable offline functionality, making TaskZen accessible even without an internet connection."
+        },
+        {
+            "title": "Current Features",
+            "body": "TaskZen now offers a robust set of features, including task management, goal setting, focus mode, and cross-device synchronization. The app's minimalistic design ensures that users can quickly add and manage tasks without getting bogged down by unnecessary options. We've also implemented data backup and restore functionality to ensure user data is safe. TaskZen is available as both a web app and a mobile PWA."
+        }
+    ]
+}

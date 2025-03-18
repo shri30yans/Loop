@@ -1,0 +1,36 @@
+{
+    "title": "MobiMeds",
+    "description": "MobiMeds is a medication management app that reminds users to take prescriptions and schedule refills.",
+    "introduction": "MobiMeds is designed to improve medication adherence by providing timely reminders and simplifying refill scheduling, ensuring users never miss a dose.",
+    "status": "draft",
+    "tags": [
+        "medication management",
+        "healthcare tech",
+        "app development",
+        "reminders",
+        "refill scheduling",
+        "user engagement"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The primary motivation for MobiMeds was to address the common issue of medication non-adherence. Many individuals, especially the elderly and those with chronic conditions, struggle to keep track of their prescriptions. By creating an app that sends reminders and manages refills, we aim to improve health outcomes and reduce hospital readmissions."
+        },
+        {
+            "title": "Initial Development",
+            "body": "We started by developing a basic prototype using React Native for cross-platform compatibility. The backend was built with Python and Django, ensuring scalability and robustness. Integrating a reliable notification system was crucial, so we used Firebase Cloud Messaging for real-time alerts."
+        },
+        {
+            "title": "User Testing",
+            "body": "During user testing, we discovered that users needed a more intuitive interface for managing multiple medications. We redesigned the dashboard to display medications clearly and added features like barcode scanning for easy identification. This phase also involved integrating with a database of pharmacies for seamless refill scheduling."
+        },
+        {
+            "title": "Security Enhancements",
+            "body": "Ensuring user data privacy was a top priority. We implemented end-to-end encryption and compliance with HIPAA standards. Additionally, we added a feature for users to share their medication list with trusted contacts or healthcare providers, enhancing safety and care coordination."
+        },
+        {
+            "title": "Launch and Feedback",
+            "body": "After launching, we received positive feedback on the app's ease of use and effectiveness. However, some users requested more personalized features, such as custom reminder tones and medication tracking statistics. We are currently working on these enhancements to further improve user engagement."
+        }
+    ]
+}

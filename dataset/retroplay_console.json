@@ -1,0 +1,36 @@
+{
+    "title": "RetroPlay Console",
+    "description": "A project to set up a retro gaming console using Raspberry Pi to emulate classic video games.",
+    "introduction": "The RetroPlay Console is a nostalgic journey into the world of classic video games, brought to life using modern technology. By utilizing a Raspberry Pi, this project revives beloved retro games, offering a seamless and enjoyable gaming experience.",
+    "status": "draft",
+    "tags": [
+        "Raspberry Pi",
+        "retro gaming",
+        "emulation",
+        "DIY console",
+        "classic games",
+        "gaming project"
+    ],
+    "sections": [
+        {
+            "title": "Motivation and Initial Setup",
+            "body": "Driven by a passion for retro gaming, I sought to create a console that revives classic games. I gathered essential components: a Raspberry Pi, an SD card, HDMI cable, power supply, and controllers. The initial setup involved installing the operating system and configuring the environment for emulation."
+        },
+        {
+            "title": "Emulation Software Installation",
+            "body": "I chose RetroPie as the OS for its comprehensive support of various emulators. After installing RetroPie, I configured EmulationStation to manage and launch games, ensuring compatibility with a wide range of retro consoles."
+        },
+        {
+            "title": "Game Addition and Testing",
+            "body": "I added ROMs of classic games, organizing them by console for easy access. Testing each game ensured functionality, and I encountered a few issues with specific ROMs that required troubleshooting to resolve."
+        },
+        {
+            "title": "Customization and Optimization",
+            "body": "To enhance the user experience, I customized themes and optimized controller settings. Scraping additional game info and artwork improved the visual appeal and usability of the console."
+        },
+        {
+            "title": "Challenges and Final Touches",
+            "body": "Challenges included ROM compatibility and performance optimization. Final touches involved setting up a startup sequence and ensuring a seamless user interface for a polished experience."
+        }
+    ]
+}

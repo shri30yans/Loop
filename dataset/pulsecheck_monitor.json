@@ -1,0 +1,36 @@
+{
+    "title": "PulseCheck Monitor",
+    "description": "A wearable device for real-time heart rate monitoring using Arduino.",
+    "introduction": "PulseCheck Monitor is an innovative wearable device designed to provide continuous, real-time heart rate monitoring. This project aims to create an affordable and user-friendly solution for individuals who need to track their heart health without the bulk of traditional devices. By leveraging Arduino's versatility, the PulseCheck Monitor offers a compact and efficient way to monitor vital signs, promoting better health outcomes and peace of mind.",
+    "status": "draft",
+    "tags": [
+        "wearable-technology",
+        "arduino",
+        "health-monitoring",
+        "real-time",
+        "heart-rate",
+        "IoT"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The motivation behind the PulseCheck Monitor stems from the need for accessible and continuous heart rate monitoring. Traditional devices are often bulky, expensive, or limited in functionality. By using Arduino, we aimed to create a cost-effective, lightweight, and easy-to-use wearable device that could empower users to take control of their heart health. The project also addresses the growing demand for personalized health monitoring solutions."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "The initial prototype was developed using an Arduino Uno microcontroller paired with a pulse sensor. The sensor detects changes in blood flow under the skin to calculate heart rate. We integrated a small OLED display to provide real-time feedback and added a rechargeable battery for portability. Challenges included noise interference from the environment, which was mitigated by implementing a noise-filtering algorithm. The prototype successfully demonstrated the feasibility of real-time heart rate monitoring."
+        },
+        {
+            "title": "Adding Real-Time Features",
+            "body": "To enhance functionality, we incorporated Bluetooth connectivity to enable real-time data transmission to a smartphone app. This allowed users to track their heart rate over time and set alerts for abnormal readings. We also optimized the power management system to extend battery life, ensuring the device could operate continuously for up to 48 hours on a single charge. The app was developed using a user-friendly interface to ensure ease of use."
+        },
+        {
+            "title": "Refining the Design",
+            "body": "The final design focused on comfort and durability. We transitioned from a breadboard prototype to a custom PCB for better reliability and miniaturization. The wearable strap was redesigned for a secure and comfortable fit, while the enclosure was 3D-printed for a sleek and lightweight finish. Additional features, such as touch controls and a low-battery indicator, were implemented based on user feedback."
+        },
+        {
+            "title": "Future Enhancements",
+            "body": "Future updates include integrating advanced health metrics, such as blood oxygen level monitoring, and expanding the app's analytical capabilities to provide insights on heart rate variability. We also plan to explore machine learning algorithms to detect irregular heart patterns and alert users to potential health issues. The device will be made more compact and energy-efficient by upgrading to an Arduino Nano or Arduino Micro controller."
+        }
+    ]
+}

@@ -1,11 +1,13 @@
 "use client";
 
+
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 import { Card, CardFooter, CardBody } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import { Chip } from "@nextui-org/chip";
 import { Skeleton } from "@nextui-org/skeleton";
+import { getRandomBackground } from "@/utils/randomimage";
 
 interface ProjectCardProps {
   isLoaded: boolean;
@@ -27,7 +29,7 @@ export default function ProjectCard({
             <Image
               alt="Card background"
               className="object-cover rounded-xl pb-2"
-              src="https://www.liquidplanner.com/wp-content/uploads/2019/04/HiRes-17.jpg"
+              src={getRandomBackground()}
             />
           </div>
           <div className="text-2xl font-semibold">{title}</div>

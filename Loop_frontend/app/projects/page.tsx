@@ -23,7 +23,7 @@ export default function FeedPage() {
         if (fetchedData) {
           console.log(fetchedData);
           setProjects(fetchedData.projects || []);
-          setTotalProjects(fetchedData.total || 0);
+          setTotalProjects(fetchedData.count || 0);
         }
       });
     }
@@ -81,8 +81,8 @@ export default function FeedPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
         {projects.length > 0 ? (
           projects.map((project) => (
-            <div key={project.project_id}>
-              <a href={`/projectpage?id=${project.project_id}`}>
+            <div key={project.id}>
+              <a href={`/projectpage?id=${project.id}`}>
                 <ProjectCard
                   isLoaded={isLoaded}
                   title={project.title}

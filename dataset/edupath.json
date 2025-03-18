@@ -1,0 +1,35 @@
+{
+    "title": "EduPath",
+    "description": "EduPath is an AI-driven platform that maps educational pathways for various careers, helping users plan their professional futures.",
+    "introduction": "EduPath is a career guidance platform designed to bridge the gap between education and professional planning. By mapping out educational pathways for various professions, it empowers users to make informed decisions about their career journeys.",
+    "status": "draft",
+    "tags": [
+        "education",
+        "career guidance",
+        "AI",
+        "machine learning",
+        "professional development"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for EduPath was born out of a common struggle: navigating the complex landscape of education and career planning. Many individuals face uncertainty about the right path to take, leading to missed opportunities. Our motivation was to create a tool that simplifies this process, providing clarity and direction for aspiring professionals. We began by researching career pathways and identifying key educational milestones."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "We developed an early prototype of EduPath, focusing on mapping educational requirements for a few select professions. Using Python and machine learning algorithms, we created a basic recommendation system that could suggest courses and degrees based on career goals. The prototype was tested with a small group of users, who provided valuable feedback on usability and functionality."
+        },
+        {
+            "title": "AI Integration",
+            "body": "To enhance the platform's capabilities, we integrated advanced AI models to analyze career data and provide personalized recommendations. This involved training models on large datasets of job descriptions, educational programs, and industry trends. The AI component allows users to explore alternative career paths and receive tailored advice, making the platform more dynamic and user-centric."
+        },
+        {
+            "title": "Current Features",
+            "body": "EduPath now offers a comprehensive suite of tools, including career assessments, educational pathway mapping, and AI-driven recommendations. Users can explore salary projections, required skills, and growth opportunities for various professions. The platform also includes a community feature where users can connect with mentors and peers for guidance and support."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Moving forward, we plan to expand EduPath's capabilities by incorporating real-time labor market data and partnering with educational institutions. We are also developing a mobile app to make the platform more accessible. Additionally, we aim to introduce gamification elements to make the learning and planning process more engaging for users."
+        }
+    ]
+}

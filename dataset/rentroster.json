@@ -1,0 +1,35 @@
+{
+    "title": "RentRoster",
+    "description": "RentRoster is an online rental marketplace designed to connect property owners with tenants seamlessly.",
+    "introduction": "RentRoster was born out of the need to simplify the rental process for both property owners and tenants. By creating a transparent and user-friendly platform, we aim to reduce the friction in finding the perfect match for rental properties.",
+    "status": "draft",
+    "tags": [
+        "rental marketplace",
+        "online platform",
+        "real estate tech",
+        "property management",
+        "web development"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The traditional rental market is often plagued by inefficiencies, lack of transparency, and limited accessibility. RentRoster's motivation is to bridge this gap by providing a platform where property owners can easily list their properties and tenants can find their ideal home without the hassle. We utilized Flask for the backend to ensure a lightweight and flexible architecture."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "We developed a prototype of RentRoster that allowed users to create profiles, list properties, and search for rentals. Initial user testing revealed the need for better search functionality and more detailed property listings. We implemented Elasticsearch to improve search capabilities and integrated Stripe for secure payment processing."
+        },
+        {
+            "title": "Scaling the Platform",
+            "body": "As user adoption grew, we faced challenges with scalability. To address this, we migrated our backend to a microservices architecture using Docker and Kubernetes. This allowed us to handle increased traffic and improve response times. We also introduced a recommendation system using collaborative filtering to suggest properties based on user preferences."
+        },
+        {
+            "title": "Current Features",
+            "body": "RentRoster now offers a robust set of features including advanced search filters, virtual property tours, and a secure messaging system for communication between owners and tenants. We integrated Google Maps API to provide location-based searches and added two-factor authentication to enhance security. The frontend was built using React for a responsive and engaging user experience."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Our roadmap includes introducing AI-powered property recommendations, expanding into international markets, and adding features for property management companies. We also plan to integrate blockchain technology for secure and transparent rental agreements. Continuous user feedback will guide our development to ensure RentRoster remains the go-to platform for rental needs."
+        }
+    ]
+}

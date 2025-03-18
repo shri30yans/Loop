@@ -1,0 +1,36 @@
+{
+    "title": "BudgetWise",
+    "description": "BudgetWise is a personal finance management tool designed to track expenses and provide tailored budgeting advice for users.",
+    "introduction": "In an era where financial literacy is crucial, BudgetWise aims to empower individuals to take control of their finances. By offering a user-friendly platform to track expenses and receive personalized budgeting recommendations, BudgetWise helps users make informed financial decisions and achieve their monetary goals.",
+    "status": "draft",
+    "tags": [
+        "personal finance",
+        "budgeting",
+        "AI",
+        "machine learning",
+        "financial management",
+        "expense tracking"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for BudgetWise stemmed from the realization that many people struggle with managing their finances due to lack of visibility and guidance. Traditional budgeting tools often lack personalization, making it difficult for users to stick to their financial plans. We sought to create a tool that not only tracks expenses but also provides actionable, tailored advice to help users improve their financial health. We chose to build BudgetWise using Flask for the backend and React for the frontend to ensure scalability and a seamless user experience."
+        },
+        {
+            "title": "Initial Development",
+            "body": "The initial phase of BudgetWise focused on building the core functionality: expense tracking and basic budgeting features. We developed a user-friendly interface that allows users to input transactions and categorize expenses. To handle financial data securely, we implemented encryption and secure authentication protocols. The backend was designed using PostgreSQL to store user data and transactions, ensuring reliability and data integrity."
+        },
+        {
+            "title": "Introducing AI-Powered Budgeting",
+            "body": "To differentiate BudgetWise from existing tools, we integrated an AI-powered budgeting advisor. This feature analyzes a user's spending habits and provides personalized recommendations for reducing expenses and saving money. We trained a machine learning model using historical financial data to ensure the advice is relevant and effective. The AI component was built using TensorFlow and integrated seamlessly with the backend."
+        },
+        {
+            "title": "User Feedback and Iteration",
+            "body": "After launching a beta version, we gathered feedback from early users to identify areas for improvement. Many users requested more detailed expense categorization and customizable budgeting templates. We also noticed that the AI recommendations could be more granular. We addressed these issues by adding advanced categorization options and refining the AI model to provide more specific and actionable advice. Additionally, we implemented a feature that allows users to set financial goals and track their progress."
+        },
+        {
+            "title": "Current Features and Future Plans",
+            "body": "BudgetWise currently offers expense tracking, AI-powered budgeting advice, customizable templates, and goal-setting features. Looking ahead, we plan to expand the platform by adding investment tracking, bill payment reminders, and financial education resources. We are also exploring partnerships with financial institutions to offer users exclusive deals and rewards. The next major update will focus on enhancing the AI model with real-time market data to provide even more accurate financial recommendations."
+        }
+    ]
+}

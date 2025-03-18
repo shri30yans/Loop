@@ -1,0 +1,36 @@
+{
+    "title": "EventBuzz",
+    "description": "EventBuzz is a platform that aggregates event information and allows users to create custom calendars.",
+    "introduction": "In a world where events are scattered across multiple platforms, EventBuzz aims to simplify event discovery and organization. By aggregating event information and enabling users to create personalized calendars, the platform helps individuals and communities stay connected to the events that matter most.",
+    "status": "draft",
+    "tags": [
+        "events",
+        "web-development",
+        "calendar",
+        "customization",
+        "machine-learning",
+        "social-platform"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for EventBuzz was born out of frustration with the fragmented nature of event discovery. With events spread across social media, websites, and local boards, it's easy to miss important dates. Our motivation was to create a centralized platform that makes it easy for users to find, track, and manage events they care about. We started by researching existing solutions and identifying gaps in functionality and user experience."
+        },
+        {
+            "title": "MVP Development",
+            "body": "We developed a minimum viable product (MVP) that allowed users to search for events and create basic calendars. The MVP used Python and Django for the backend, with React for the frontend. We faced challenges in aggregating event data from multiple sources, but we overcame this by implementing web scraping and API integrations. Early user feedback highlighted the need for improved filtering and customization options."
+        },
+        {
+            "title": "Prototype Refinement",
+            "body": "Based on user feedback, we refined the prototype to include advanced filtering options, recurring event support, and calendar export functionality. We also introduced social features, such as sharing calendars with friends and following event organizers. This phase saw the integration of natural language processing (NLP) to improve event recommendations, making the platform more intuitive and user-friendly."
+        },
+        {
+            "title": "Current Features",
+            "body": "EventBuzz now offers a robust set of features, including smart event recommendations, multi-platform calendar integration, and collaborative calendar editing. The platform uses machine learning to analyze user preferences and provide personalized event suggestions. We also implemented real-time notifications for event updates and reminders. The backend now includes Elasticsearch for faster search queries, and the frontend features a responsive design optimized for both desktop and mobile."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Our roadmap includes expanding the platform to support more event categories, such as virtual events and recurring meetups. We plan to introduce gamification elements, such as badges and rewards, to encourage user engagement. Additionally, we aim to enhance the social features by allowing users to create and join event groups. Future updates will also focus on improving accessibility and integrating with popular productivity tools like Google Calendar and Microsoft Outlook."
+        }
+    ]
+}

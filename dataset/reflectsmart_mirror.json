@@ -1,0 +1,28 @@
+{
+    "title": "ReflectSmart Mirror",
+    "description": "A smart mirror project that displays information and responds to voice commands using Arduino and Raspberry Pi.",
+    "introduction": "The ReflectSmart Mirror is an innovative IoT project designed to transform a regular mirror into a smart, interactive display. This project aims to enhance daily routines by providing users with real-time information and voice-activated controls, creating a seamless and futuristic experience.",
+    "status": "draft",
+    "tags": [
+        "smart-mirror",
+        "IoT",
+        "Arduino",
+        "Raspberry-Pi",
+        "voice-command",
+        "innovation"
+    ],
+    "sections": [
+        {
+            "title": "Initial Concept and Setup",
+            "body": "The motivation behind ReflectSmart Mirror stemmed from the desire to integrate smart technology into everyday objects. We began by gathering materials, including a two-way mirror, an Arduino board, and a Raspberry Pi. The initial setup involved assembling the mirror frame and installing the necessary hardware. Challenges included ensuring the mirror's transparency for the display and properly wiring the components for voice command functionality."
+        },
+        {
+            "title": "Smart Features Integration",
+            "body": "We integrated Google Assistant for voice commands and connected it to the Raspberry Pi. The mirror was programmed to display weather updates, news, and calendar events using Python scripts. LED lighting was added around the frame for ambient light control. Challenges included fine-tuning the voice recognition accuracy and ensuring the display was visible through the two-way mirror."
+        },
+        {
+            "title": "Final Assembly and Testing",
+            "body": "The final assembly involved combining all components into a sleek, user-friendly design. Testing included verifying voice command responsiveness, display clarity, and overall system stability. Minor adjustments were made to the lighting and software to ensure smooth operation. The project was successfully tested and is now a fully functional smart mirror."
+        }
+    ]
+}
