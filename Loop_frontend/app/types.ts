@@ -22,9 +22,10 @@ export interface PostType {
 };
 
 export interface ProjectType {
-    id?: string;
+    id?: string;  // Changed from project_id to match backend JSON tag
     title: string;
     description: string;
+    status: string;
     introduction: string;
     sections: ProjectSectionType[];
     owner_id: string;
@@ -34,6 +35,7 @@ export interface ProjectType {
 };
 
 export type ProjectSectionType = {
-    title : string;
-    body: string;
+    index : number;
+    title: string;
+    content: string;
 };
