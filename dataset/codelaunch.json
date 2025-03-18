@@ -1,0 +1,35 @@
+{
+    "title": "CodeLaunch",
+    "description": "CodeLaunch is a coding boot camp platform offering interactive courses and live mentoring.",
+    "introduction": "CodeLaunch is an innovative platform designed to revolutionize coding education by providing interactive courses and live mentoring. Our goal is to bridge the gap between traditional learning and real-world application, helping aspiring developers gain practical skills and confidence.",
+    "status": "draft",
+    "tags": [
+        "coding",
+        "education",
+        "web-development",
+        "mentoring",
+        "interactive-learning"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for CodeLaunch was born out of frustration with the limitations of traditional coding education. Many aspiring developers struggle with self-paced learning and lack access to personalized guidance. We wanted to create a platform that combines interactive learning with live mentoring to make coding education more effective and engaging."
+        },
+        {
+            "title": "Development Process",
+            "body": "We started by designing a user-friendly interface using React for the frontend and Node.js for the backend. The platform was built with scalability in mind, ensuring it could handle a large number of users. We also integrated WebSockets to enable real-time communication between mentors and students during live sessions."
+        },
+        {
+            "title": "Alpha Release",
+            "body": "During the alpha phase, we focused on testing core features such as live mentoring and interactive coding challenges. Feedback from early users highlighted the need for better course organization and more diverse learning materials. We addressed these issues by implementing a more intuitive course structure and expanding our library of resources."
+        },
+        {
+            "title": "Current Features",
+            "body": "CodeLaunch now offers a wide range of interactive courses, live one-on-one mentoring, and a community forum for peer support. We've also introduced a unique 'project-based' learning approach, where students work on real-world projects to gain hands-on experience. The platform uses machine learning to tailor learning paths to individual student needs."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Looking ahead, we plan to expand our course offerings to include more advanced topics like AI and cybersecurity. We're also working on integrating virtual reality (VR) to create immersive coding environments. Additionally, we aim to partner with tech companies to provide job placement services for our graduates."
+        }
+    ]
+}

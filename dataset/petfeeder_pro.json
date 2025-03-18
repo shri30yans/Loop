@@ -1,0 +1,36 @@
+{
+    "title": "PetFeeder Pro",
+    "description": "An automated pet feeder controlled by Arduino with scheduled feeding times.",
+    "introduction": "PetFeeder Pro is an innovative solution for pet owners to ensure their pets are fed consistently, even when they're away. Built using Arduino, this project automates feeding times, providing peace of mind and convenience for pet care.",
+    "status": "draft",
+    "tags": [
+        "Arduino",
+        "automation",
+        "pet-care",
+        "robotics",
+        "DIY",
+        "IoT"
+    ],
+    "sections": [
+        {
+            "title": "Motivation and Planning",
+            "body": "As a pet owner, I often worried about feeding my pet while away. This led to the idea of an automated feeder. I decided to use Arduino for its simplicity and versatility. The initial planning involved defining requirements like scheduled feeding and portion control."
+        },
+        {
+            "title": "Prototyping",
+            "body": "I started by prototyping with a basic setup: an Arduino Uno, a servo motor, and a breadboard. The servo controls the feeding mechanism, while the real-time clock module handles scheduling. Initial tests showed promise but needed refinement for reliability."
+        },
+        {
+            "title": "Scheduling and Automation",
+            "body": "Developing the scheduling system was crucial. I used the RTC library to set feeding times and ensured the servo dispensed food accurately. Challenges included synchronizing the timing and ensuring consistent portion sizes, which were overcome with thorough calibration."
+        },
+        {
+            "title": "Final Assembly and Testing",
+            "body": "The final assembly involved housing all components in a sturdy enclosure. Testing under various conditions ensured durability and reliability. I also added a user-friendly interface for setting times and portions, enhancing overall usability."
+        },
+        {
+            "title": "Future Enhancements",
+            "body": "Future plans include integrating a Wi-Fi module for remote control via a smartphone app and adding sensors for low-food alerts. I also aim to explore using machine learning to adapt feeding schedules based on the pet's behavior and needs."
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "title": "CodeMentor",
+    "description": "CodeMentor is a platform connecting developers with experienced mentors for coding help and career guidance.",
+    "introduction": "CodeMentor was born out of the realization that many developers struggle with finding guidance and support in their coding journeys. By bridging the gap between experienced mentors and aspiring developers, CodeMentor aims to create a supportive ecosystem for learning, growth, and career development in the tech industry.",
+    "status": "draft",
+    "tags": [
+        "web-development",
+        "mentorship",
+        "coding",
+        "career-guidance",
+        "community-building",
+        "ed-tech"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for CodeMentor emerged from the common struggle developers face when seeking personalized guidance. Many resources exist, but few provide the one-on-one mentorship needed for skill improvement and career advancement. We wanted to create a platform that connects developers with mentors who can offer tailored advice, industry insights, and support. Using React for the frontend and Node.js for the backend, we laid the foundation for a scalable and user-friendly platform."
+        },
+        {
+            "title": "Initial Development",
+            "body": "The initial phase focused on building the core features: user profiles, mentorship requests, and a basic matching system. We integrated Stripe for payments and implemented a chat interface using Socket.io for real-time communication. Early challenges included ensuring a smooth user experience and creating an algorithm to pair mentees with the right mentors. We conducted user testing to refine the onboarding process and improve the overall usability of the platform."
+        },
+        {
+            "title": "Mentor-Mentee Matching",
+            "body": "Developing an effective mentor-mentee matching algorithm was a significant challenge. We considered factors such as programming languages, experience levels, and career goals. After several iterations, we implemented a hybrid approach combining natural language processing (NLP) for analyzing user inputs and collaborative filtering to recommend mentors. This system has proven to be highly effective in creating meaningful connections."
+        },
+        {
+            "title": "Community Features",
+            "body": "To foster a sense of community, we added features like group discussions, coding challenges, and a resource library. These additions have helped create a vibrant ecosystem where developers can learn from one another and share knowledge. We also introduced a feedback system to ensure quality mentorship and accountability. The community has grown significantly, with active participation from both mentees and mentors."
+        },
+        {
+            "title": "Scaling and Future Plans",
+            "body": "As CodeMentor grows, we are focusing on scaling the platform to accommodate more users while maintaining performance. Future plans include adding AI-powered mentorship recommendations, expanding the platform to support in-person meetups, and introducing a career services module to help developers land their dream jobs. We are also exploring partnerships with tech companies to create a seamless transition from learning to employment."
+        }
+    ]
+}

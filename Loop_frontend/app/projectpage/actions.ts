@@ -6,7 +6,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function getProjectInfo(access_token: string, id: string): Promise<ProjectType> {
   try {
-    const response = await fetch(`${API_BASE_URL}/project/get_project_info?project-id=${id}`, {
+    const response = await fetch(`${API_BASE_URL}/project/info?project-id=${id}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${access_token}`,

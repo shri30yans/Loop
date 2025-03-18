@@ -1,0 +1,35 @@
+{
+    "title": "AirSense Monitor",
+    "description": "Monitor indoor air quality and alert when pollutants exceed safe levels using Arduino.",
+    "introduction": "AirSense Monitor is an innovative project designed to provide real-time monitoring of indoor air quality. The device aims to alert users when pollutant levels exceed safe thresholds, promoting a healthier living environment. By leveraging Arduino and various sensors, this project offers a cost-effective solution for air quality monitoring.",
+    "status": "draft",
+    "tags": [
+        "Arduino",
+        "air quality",
+        "IoT",
+        "sensors",
+        "environmental monitoring"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The motivation behind AirSense Monitor stems from the growing concern about indoor air quality and its impact on health. Many people are unaware of the pollutants in their homes, which can lead to serious health issues. This project aims to provide an affordable and user-friendly solution to monitor and address indoor air quality concerns. We chose Arduino for its ease of use and versatility in prototyping."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "The initial phase involved developing a prototype using Arduino Uno, MQ-135 sensor for detecting air quality, and an LCD display for real-time feedback. We also integrated a buzzer to alert users when pollutant levels exceed safe thresholds. The circuit was designed to be compact and energy-efficient, ensuring it could run on a battery for extended periods."
+        },
+        {
+            "title": "Challenges and Solutions",
+            "body": "One major challenge was calibrating the MQ-135 sensor to accurately detect pollutant levels. We overcame this by implementing a calibration routine at startup. Another challenge was ensuring the device could run on battery power for extended periods, which was addressed by optimizing the power management circuit. We also faced issues with false alarms, which were resolved by implementing a hysteresis mechanism in the software."
+        },
+        {
+            "title": "Current Features",
+            "body": "The current version of AirSense Monitor includes real-time air quality monitoring, alerts for unsafe pollutant levels, and a user-friendly LCD display. The device also features a low-power mode to extend battery life and a robust calibration system for accurate readings. We have also added a data logging feature to track air quality over time, which can be accessed via a serial console."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Future plans for AirSense Monitor include integrating Wi-Fi connectivity for remote monitoring via a smartphone app. We also plan to add more sensors to detect a wider range of pollutants, such as CO2 and NO2. Additionally, we aim to miniaturize the device and make it more aesthetically pleasing for home use. We are also exploring the possibility of integrating machine learning algorithms to predict air quality trends based on historical data."
+        }
+    ]
+}

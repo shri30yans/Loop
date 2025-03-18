@@ -1,0 +1,36 @@
+{
+    "title": "EduTutor",
+    "description": "EduTutor is an online tutoring service designed to connect students with qualified tutors for personalized learning experiences.",
+    "introduction": "EduTutor aims to revolutionize education by bridging the gap between students and expert tutors. Our platform is built to provide personalized learning experiences, fostering academic success and confidence in students of all ages.",
+    "status": "draft",
+    "tags": [
+        "online-learning",
+        "tutoring",
+        "education",
+        "edtech",
+        "personalized-learning",
+        "education-technology"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for EduTutor was born out of the need for accessible, high-quality education. Many students struggle with traditional learning methods, and qualified tutors are often out of reach due to location or cost. We wanted to create a platform that democratizes access to education, connecting students with expert tutors globally. Using React for the frontend and Node.js for the backend, we laid the foundation for a scalable and user-friendly platform."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "We developed an initial prototype of EduTutor, focusing on core features like tutor-student matching, virtual classrooms, and scheduling. User testing revealed the need for better user experience, particularly in navigating the platform and initiating sessions. We refined the interface, adding features like real-time chat and video conferencing, ensuring a seamless learning environment."
+        },
+        {
+            "title": "Tutor Vetting Process",
+            "body": "Ensuring the quality of tutors was a critical challenge. We implemented a rigorous vetting process, including background checks, qualification verification, and demo sessions. This step was crucial to build trust and maintain high standards. We also developed a rating system to allow students to provide feedback, further enhancing the quality of our tutor network."
+        },
+        {
+            "title": "Current Features",
+            "body": "EduTutor now offers a range of features, including AI-driven tutor recommendations, interactive whiteboards, and progress tracking. Students can choose from a variety of subjects and learning styles, while tutors can manage their schedules and resources efficiently. We integrated Stripe for secure payments and Zoom for virtual sessions, ensuring a smooth user experience."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Moving forward, we plan to expand our offerings to include group tutoring sessions, gamified learning tools, and partnerships with educational institutions. We are also exploring AI-driven personalized learning plans to cater to individual student needs. Enhancing mobile accessibility and adding multilingual support are key priorities to make EduTutor a global education hub."
+        }
+    ]
+}

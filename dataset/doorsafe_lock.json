@@ -1,0 +1,42 @@
+{
+    "title": "DoorSafe Lock",
+    "description": "DoorSafe Lock is a smart door locking mechanism controlled via smartphone using Raspberry Pi, enhancing security and convenience.",
+    "introduction": "In an era of smart homes, DoorSafe Lock revolutionizes traditional locking systems by integrating Raspberry Pi technology. This project aims to provide a secure, convenient, and remote-controlled solution for door locking, making it easier to manage access and ensure safety.",
+    "status": "draft",
+    "tags": [
+        "Raspberry Pi",
+        "IoT",
+        "smart lock",
+        "home security",
+        "AI",
+        "facial recognition",
+        "smartphone app",
+        "remote control"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The motivation behind DoorSafe Lock stems from the need for enhanced home security and convenience. Traditional locks often lack remote access and real-time monitoring, leading to potential security vulnerabilities. By leveraging Raspberry Pi and smartphone integration, we aimed to create a system that offers both security and ease of use."
+        },
+        {
+            "title": "Initial Prototype",
+            "body": "The initial prototype involved setting up a Raspberry Pi to control a electronic lock mechanism. We used Python to develop a simple server that communicates with a smartphone app. The app was built using Flutter, enabling cross-platform compatibility. Initial challenges included ensuring reliable communication between the Pi and the lock, which was resolved by implementing a robust GPIO setup."
+        },
+        {
+            "title": "Smartphone App Development",
+            "body": "The smartphone app was designed to provide a user-friendly interface for locking and unlocking the door. Features included real-time notifications, access logs, and a remote control interface. We faced challenges in ensuring low-latency communication, which was addressed by optimizing the server response times and implementing WebSocket protocol."
+        },
+        {
+            "title": "AI-Powered Security Features",
+            "body": "To enhance security, we integrated AI-powered features such as facial recognition and anomaly detection. Using OpenCV and TensorFlow Lite, we developed a system that verifies users before granting access. This added an extra layer of security and convenience, making DoorSafe Lock more robust and user-friendly."
+        },
+        {
+            "title": "Current Features",
+            "body": "DoorSafe Lock currently offers remote locking/unlocking, real-time notifications, access logs, facial recognition, and anomaly detection. The system is fully integrated with Raspberry Pi and can be controlled via a smartphone app. We also implemented a backup power system to ensure functionality during power outages."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Future plans include integrating DoorSafe Lock with popular smart home systems like Alexa and Google Home. We also aim to add biometric authentication and advanced AI-driven security analytics. Additionally, we plan to commercialize the product, making it available for residential and commercial use."
+        }
+    ]
+}

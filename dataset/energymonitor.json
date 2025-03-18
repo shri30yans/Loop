@@ -1,0 +1,39 @@
+{
+    "title": "EnergyMonitor",
+    "description": "EnergyMonitor is a Raspberry Pi-based system for monitoring and logging household energy consumption, accessible via Wi-Fi.",
+    "introduction": "EnergyMonitor is a project designed to help households track and manage their energy consumption effectively. By leveraging the Raspberry Pi and Wi-Fi connectivity, this system provides real-time insights into energy usage, enabling users to make informed decisions to reduce their energy footprint.",
+    "status": "draft",
+    "tags": [
+        "Raspberry Pi",
+        "energy monitoring",
+        "IoT",
+        "Wi-Fi",
+        "Python",
+        "Flask",
+        "SQLite",
+        "real-time data",
+        "smart home"
+    ],
+    "sections": [
+        {
+            "title": "Motivation and Initial Setup",
+            "body": "The motivation behind EnergyMonitor stemmed from the desire to promote energy conservation and provide a user-friendly solution for monitoring household energy consumption. The project began with setting up a Raspberry Pi as the core processing unit, equipped with Wi-Fi capabilities for remote access. We integrated a current sensor to measure energy usage and connected it to the Raspberry Pi's GPIO pins. Initial challenges included calibrating the sensor for accurate readings and ensuring stable Wi-Fi connectivity."
+        },
+        {
+            "title": "Data Collection and Storage",
+            "body": "The next phase focused on collecting and storing energy consumption data. We developed a Python script to read data from the current sensor at regular intervals. The data was then stored in a local SQLite database for easy retrieval and analysis. Challenges included handling noise in the sensor readings and optimizing the database schema for efficient storage and querying. We also implemented a backup system to prevent data loss in case of power outages."
+        },
+        {
+            "title": "Real-Time Monitoring Dashboard",
+            "body": "To make the data accessible, we built a web-based dashboard using Flask, a lightweight Python web framework. The dashboard displays real-time energy consumption data, historical trends, and customizable graphs. We faced challenges in ensuring smooth real-time updates and making the interface responsive for various devices. To address this, we used WebSockets for real-time communication between the server and client, and implemented responsive design using HTML5 and CSS3."
+        },
+        {
+            "title": "Automation and Alerts",
+            "body": "We introduced automation features to send alerts when energy consumption exceeds a predefined threshold. This was achieved using Python scripts that monitor the database and send notifications via email or SMS. Additionally, we integrated smart plug compatibility, allowing users to remotely control high-power devices. Challenges included ensuring reliable communication between the Raspberry Pi and smart plugs, and handling potential network latency issues."
+        },
+        {
+            "title": "Future Enhancements",
+            "body": "Future plans include integrating machine learning algorithms to predict energy usage patterns and provide personalized recommendations for reducing consumption. We also aim to expand compatibility with other smart home systems and explore the use of renewable energy sources. Additionally, we plan to enhance security features to protect user data and ensure compliance with privacy regulations."
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "title": "VoteWise",
+    "description": "VoteWise is a civic engagement platform designed to educate and inform voters ahead of elections.",
+    "introduction": "VoteWise aims to empower voters by providing comprehensive information and tools to make informed decisions. The platform addresses the critical need for reliable voter education in an increasingly complex political landscape.",
+    "status": "draft",
+    "tags": [
+        "civic engagement",
+        "voter education",
+        "elections",
+        "technology",
+        "informed decisions"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The motivation behind VoteWise stems from the prevalent issue of voter misinformation and the lack of accessible, unbiased information. Our goal is to create a platform that equips voters with the knowledge they need to participate confidently in elections."
+        },
+        {
+            "title": "Initial Prototype",
+            "body": "We developed an early prototype of VoteWise focusing on user-friendly design and essential features. Using React for the frontend and Node.js for the backend, we ensured a responsive interface and efficient data handling. Initial user feedback highlighted the need for more interactive tools."
+        },
+        {
+            "title": "Challenges and Solutions",
+            "body": "One major challenge was ensuring data accuracy. We implemented a robust verification process and partnered with trusted sources to maintain reliable information. Another challenge was user engagement, which we addressed by introducing personalized voter guides and interactive quizzes."
+        },
+        {
+            "title": "Current Features",
+            "body": "VoteWise currently offers personalized voter guides, candidate comparison tools, and interactive maps. These features help users understand their ballot and make informed decisions. We also provide updates on voting requirements and deadlines to ensure users are prepared."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Looking ahead, we plan to expand VoteWise to cover local and international elections. We aim to integrate more community features, such as discussion forums and volunteer opportunities. Additionally, we are exploring AI-driven recommendations to further enhance the user experience."
+        }
+    ]
+}

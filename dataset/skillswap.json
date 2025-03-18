@@ -1,0 +1,37 @@
+{
+    "title": "SkillSwap",
+    "description": "SkillSwap is a peer-to-peer learning platform where users exchange skills and tutorials.",
+    "introduction": "SkillSwap aims to bridge the gap between learners and educators by creating a community-driven platform where knowledge is shared freely. The platform connects individuals with diverse skills, enabling them to learn from one another and grow together.",
+    "status": "draft",
+    "tags": [
+        "education",
+        "p2p",
+        "learning",
+        "community",
+        "web-development",
+        "collaboration",
+        "skills"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for SkillSwap was born out of a desire to democratize access to knowledge. Traditional education systems often create barriers, and many people struggle to find affordable or accessible learning opportunities. SkillSwap addresses this by enabling users to exchange skills directly, fostering a community where everyone can teach and learn."
+        },
+        {
+            "title": "Prototype",
+            "body": "We developed a minimum viable product (MVP) that allowed users to create profiles, list their skills, and connect with others. Initial user testing revealed a strong demand for a feature-rich platform with robust search and matching capabilities. We incorporated user feedback to refine the platform's user interface and core functionality."
+        },
+        {
+            "title": "Initial Launch",
+            "body": "The initial launch of SkillSwap featured a basic but functional platform where users could create profiles, search for skills, and connect with others. We used React for the frontend and Node.js for the backend to ensure scalability and performance. The platform quickly gained traction, with users appreciating its simplicity and focus on community-driven learning."
+        },
+        {
+            "title": "Community Growth",
+            "body": "As the user base grew, we introduced features like skill categories, user reviews, and a reputation system to improve the quality of interactions. We also added a forum for users to discuss their learning journeys and share resources. The community became a key driver of the platform's success, with users actively contributing to its growth."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Moving forward, we plan to integrate AI-driven recommendations to better match users based on their learning goals and preferences. We also aim to add features like virtual classrooms, live sessions, and gamification elements to enhance engagement. Our ultimate goal is to create a global network of learners who can access high-quality education without barriers."
+        }
+    ]
+}

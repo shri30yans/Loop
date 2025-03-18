@@ -1,0 +1,37 @@
+{
+    "title": "SecureView Camera",
+    "description": "A motion-detecting security camera built using Arduino with image capture capabilities.",
+    "introduction": "SecureView Camera is an innovative project that integrates motion detection with image capture, providing a cost-effective security solution. Built using Arduino, this project aims to create a user-friendly system that captures images upon detecting motion, offering peace of mind for home and small office security.",
+    "status": "draft",
+    "tags": [
+        "Arduino",
+        "security",
+        "motion-detection",
+        "camera",
+        "ESP32",
+        "DIY",
+        "electronics"
+    ],
+    "sections": [
+        {
+            "title": "Initial Setup and Component Selection",
+            "body": "The project began with selecting the necessary components. An Arduino Uno was chosen as the microcontroller for its simplicity and widespread support. A PIR sensor was selected for motion detection due to its reliability and ease of integration. For image capture, an ESP32-CAM module was chosen, offering both camera and Wi-Fi capabilities for potential future enhancements."
+        },
+        {
+            "title": "Circuit Assembly and Initial Testing",
+            "body": "The PIR sensor was connected to the Arduino Uno, with VCC to 5V, GND to GND, and OUT to digital pin 2. The ESP32-CAM module was integrated, ensuring proper power supply and communication with the Arduino. Initial testing focused on verifying motion detection and basic camera functionality, using simple sketches to confirm that each component was working as expected."
+        },
+        {
+            "title": "Image Capture and Storage",
+            "body": "With the basic components functioning, the next step was to implement image capture upon motion detection. The ESP32-CAM library was utilized to capture images, which were then stored on an SD card module. This involved setting up the SD card with the Arduino and writing image data to files, ensuring that each capture was saved with a unique filename for easy retrieval."
+        },
+        {
+            "title": "Enhancements and Testing",
+            "body": "To improve the system's reliability, adjustments were made to the PIR sensor's sensitivity to reduce false positives. Additionally, the camera's field of view and image quality were optimized. Extensive testing was conducted to ensure that the system could detect motion accurately and capture clear images, even in varying lighting conditions."
+        },
+        {
+            "title": "Power Management and Enclosure",
+            "body": "Considering the project's portability, a battery power supply was implemented to make the system standalone. An appropriate enclosure was designed to protect the electronics and allow for easy mounting. The final assembly was tested for durability and performance, ensuring that it could operate reliably in typical indoor environments."
+        }
+    ]
+}

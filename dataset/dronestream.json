@@ -1,0 +1,32 @@
+{
+    "title": "DroneStream",
+    "description": "DroneStream is a project to build a Wi-Fi controlled drone with live video streaming capabilities using a Raspberry Pi.",
+    "introduction": "DroneStream is an innovative project that combines the excitement of drone technology with the power of live video streaming. The goal is to create a drone that can be controlled over Wi-Fi and stream live video using a Raspberry Pi, providing a unique and interactive experience for users.",
+    "status": "draft",
+    "tags": [
+        "drone",
+        "Raspberry Pi",
+        "Wi-Fi",
+        "live streaming",
+        "robotics",
+        "innovation"
+    ],
+    "sections": [
+        {
+            "title": "Hardware Setup",
+            "body": "The initial phase involved setting up the hardware components. This included assembling the drone frame, attaching the motors, and integrating the Raspberry Pi. The Raspberry Pi was connected to a Wi-Fi module to enable remote control. A camera module was also attached for live streaming. Challenges included ensuring proper power distribution and securing the components firmly."
+        },
+        {
+            "title": "Software Development",
+            "body": "The next phase focused on developing the software. A custom application was created to handle Wi-Fi communication between the controller and the drone. The application included features for controlling the drone's movements and capturing video feed. Challenges involved synchronizing the video stream with the control signals and ensuring low latency for real-time control."
+        },
+        {
+            "title": "Testing and Debugging",
+            "body": "Extensive testing was conducted to ensure the drone's stability and responsiveness. Initial flights revealed issues with signal strength and video lag. Debugging involved optimizing the Wi-Fi module's range and enhancing the video streaming algorithm. Additional testing in various environments helped identify and resolve potential bugs."
+        },
+        {
+            "title": "Final Optimization",
+            "body": "The final phase focused on refining the user experience. The control interface was streamlined for better usability, and the video streaming quality was improved. Battery life was also optimized to extend flight duration. Final tests confirmed the drone's reliability and performance, making it ready for deployment."
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "title": "Artisanal Market",
+    "description": "A platform connecting local artisans with customers to showcase and sell handmade goods and crafts.",
+    "introduction": "The Artisanal Market is a space dedicated to preserving traditional craftsmanship and empowering local artisans. By providing a platform for creators to showcase their work, we aim to bridge the gap between makers and consumers, fostering a community that values sustainability and unique, handmade products.",
+    "status": "draft",
+    "tags": [
+        "e-commerce",
+        "artisans",
+        "handmade",
+        "local",
+        "crafts",
+        "sustainability",
+        "community"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The decline of traditional craftsmanship in favor of mass-produced goods inspired us to create a platform where artisans can thrive. Our motivation is to provide a space where local makers can connect directly with customers, ensuring their skills and traditions are preserved. We began by conducting interviews with local artisans to understand their challenges and needs, which informed our platform's design."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "We developed an initial prototype of the Artisanal Market using WordPress and WooCommerce for the backend, focusing on simplicity and ease of use. The prototype allowed artisans to create profiles, upload their products, and manage orders. We conducted user testing with a small group of artisans and customers to gather feedback, which helped us refine the user interface and improve navigation."
+        },
+        {
+            "title": "Platform Refinement",
+            "body": "Based on feedback, we refined the platform by adding features such as product categories, search functionality, and social media integration. We also implemented a review system to build trust within the community. To enhance the user experience, we optimized the platform's performance and ensured it was mobile-friendly. We used tools like Adobe XD for design prototyping and PHP for backend enhancements."
+        },
+        {
+            "title": "Current Features",
+            "body": "The Artisanal Market now offers a robust suite of features, including vendor profiles, product listings with high-quality images, and secure payment processing through PayPal and Stripe. We also introduced a blog section where artisans can share their stories and crafting processes. The platform is optimized for SEO to increase visibility for artisans and attract a broader audience."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Our roadmap includes expanding the platform to support more artisans, introducing a subscription model for premium features, and integrating AI-driven product recommendations. We also plan to add a marketplace app for iOS and Android, enabling artisans to manage their listings on the go. Additionally, we aim to partner with local governments and NGOs to support artisanal communities globally."
+        }
+    ]
+}

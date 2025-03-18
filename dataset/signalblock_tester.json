@@ -1,0 +1,36 @@
+{
+    "title": "SignalBlock Tester",
+    "description": "A Raspberry Pi-based device designed to test Wi-Fi network resilience through controlled interference.",
+    "introduction": "In an era of increasing reliance on wireless connectivity, ensuring the resilience of Wi-Fi networks is crucial. The SignalBlock Tester is a innovative solution that employs a Raspberry Pi to generate controlled interference, allowing users to test and enhance their network's robustness under various conditions.",
+    "status": "draft",
+    "tags": [
+        "Wi-Fi",
+        "Raspberry Pi",
+        "network resilience",
+        "interference testing",
+        "cybersecurity",
+        "wireless communication"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The motivation behind developing the SignalBlock Tester stems from the need to assess and improve Wi-Fi network resilience. As wireless networks become integral to daily operations, understanding their performance under interference is vital for reliability and security. This device aims to provide a controlled environment to test these parameters effectively."
+        },
+        {
+            "title": "Design and Hardware Setup",
+            "body": "The SignalBlock Tester utilizes a Raspberry Pi to generate controlled Wi-Fi interference. An external Wi-Fi adapter is employed to create interference without disrupting the primary network connection. This setup ensures that the device can operate independently, allowing for accurate and reliable network performance measurements."
+        },
+        {
+            "title": "Software Development",
+            "body": "The software component involves custom scripts and libraries to control interference levels and types. Network monitoring tools are integrated to measure key performance metrics such as speed, latency, and packet loss. These tools help in assessing the network's resilience under various interference conditions."
+        },
+        {
+            "title": "Challenges and Solutions",
+            "body": "One of the significant challenges was ensuring the device's operation complies with legal standards to avoid unauthorized frequency use. Solutions included using legally permitted frequencies and ensuring the device's operation is contained within a controlled environment. Additionally, achieving accurate measurements required refining the monitoring tools and interference generation algorithms."
+        },
+        {
+            "title": "Testing and Applications",
+            "body": "The SignalBlock Tester was tested under various conditions to validate its effectiveness. It demonstrated the ability to simulate real-world interference scenarios, providing valuable insights for network administrators and cybersecurity professionals. Its applications extend to enhancing network infrastructure, assessing vulnerabilities, and aiding in wireless communication research."
+        }
+    ]
+}

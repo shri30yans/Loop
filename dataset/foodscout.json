@@ -1,0 +1,38 @@
+{
+    "title": "FoodScout",
+    "description": "FoodScout is a mobile app for locating food trucks and pop-up dining events in your area.",
+    "introduction": "In a world where food culture is thriving, FoodScout aims to connect food enthusiasts with the vibrant and dynamic world of street food. By providing real-time locations of food trucks and pop-up events, the app helps users discover new culinary experiences and supports small food businesses in their community.",
+    "status": "draft",
+    "tags": [
+        "food",
+        "mobile app",
+        "street food",
+        "food trucks",
+        "pop-up events",
+        "real-time tracking",
+        "community",
+        "local businesses"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for FoodScout was born out of frustration with the lack of a centralized platform to find food trucks and pop-up events. We noticed that many food enthusiasts missed out on their favorite street food vendors due to unreliable information. Using React Native for cross-platform compatibility, we began developing an app that would aggregate and share real-time locations of food trucks and events."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "We developed a prototype that integrated Google Maps API for location tracking and Firebase for real-time data synchronization. Initial user testing revealed the need for improved filters and search functionality. We refined the UI/UX to make it more intuitive, allowing users to easily search for specific cuisines or events near them. This phase also involved onboarding local food truck owners to test the platform."
+        },
+        {
+            "title": "Expanding Features",
+            "body": "Based on user feedback, we added features like real-time notifications for nearby events and the ability to follow favorite vendors. We also implemented a rating and review system to build a community-driven platform. To ensure accuracy, we integrated a crowdsourcing feature where users could report the presence or absence of listed trucks. This phase also saw the implementation of in-app payments for pre-ordering food."
+        },
+        {
+            "title": "Launch and Adoption",
+            "body": "After months of development and testing, we officially launched FoodScout in select cities. We partnered with local food truck associations to ensure widespread adoption. The app quickly gained popularity, with users praising its ease of use and real-time updates. We also introduced a gamification element, rewarding users with badges for discovering new vendors and attending multiple events."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Our roadmap includes expanding FoodScout to more cities and integrating advanced features like augmented reality for locating trucks and AI-driven recommendations based on user preferences. We also plan to introduce a subscription model for premium features, such as exclusive event access and discounts. Additionally, we are exploring partnerships with delivery services to offer seamless ordering and delivery options."
+        }
+    ]
+}

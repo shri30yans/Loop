@@ -1,0 +1,36 @@
+{
+    "title": "TrashSense Can",
+    "description": "An Arduino-powered smart trash can that automatically opens and monitors fill levels for efficient waste management.",
+    "introduction": "The TrashSense Can is an innovative solution to modern waste management challenges. By integrating Arduino technology, this smart trash can automatically opens its lid and tracks fill levels, providing a convenient and hygienic way to handle waste. This project aims to enhance daily life by making waste disposal more efficient and less intrusive.",
+    "status": "draft",
+    "tags": [
+        "Arduino",
+        "IoT",
+        "smart trash can",
+        "automation",
+        "waste management",
+        "innovation"
+    ],
+    "sections": [
+        {
+            "title": "Initial Prototype",
+            "body": "The first phase involved designing the basic structure of the TrashSense Can. We used an ultrasonic sensor to detect when someone approaches and a servo motor to automatically open the lid. The system was powered by an Arduino Uno, which processed the sensor data and controlled the motor. Initial challenges included calibrating the sensor for accurate detection and ensuring smooth lid operation."
+        },
+        {
+            "title": "Fill Level Monitoring",
+            "body": "In this phase, we integrated a fill level sensor to monitor the trash can's capacity. The sensor data was displayed on an LCD screen, providing real-time feedback. We faced challenges with sensor accuracy due to varying trash shapes and sizes, which were resolved by implementing a machine learning model to improve prediction accuracy."
+        },
+        {
+            "title": "Notification System",
+            "body": "To enhance user convenience, we added a notification system that alerts the user when the trash can is full. This was achieved using a Wi-Fi module connected to the Arduino, sending notifications to a smartphone app. Challenges included ensuring reliable connectivity and reducing power consumption for battery operation."
+        },
+        {
+            "title": "Design Optimization",
+            "body": "We refined the design for better user experience and durability. The trash can was equipped with a touchless operation feature, reducing the need for physical contact. Aesthetics were improved by 3D printing a sleek exterior casing. Challenges included ensuring the sensor's reliability in various lighting conditions and maintaining a clean, modern look."
+        },
+        {
+            "title": "Final Implementation",
+            "body": "The final phase involved integrating all components into a cohesive system. We added a low-power mode to extend battery life and implemented a data logging feature to track waste generation patterns. The system was tested in real-world scenarios, with positive feedback on its convenience and efficiency. Future plans include expanding functionality to sort recyclables and integrate with smart home systems."
+        }
+    ]
+}

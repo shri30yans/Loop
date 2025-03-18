@@ -1,0 +1,36 @@
+{
+    "title": "CitySnap",
+    "description": "CitySnap is a location-based app for capturing and sharing urban photography.",
+    "introduction": "Urban environments are rich in visual stories waiting to be captured. CitySnap connects photographers with these unique settings, fostering a community that celebrates the beauty of city life through photography.",
+    "status": "draft",
+    "tags": [
+        "urban-photography",
+        "location-based",
+        "mobile-app",
+        "community",
+        "photography",
+        "sharing"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "Inspired by the vibrant tapestry of urban landscapes, we sought to create a platform where photographers could focus on capturing the essence of city life. Recognizing a gap in apps dedicated solely to urban photography, we aimed to build a community that shares and discovers these visual stories."
+        },
+        {
+            "title": "Prototype",
+            "body": "We developed the initial prototype using React Native for cross-platform compatibility. Early user testing revealed the need for a more intuitive interface and better location-based features. This feedback was crucial in refining the app's core functionalities."
+        },
+        {
+            "title": "Initial Stages",
+            "body": "Challenges included ensuring precise location tagging and fostering user engagement. We addressed these by integrating high-resolution mapping services and introducing weekly photo challenges to encourage participation."
+        },
+        {
+            "title": "Current Features",
+            "body": "CitySnap now offers location-based photo feeds, user profiles showcasing their work, and social sharing options. The app also features curated collections and a discovery section for trending urban photography spots."
+        },
+        {
+            "title": "Future Plans",
+            "body": "Looking ahead, we plan to enhance the app with augmented reality features to help users visualize shots before capturing them. Additionally, we aim to expand our community outreach and possibly collaborate with urban photography workshops and events."
+        }
+    ]
+}

@@ -1,0 +1,36 @@
+{
+    "title": "CoolBreeze Fan",
+    "description": "An Arduino-based smart fan that automatically adjusts its speed according to room temperature.",
+    "introduction": "CoolBreeze Fan is an innovative project designed to provide comfort and energy efficiency by automatically adjusting fan speed based on room temperature. This project leverages Arduino's versatility to create a smart, user-friendly solution for maintaining optimal room conditions.",
+    "status": "draft",
+    "tags": [
+        "Arduino",
+        "IoT",
+        "automation",
+        "temperature control",
+        "smart home",
+        "energy efficiency"
+    ],
+    "sections": [
+        {
+            "title": "Motivation",
+            "body": "The idea for the CoolBreeze Fan arose from the need for a more efficient and comfortable cooling solution. Traditional fans often operate at fixed speeds, which can be either too high or too low depending on the room temperature. By creating a fan that adjusts its speed automatically, we aim to enhance comfort while reducing energy consumption."
+        },
+        {
+            "title": "Prototype Development",
+            "body": "The initial prototype was built using an Arduino Uno, a temperature sensor (LM35), and a DC fan. The fan was connected to a motor driver (L298N) to control its speed. The temperature sensor was calibrated to provide accurate readings, which were then used to adjust the fan's speed via PWM (Pulse Width Modulation). Challenges included ensuring smooth transitions between speeds and accurate temperature sensing."
+        },
+        {
+            "title": "Coding and Testing",
+            "body": "The Arduino code was developed to read temperature data from the LM35 sensor and map it to corresponding fan speeds. Initial testing revealed that the fan would sometimes oscillate between speeds due to minor temperature fluctuations. To address this, we implemented a smoothing algorithm to stabilize the speed adjustments. The system was tested in various temperature conditions to ensure reliability."
+        },
+        {
+            "title": "Current Features",
+            "body": "The CoolBreeze Fan currently features dynamic speed adjustment based on real-time temperature readings. It includes a user-friendly setup where the fan automatically starts when the temperature exceeds a predefined threshold. The system also includes a manual override feature for situations where manual control is preferred. Energy efficiency has been optimized by ensuring the fan only runs at necessary speeds."
+        },
+        {
+            "title": "Future Enhancements",
+            "body": "Future plans include integrating Wi-Fi connectivity to allow users to monitor and control the fan remotely using a smartphone app. Additional features such as scheduling and multi-room support are also being explored. We are considering the use of machine learning to predict optimal fan speeds based on historical temperature data, further enhancing energy efficiency and comfort."
+        }
+    ]
+}
