@@ -24,11 +24,14 @@ export async function createProject(access_token: string, project: ProjectType) 
     
     if (!response.ok) {
       const errorData = await response.text();
-      console.log(response)
+      console.log('Error response:', response);
+      console.log('Error data:', errorData);
       throw new Error('Failed to create project');
     }
 
-    return await response.json();
+    const data = await response.json();
+    console.log('Project creation response:', data);
+    return data;
 
   } catch (error) {
     console.error('Error creating project:', error);

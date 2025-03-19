@@ -11,6 +11,7 @@ import (
 type Config struct {
 	Server   ServerConfig
 	Database DatabaseConfig
+	Neo4j    Neo4jConfig
 	JWT      JWTConfig
 }
 
@@ -25,6 +26,12 @@ type DatabaseConfig struct {
 	User     string
 	Password string
 	Name     string
+}
+
+type Neo4jConfig struct {
+	URI      string
+	Username string
+	Password string
 }
 
 type JWTConfig struct {
@@ -60,6 +67,11 @@ func LoadConfig() (*Config, error) {
 				Password: os.Getenv("DB_PASSWORD"),
 				Name:     getEnvOrDefault("DB_NAME", "loop"),
 			},
+			Neo4j: Neo4jConfig{
+				URI:      getEnvOrDefault("NEO4J_URI", "neo4j://localhost:7687"),
+				Username: getEnvOrDefault("NEO4J_USERNAME", "neo4j"),
+				Password: os.Getenv("NEO4J_PASSWORD"),
+			},
 			JWT: JWTConfig{
 				Secret: os.Getenv("JWT_SECRET"),
 			},
@@ -71,6 +83,9 @@ func LoadConfig() (*Config, error) {
 		}
 		if config.JWT.Secret == "" {
 			err = fmt.Errorf("JWT_SECRET environment variable is required")
+		}
+		if config.Neo4j.Password == "" {
+			err = fmt.Errorf("NEO4J_PASSWORD environment variable is required")
 		}
 	})
 

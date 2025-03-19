@@ -23,7 +23,7 @@ export default function FeedPage() {
         if (fetchedData) {
           console.log(fetchedData);
           setProjects(fetchedData.projects || []);
-          setTotalProjects(fetchedData.count || 0);
+          setTotalProjects(fetchedData.total || 0);
         }
       });
     }
@@ -35,8 +35,10 @@ export default function FeedPage() {
 
   const handleSearch = async () => {
     try {
+      console.log(access_token)
       if (access_token) {
         const fetchedData = await getAllProjects(access_token, searchQuery);
+        console.log("fetched data:",fetchedData)
         setProjects(fetchedData.projects || []);
         setTotalProjects(fetchedData.total || 0); 
       }

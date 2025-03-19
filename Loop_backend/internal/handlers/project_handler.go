@@ -1,14 +1,14 @@
 package handlers
 
 import (
-	"encoding/json"
-	"net/http"
+	"Loop_backend/internal/dto"
 	"Loop_backend/internal/middleware"
 	"Loop_backend/internal/models"
 	"Loop_backend/internal/response"
 	"Loop_backend/internal/services"
-	"Loop_backend/internal/dto"
-
+	"encoding/json"
+	"fmt"
+	"net/http"
 )
 
 type ProjectHandler struct {
@@ -19,6 +19,20 @@ func NewProjectHandler(projectService services.ProjectService) *ProjectHandler {
 	return &ProjectHandler{
 		projectService: projectService,
 	}
+}
+
+func (h *ProjectHandler) GetAllProjects(w http.ResponseWriter, r *http.Request) {
+	projects, err := h.projectService.GetProjects()
+	if err != nil {
+		fmt.Println("here with error")
+		response.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	response.RespondWithJSON(w, http.StatusOK, map[string]interface{}{
+		"projects": projects,
+		"total":    len(projects),
+	})
 }
 
 func (h *ProjectHandler) SearchProjects(w http.ResponseWriter, r *http.Request) {
@@ -36,13 +50,13 @@ func (h *ProjectHandler) SearchProjects(w http.ResponseWriter, r *http.Request) 
 	}
 
 	response.RespondWithJSON(w, http.StatusOK, map[string]interface{}{
-		"count":    count,
 		"projects": projects,
+		"total":    count,
 	})
 }
 
 func (h *ProjectHandler) GetProjectInfo(w http.ResponseWriter, r *http.Request) {
-    projectID := r.URL.Query().Get("project-id")
+	projectID := r.URL.Query().Get("project-id")
 
 	project, err := h.projectService.GetProject(projectID)
 	if err != nil {
@@ -87,7 +101,8 @@ func (h *ProjectHandler) DeleteProject(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ProjectHandler) RegisterRoutes(r *RouteRegister) {
-	r.RegisterProtectedRoute("/api/project/search", h.SearchProjects)
+	r.RegisterProtectedRoute("/api/project/get_projects", h.GetAllProjects) // Get all projects
+	r.RegisterProtectedRoute("/api/project/search", h.SearchProjects)       // Search projects
 	r.RegisterProtectedRoute("/api/project/info", h.GetProjectInfo)
 	r.RegisterProtectedRoute("/api/project/create", h.CreateProject)
 	r.RegisterProtectedRoute("/api/project/delete", h.DeleteProject)
