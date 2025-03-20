@@ -1,22 +1,38 @@
 package repositories
 
 import (
+<<<<<<< HEAD
 "context"
 "errors"
 "fmt"
 "time"
 
 "Loop_backend/internal/models"
+=======
+	"context"
+	"errors"
+	"fmt"
+	"time"
+
+	"Loop_backend/internal/models"
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type UserRepository interface {
+<<<<<<< HEAD
 GetUser(user_id string) (*models.UserInfo, error)
 Create(user *models.User) error
 Update(user *models.User) error
 Delete(user_id string) error
+=======
+	GetUser(user_id string) (*models.User, error)
+	Create(user *models.User) error
+	Update(user *models.User) error
+	Delete(user_id string) error
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 }
 
 type userRepository struct {
@@ -28,6 +44,7 @@ func NewUserRepository(db *pgxpool.Pool) UserRepository {
 	return &userRepository{db: db}
 }
 
+<<<<<<< HEAD
 func (r *userRepository) GetUser(id string) (*models.UserInfo, error) {
     // First fetch the user
     query := `
@@ -98,6 +115,33 @@ func (r *userRepository) GetUser(id string) (*models.UserInfo, error) {
         User:     u,
         Projects: projectInfos,
     }, nil
+=======
+func (r *userRepository) GetUser(id string) (*models.User, error) {
+	query := `
+    SELECT id, email, username, bio, location, created_at
+    FROM users
+    WHERE id = $1
+    `
+
+	var u models.User
+	err := r.db.QueryRow(context.Background(), query, id).Scan(
+		&u.ID,
+		&u.Email,
+		&u.Username,
+		&u.Bio,
+		&u.Location,
+		&u.CreatedAt,
+	)
+
+	if err != nil {
+		if err.Error() == "no rows in result set" {
+			return nil, fmt.Errorf("user not found: %v", err)
+		}
+		return nil, fmt.Errorf("error finding user: %v", err)
+	}
+
+	return &u, nil
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 }
 
 func (r *userRepository) Create(u *models.User) error {
@@ -131,7 +175,11 @@ func (r *userRepository) Update(u *models.User) error {
 	query := `
     UPDATE users
     SET email = $1, username = $2, bio = $3, location = $4
+<<<<<<< HEAD
     WHERE id = $5
+=======
+    WHERE id = $6
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
     `
 
 	commandTag, err := r.db.Exec(

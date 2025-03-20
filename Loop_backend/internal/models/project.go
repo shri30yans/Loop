@@ -22,19 +22,31 @@ const (
 	StatusArchived   Status = "archived"
 )
 
+<<<<<<< HEAD
 // ProjectInfo represents project metadata without sections
 type ProjectInfo struct {
     ProjectID    string    `json:"id"`
     OwnerID      string    `json:"owner_id"`
+=======
+// Project represents a project in the system
+type Project struct {
+    ProjectID   string `json:"id"`
+    OwnerID      string  `json:"owner_id"`
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
     Title        string    `json:"title"`
     Description  string    `json:"description"`
     Status       Status    `json:"status"`
     Introduction string    `json:"introduction"`
     Tags         []string  `json:"tags"`
+<<<<<<< HEAD
+=======
+    Sections     []Section `json:"sections"`
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
     CreatedAt    time.Time `json:"created_at"`
     UpdatedAt    time.Time `json:"updated_at"`
 }
 
+<<<<<<< HEAD
 // Project represents a full project in the system including sections
 type Project struct {
     ProjectInfo
@@ -56,6 +68,8 @@ func (p *Project) ToProjectInfo() *ProjectInfo {
     }
 }
 
+=======
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 // Section represents a project section
 type Section struct {
     Title   string `json:"title"`
@@ -64,6 +78,7 @@ type Section struct {
 
 
 // NewProject creates a new project instance with validation
+<<<<<<< HEAD
 func NewProject(ownerID, title, description, status, introduction string, tags []string, sections []Section) (*Project, error) {
     now := time.Now()
     return &Project{
@@ -79,6 +94,21 @@ func NewProject(ownerID, title, description, status, introduction string, tags [
             UpdatedAt:   now,
         },
         Sections: sections,
+=======
+func NewProject(ownerID, title, description,status, introduction string, tags []string, sections []Section) (*Project, error) {
+    now := time.Now()
+    return &Project{
+        ProjectID : uuid.NewString(),
+        OwnerID:      ownerID,
+        Title:        title,
+        Description:  description,
+        Status:       Status(status),
+        Introduction: introduction,
+        Tags:         tags,
+        Sections:     sections,
+        CreatedAt:    now,
+        UpdatedAt:    now,
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
     }, nil
 }
 

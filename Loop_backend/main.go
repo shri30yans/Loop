@@ -9,8 +9,11 @@ import (
 	"Loop_backend/internal/handlers"
 	"Loop_backend/internal/repositories"
 	"Loop_backend/internal/services"
+<<<<<<< HEAD
 	tagservices "Loop_backend/internal/services/tags"
 	neo4j "Loop_backend/platform/database/neo4j"
+=======
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 	postgres "Loop_backend/platform/database/postgres"
 
 	"github.com/rs/cors"
@@ -54,10 +57,16 @@ func main() {
 
 	// Setup graceful shutdown
 	defer postgres.Close()
+<<<<<<< HEAD
 	defer neo4j.Close()
 
 	// Start Server
 	serverAddr := fmt.Sprintf("%s:%d", cfg.ServerConfig.Host, cfg.ServerConfig.Port)
+=======
+
+	// Start Server
+	serverAddr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 	log.Printf("Server running at %s", serverAddr)
 
 	server := &http.Server{
@@ -71,21 +80,38 @@ func main() {
 }
 
 func initializeApp(cfg *config.Config) (*application, error) {
+<<<<<<< HEAD
 	if err := postgres.InitDB(&cfg.RelationalDatabaseConfig); err != nil {
 		return nil, fmt.Errorf("failed to initialize database: %v", err)
 	}
 	if err := neo4j.InitGraph(&cfg.Neo4jConfig); err != nil {
 		return nil, fmt.Errorf("failed to initialize graph database: %v", err)
+=======
+	// Initialize Database and Run Migrations
+	dbConfig := &postgres.Config{
+		Host:     cfg.Database.Host,
+		Port:     cfg.Database.Port,
+		User:     cfg.Database.User,
+		Password: cfg.Database.Password,
+		Name:     cfg.Database.Name,
+	}
+	if err := postgres.InitDB(dbConfig); err != nil {
+		return nil, fmt.Errorf("failed to initialize database: %v", err)
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 	}
 
 	// Get Database Instance
 	db := postgres.GetDB()
+<<<<<<< HEAD
 	graphDB := neo4j.GetDriver()
+=======
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 
 	// Initialize Repositories
 	userRepo := repositories.NewUserRepository(db)
 	projectRepo := repositories.NewProjectRepository(db)
 	authRepo := repositories.NewAuthRepository(db)
+<<<<<<< HEAD
 	graphRepo := repositories.NewGraphRepository(graphDB)
 
 	// Initialize Services
@@ -94,6 +120,25 @@ func initializeApp(cfg *config.Config) (*application, error) {
 	textProcessor := tagservices.NewTextProcessor()
 	tagGenerationService := tagservices.NewTagGenerationService(textProcessor)
 	projectService := services.NewProjectService(projectRepo, graphRepo, tagGenerationService)
+=======
+
+	// Initialize Graph Repository
+	graphRepo, err := repositories.NewGraphRepository(
+		cfg.Neo4j.URI,
+		cfg.Neo4j.Username,
+		cfg.Neo4j.Password,
+	)
+	if err != nil {
+		log.Printf("Warning: Failed to initialize graph repository: %v", err)
+		// Continue without graph DB for now
+		graphRepo = nil
+	}
+
+	// Initialize Services
+	authService := services.NewAuthService(cfg.JWT.Secret, authRepo)
+	userService := services.NewUserService(userRepo)
+	projectService := services.NewProjectService(projectRepo, graphRepo)
+>>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 
 	// Initialize Handlers
 	userHandler := handlers.NewUserHandler(userService)
