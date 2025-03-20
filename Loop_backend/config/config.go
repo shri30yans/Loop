@@ -9,9 +9,10 @@ import (
 )
 
 type Config struct {
-	Server   ServerConfig
-	Database DatabaseConfig
-	JWT      JWTConfig
+	ServerConfig   ServerConfig
+	RelationalDatabaseConfig RelationalDatabaseConfig
+	Neo4jConfig    Neo4jConfig
+	JWTConfig      JWTConfig
 }
 
 type ServerConfig struct {
@@ -19,12 +20,14 @@ type ServerConfig struct {
 	Host string
 }
 
-type DatabaseConfig struct {
-	Host     string
-	Port     string
-	User     string
+type RelationalDatabaseConfig struct {
+	ConnectionString string
+}
+
+type Neo4jConfig struct {
+	URI      string
+	Username string
 	Password string
-	Name     string
 }
 
 type JWTConfig struct {
@@ -49,44 +52,34 @@ func LoadConfig() (*Config, error) {
 		}
 
 		config = Config{
-			Server: ServerConfig{
+			ServerConfig: ServerConfig{
 				Port: 8080,
 				Host: getEnvOrDefault("SERVER_HOST", "localhost"),
 			},
-			Database: DatabaseConfig{
-				Host:     getEnvOrDefault("DB_HOST", "localhost"),
-				Port:     getEnvOrDefault("DB_PORT", "5432"),
-				User:     getEnvOrDefault("DB_USER", "postgres"),
-				Password: os.Getenv("DB_PASSWORD"),
-				Name:     getEnvOrDefault("DB_NAME", "loop"),
+			RelationalDatabaseConfig: RelationalDatabaseConfig{
+				ConnectionString: getEnvOrDefault("DB_CONN_STRING", ""),
 			},
-			JWT: JWTConfig{
+			Neo4jConfig: Neo4jConfig{
+				URI:      getEnvOrDefault("NEO4J_URI", "neo4j://localhost:7687"),
+				Username: getEnvOrDefault("NEO4J_USERNAME", "neo4j"),
+				Password: os.Getenv("NEO4J_PASSWORD"),
+			},
+			JWTConfig: JWTConfig{
 				Secret: os.Getenv("JWT_SECRET"),
 			},
 		}
 
 		// Validate required configurations
-		if config.Database.Password == "" {
-			err = fmt.Errorf("DB_PASSWORD environment variable is required")
+		if config.RelationalDatabaseConfig.ConnectionString == "" {
+			err = fmt.Errorf("DB_CONN_STRING environment variable is required")
 		}
-		if config.JWT.Secret == "" {
-			err = fmt.Errorf("JWT_SECRET environment variable is required")
-		}
+		
 	})
 
-	if err != nil {
 		return nil, err
 	}
 
 	return &config, nil
-}
-
-// GetConfig returns the current configuration
-func GetConfig() *Config {
-	return &config
-}
-
-func getEnvOrDefault(key, defaultValue string) string {
 	if value := os.Getenv(key); value != "" {
 		return value
 	}

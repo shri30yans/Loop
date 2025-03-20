@@ -22,18 +22,38 @@ const (
 	StatusArchived   Status = "archived"
 )
 
-// Project represents a project in the system
-type Project struct {
-    ProjectID   string `json:"id"`
-    OwnerID      string  `json:"owner_id"`
+// ProjectInfo represents project metadata without sections
+type ProjectInfo struct {
+    ProjectID    string    `json:"id"`
+    OwnerID      string    `json:"owner_id"`
     Title        string    `json:"title"`
     Description  string    `json:"description"`
     Status       Status    `json:"status"`
     Introduction string    `json:"introduction"`
     Tags         []string  `json:"tags"`
-    Sections     []Section `json:"sections"`
     CreatedAt    time.Time `json:"created_at"`
     UpdatedAt    time.Time `json:"updated_at"`
+}
+
+// Project represents a full project in the system including sections
+type Project struct {
+    ProjectInfo
+    Sections []Section `json:"sections"`
+}
+
+// ToProjectInfo converts a Project to ProjectInfo
+func (p *Project) ToProjectInfo() *ProjectInfo {
+    return &ProjectInfo{
+        ProjectID:    p.ProjectID,
+        OwnerID:      p.OwnerID,
+        Title:        p.Title,
+        Description:  p.Description,
+        Status:       p.Status,
+        Introduction: p.Introduction,
+        Tags:         p.Tags,
+        CreatedAt:    p.CreatedAt,
+        UpdatedAt:    p.UpdatedAt,
+    }
 }
 
 // Section represents a project section
@@ -44,19 +64,21 @@ type Section struct {
 
 
 // NewProject creates a new project instance with validation
-func NewProject(ownerID, title, description,status, introduction string, tags []string, sections []Section) (*Project, error) {
+func NewProject(ownerID, title, description, status, introduction string, tags []string, sections []Section) (*Project, error) {
     now := time.Now()
     return &Project{
-        ProjectID : uuid.NewString(),
-        OwnerID:      ownerID,
-        Title:        title,
-        Description:  description,
-        Status:       Status(status),
-        Introduction: introduction,
-        Tags:         tags,
-        Sections:     sections,
-        CreatedAt:    now,
-        UpdatedAt:    now,
+        ProjectInfo: ProjectInfo{
+            ProjectID:    uuid.NewString(),
+            OwnerID:     ownerID,
+            Title:       title,
+            Description: description,
+            Status:      Status(status),
+            Introduction: introduction,
+            Tags:        tags,
+            CreatedAt:   now,
+            UpdatedAt:   now,
+        },
+        Sections: sections,
     }, nil
 }
 
