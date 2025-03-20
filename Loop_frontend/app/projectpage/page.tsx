@@ -97,7 +97,7 @@ export default function ProjectPage() {
               <div className="space-y-2">
                 <div className="w-full space-y-2 px-6 pb-6 pt-2">
                   <div className={subheading({ size: "lg" })}>{card.title}</div>
-                  <div className="wrap-text break-words">{card.body}</div>
+                  <div className="wrap-text break-words">{card.content}</div>
                 </div>
               </div>
             </div>

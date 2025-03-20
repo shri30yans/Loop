@@ -8,6 +8,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
+func getEnvOrDefault(key, defaultValue string) string {
+	value, exists := os.LookupEnv(key)
+	if !exists {
+		return defaultValue
+	}
+	return value
+}
+
 type Config struct {
 	ServerConfig   ServerConfig
 	RelationalDatabaseConfig RelationalDatabaseConfig
@@ -69,19 +77,12 @@ func LoadConfig() (*Config, error) {
 			},
 		}
 
-		// Validate required configurations
+		
 		if config.RelationalDatabaseConfig.ConnectionString == "" {
 			err = fmt.Errorf("DB_CONN_STRING environment variable is required")
 		}
 		
 	})
 
-		return nil, err
-	}
-
 	return &config, nil
-	if value := os.Getenv(key); value != "" {
-		return value
-	}
-	return defaultValue
 }

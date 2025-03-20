@@ -26,7 +26,7 @@ export default function CreatePage() {
   ];
 
   const initialProjectSection: ProjectSectionType[] = [
-    { index: 1, title: "", content: "" },
+    { title: "", content: "" },
   ];
 
   const [projectSection, setProjectSection] = useState<ProjectSectionType[]>(initialProjectSection);
@@ -67,8 +67,8 @@ export default function CreatePage() {
     const { name, value, id } = event.target;
     const sectionNumber = parseInt(id || '0', 10);
   
-    const updatedSections = projectSection.map((section) => {
-      if (section.index === sectionNumber) {
+    const updatedSections = projectSection.map((section, idx) => {
+      if (idx === sectionNumber) {
         const fieldName = name === 'body' ? 'content' : name;
         return { ...section, [fieldName]: value };
       }
@@ -87,7 +87,6 @@ export default function CreatePage() {
       return;
     }
     const newCard: ProjectSectionType = {
-      index: projectSection.length + 1,
       title: "",
       content: "",
     };
@@ -217,21 +216,21 @@ export default function CreatePage() {
             </div>
           </CardBody>
         </Card>
-        {projectSection.map((card) => (
-          <div className="flex w-full flex-col space-y-6" key={card.index}>
+        {projectSection.map((card, index) => (
+          <div className="flex w-full flex-col space-y-6">
             <Card isBlurred>
               <CardBody>
                 <div className="space-y-2">
                   <div className="w-full space-y-2 px-6 pb-6 pt-2">
                     <div className={subheading({ size: "lg" })}>
-                      Update {card.index}
+                      Update {index + 1}
                     </div>
                     <Input
                       isRequired
                       className="w-full"
                       type="text"
                       label="Title"
-                      id={card.index.toString()}
+                      id={(index + 1).toString()}
                       name="title"
                       value={card.title}
                       onChange={handleProjectSectionChange}
@@ -241,7 +240,7 @@ export default function CreatePage() {
                       label="Body"
                       className="w-full"
                       isRequired
-                      id={card.index.toString()}
+                      id={(index + 1).toString()}
                       name="body"
                       value={card.content}
                       onChange={handleProjectSectionChange}

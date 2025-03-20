@@ -48,11 +48,9 @@ export interface ProjectType {
     tags: string[];
     comments?: Comment[];
     owner?: UserType;
-    created_at: string;
-    updated_at: string;
 };
 
 export type ProjectSectionType = {
     title: string;
-    body: string;
+    content: string;
 };

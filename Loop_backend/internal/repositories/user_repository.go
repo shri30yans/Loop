@@ -1,15 +1,14 @@
 package repositories
 
 import (
-"context"
-"errors"
-"fmt"
-"time"
+    "context"
+    "errors"
+    "fmt"
+    "time"
 
-"Loop_backend/internal/models"
-
-	"github.com/jackc/pgconn"
-	"github.com/jackc/pgx/v4/pgxpool"
+    "Loop_backend/internal/models"
+    "github.com/jackc/pgconn"
+    "github.com/jackc/pgx/v4/pgxpool"
 )
 
 type UserRepository interface {
@@ -20,6 +19,11 @@ type UserRepository interface {
 }
 
 type userRepository struct {
+    db *pgxpool.Pool
+}
+
+func NewUserRepository(db *pgxpool.Pool) UserRepository {
+    return &userRepository{db: db}
 }
 
 func (r *userRepository) GetUser(id string) (*models.UserInfo, error) {
