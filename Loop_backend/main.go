@@ -9,6 +9,8 @@ import (
 	"Loop_backend/internal/handlers"
 	"Loop_backend/internal/repositories"
 	"Loop_backend/internal/services"
+	tagservices "Loop_backend/internal/services/tags"
+	neo4j "Loop_backend/platform/database/neo4j"
 	postgres "Loop_backend/platform/database/postgres"
 
 	"github.com/rs/cors"
@@ -52,9 +54,10 @@ func main() {
 
 	// Setup graceful shutdown
 	defer postgres.Close()
+	defer neo4j.Close()
 
 	// Start Server
-	serverAddr := fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port)
+	serverAddr := fmt.Sprintf("%s:%d", cfg.ServerConfig.Host, cfg.ServerConfig.Port)
 	log.Printf("Server running at %s", serverAddr)
 
 	server := &http.Server{
@@ -68,42 +71,29 @@ func main() {
 }
 
 func initializeApp(cfg *config.Config) (*application, error) {
-	// Initialize Database and Run Migrations
-	dbConfig := &postgres.Config{
-		Host:     cfg.Database.Host,
-		Port:     cfg.Database.Port,
-		User:     cfg.Database.User,
-		Password: cfg.Database.Password,
-		Name:     cfg.Database.Name,
-	}
-	if err := postgres.InitDB(dbConfig); err != nil {
+	if err := postgres.InitDB(&cfg.RelationalDatabaseConfig); err != nil {
 		return nil, fmt.Errorf("failed to initialize database: %v", err)
+	}
+	if err := neo4j.InitGraph(&cfg.Neo4jConfig); err != nil {
+		return nil, fmt.Errorf("failed to initialize graph database: %v", err)
 	}
 
 	// Get Database Instance
 	db := postgres.GetDB()
+	graphDB := neo4j.GetDriver()
 
 	// Initialize Repositories
 	userRepo := repositories.NewUserRepository(db)
 	projectRepo := repositories.NewProjectRepository(db)
 	authRepo := repositories.NewAuthRepository(db)
-
-	// Initialize Graph Repository
-	graphRepo, err := repositories.NewGraphRepository(
-		cfg.Neo4j.URI,
-		cfg.Neo4j.Username,
-		cfg.Neo4j.Password,
-	)
-	if err != nil {
-		log.Printf("Warning: Failed to initialize graph repository: %v", err)
-		// Continue without graph DB for now
-		graphRepo = nil
-	}
+	graphRepo := repositories.NewGraphRepository(graphDB)
 
 	// Initialize Services
-	authService := services.NewAuthService(cfg.JWT.Secret, authRepo)
+	authService := services.NewAuthService(cfg.JWTConfig.Secret, authRepo)
 	userService := services.NewUserService(userRepo)
-	projectService := services.NewProjectService(projectRepo, graphRepo)
+	textProcessor := tagservices.NewTextProcessor()
+	tagGenerationService := tagservices.NewTagGenerationService(textProcessor)
+	projectService := services.NewProjectService(projectRepo, graphRepo, tagGenerationService)
 
 	// Initialize Handlers
 	userHandler := handlers.NewUserHandler(userService)

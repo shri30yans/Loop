@@ -3,13 +3,15 @@ module Loop_backend
 go 1.21
 
 require (
-	github.com/golang-jwt/jwt/v5 v5.0.0
-	github.com/google/uuid v1.6.0
+	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/google/uuid v1.5.0
+	github.com/gorilla/mux v1.8.0
 	github.com/jackc/pgconn v1.14.0
 	github.com/jackc/pgx/v4 v4.18.1
 	github.com/joho/godotenv v1.5.1
+	github.com/neo4j/neo4j-go-driver/v4 v4.4.7
 	github.com/rs/cors v1.11.1
-	golang.org/x/crypto v0.6.0
+	golang.org/x/crypto v0.14.0
 )
 
 require (
@@ -20,6 +22,5 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgtype v1.14.0 // indirect
 	github.com/jackc/puddle v1.3.0 // indirect
-	github.com/neo4j/neo4j-go-driver/v4 v4.4.8 // indirect
-	golang.org/x/text v0.7.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
 )

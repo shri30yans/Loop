@@ -7,8 +7,9 @@ import (
 	"Loop_backend/internal/response"
 	"Loop_backend/internal/services"
 	"encoding/json"
-	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type ProjectHandler struct {
@@ -21,28 +22,20 @@ func NewProjectHandler(projectService services.ProjectService) *ProjectHandler {
 	}
 }
 
-func (h *ProjectHandler) GetAllProjects(w http.ResponseWriter, r *http.Request) {
-	projects, err := h.projectService.GetProjects()
-	if err != nil {
-		fmt.Println("here with error")
-		response.RespondWithError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	response.RespondWithJSON(w, http.StatusOK, map[string]interface{}{
-		"projects": projects,
-		"total":    len(projects),
-	})
+func (h *ProjectHandler) RegisterRoutes(r *RouteRegister) {
+	r.RegisterProtectedRoute("/api/project/search", h.SearchProjects)
+	r.RegisterProtectedRoute("/api/project/{project_id:[a-fA-F0-9-]+}", h.GetProjectInfo)
+	r.RegisterProtectedRoute("/api/project/create", h.CreateProject)
+	r.RegisterProtectedRoute("/api/project/{uuid}/delete", h.DeleteProject)
 }
 
 func (h *ProjectHandler) SearchProjects(w http.ResponseWriter, r *http.Request) {
 	keyword := r.URL.Query().Get("keyword")
 
 	var projects []*models.Project
-	var count int
 	var err error
 
-	projects, count, err = h.projectService.SearchProjects(keyword)
+	projects, err = h.projectService.SearchProjects(keyword)
 
 	if err != nil {
 		response.RespondWithError(w, http.StatusInternalServerError, err.Error())
@@ -51,12 +44,12 @@ func (h *ProjectHandler) SearchProjects(w http.ResponseWriter, r *http.Request) 
 
 	response.RespondWithJSON(w, http.StatusOK, map[string]interface{}{
 		"projects": projects,
-		"total":    count,
 	})
 }
 
 func (h *ProjectHandler) GetProjectInfo(w http.ResponseWriter, r *http.Request) {
-	projectID := r.URL.Query().Get("project-id")
+	vars := mux.Vars(r)
+	projectID := vars["project_id"]
 
 	project, err := h.projectService.GetProject(projectID)
 	if err != nil {
@@ -70,10 +63,10 @@ func (h *ProjectHandler) GetProjectInfo(w http.ResponseWriter, r *http.Request) 
 func (h *ProjectHandler) CreateProject(w http.ResponseWriter, r *http.Request) {
 	userID := r.Context().Value(middleware.UserIDKey).(string)
 
+	// Convert to dto.CreateProjectRequest
 	var req dto.CreateProjectRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		response.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
-		return
 	}
 
 	req.OwnerID = userID
@@ -88,7 +81,8 @@ func (h *ProjectHandler) CreateProject(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ProjectHandler) DeleteProject(w http.ResponseWriter, r *http.Request) {
-	projectID := r.URL.Query().Get("project-id")
+	vars := mux.Vars(r)
+	projectID := vars["project_id"]
 
 	if err := h.projectService.DeleteProject(projectID); err != nil {
 		response.RespondWithError(w, http.StatusInternalServerError, err.Error())
@@ -98,12 +92,4 @@ func (h *ProjectHandler) DeleteProject(w http.ResponseWriter, r *http.Request) {
 	response.RespondWithJSON(w, http.StatusOK, map[string]string{
 		"message": "Project deleted successfully",
 	})
-}
-
-func (h *ProjectHandler) RegisterRoutes(r *RouteRegister) {
-	r.RegisterProtectedRoute("/api/project/get_projects", h.GetAllProjects) // Get all projects
-	r.RegisterProtectedRoute("/api/project/search", h.SearchProjects)       // Search projects
-	r.RegisterProtectedRoute("/api/project/info", h.GetProjectInfo)
-	r.RegisterProtectedRoute("/api/project/create", h.CreateProject)
-	r.RegisterProtectedRoute("/api/project/delete", h.DeleteProject)
 }
