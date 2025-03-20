@@ -13,19 +13,13 @@ import (
 )
 
 type UserRepository interface {
-GetUser(user_id string) (*models.UserInfo, error)
-Create(user *models.User) error
-Update(user *models.User) error
-Delete(user_id string) error
+	GetUser(user_id string) (*models.UserInfo, error)
+	Create(user *models.User) error
+	Update(user *models.User) error
+	Delete(user_id string) error
 }
 
 type userRepository struct {
-	db *pgxpool.Pool
-}
-
-// NewUserRepository creates a new PostgreSQL user repository
-func NewUserRepository(db *pgxpool.Pool) UserRepository {
-	return &userRepository{db: db}
 }
 
 func (r *userRepository) GetUser(id string) (*models.UserInfo, error) {
@@ -131,11 +125,7 @@ func (r *userRepository) Update(u *models.User) error {
 	query := `
     UPDATE users
     SET email = $1, username = $2, bio = $3, location = $4
-<<<<<<< HEAD
     WHERE id = $5
-=======
-    WHERE id = $6
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
     `
 
 	commandTag, err := r.db.Exec(

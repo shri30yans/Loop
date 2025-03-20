@@ -64,15 +64,9 @@ export default function UserPage() {
                 icon: "text-black/80",
               }}
               className="w-48 h-48"
-<<<<<<< HEAD
               alt={user.username}
               />
               <div className={heading({ size: "lg" })}>{user.username}</div>
-=======
-              alt={user.name}
-              />
-              <div className={heading({ size: "lg" })}>{user.name}</div>
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
               <Chip color="primary" variant="flat">User</Chip>
             </div>
 
@@ -116,13 +110,8 @@ export default function UserPage() {
         <CardBody>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {user.projects?.map((project) => (
-<<<<<<< HEAD
               <a href={`/projectpage?id=${project.id}`}>
               <Card key={project.id} isPressable>
-=======
-              <a href={`/projectpage?id=${project.project_id}`}>
-              <Card key={project.project_id} isPressable>
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
                 <CardBody>
                   <img
                     src="https://www.liquidplanner.com/wp-content/uploads/2019/04/HiRes-17.jpg"

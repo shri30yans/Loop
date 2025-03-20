@@ -36,15 +36,9 @@ export default function ProjectPage() {
   }
 
   return (
-<<<<<<< HEAD
     <div className="max-w-full">
       <div className="space-y-4">
         <div className="flex gap-2 h-full">
-=======
-    <div className="max-w-full overflow-x-clip">
-      <div className="space-y-4">
-        <div className="flex gap-2">
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
           <div>
             <Image
               width={800}
@@ -57,7 +51,6 @@ export default function ProjectPage() {
 
           <div className="p-6 max-w-2xl">
             <div className={`${heading({ size: "lg" })}`}>{project.title}</div>
-<<<<<<< HEAD
             <div className="h-full pl-2 pt-1 flex flex-col space-y-6">
               <div className={`${subheading({ size: "lg" })}`}>
                 {project.description}
@@ -90,39 +83,6 @@ export default function ProjectPage() {
                   ))}
                 </div>
 
-=======
-            <div className="h-full pl-2 pt-1 space-y-4 relative">
-              <div className={`${subheading({ size: "lg" })} max-w-10`}>
-                {project.description}
-              </div>
-              <div className="flex flex-col space-y-4">
-                <div className="wrap-text break-words">
-                  {project.introduction}
-                </div>
-                <div className="absolute bottom-24 p-2">
-                  <a href={`profile?id=${project.owner_id}`} className="flex items-center space-x-3 pl-4 mt-8">
-                    <Avatar
-                      icon={<AvatarIcon />}
-                      classNames={{
-                        base: "bg-gradient-to-br from-[#00B4DB] to-[#0083B0]",
-                        icon: "text-black/80",
-                      }}
-                      className="w-12 h-12"
-                      alt={project.owner?.name}
-                    />
-                    <span className="text-base font-medium">
-                      {project.owner?.name}
-                    </span>
-                  </a>
-                </div>
-              </div>
-              <div className="absolute bottom-10 p-2 flex flex-wrap gap-2">
-                {project.tags?.map((tag, index) => (
-                  <Chip key={index} size="sm" radius="sm" variant="bordered">
-                    {tag}
-                  </Chip>
-                ))}
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
               </div>
             </div>
           </div>
@@ -137,11 +97,7 @@ export default function ProjectPage() {
               <div className="space-y-2">
                 <div className="w-full space-y-2 px-6 pb-6 pt-2">
                   <div className={subheading({ size: "lg" })}>{card.title}</div>
-<<<<<<< HEAD
                   <div className="wrap-text break-words">{card.body}</div>
-=======
-                  <div className="wrap-text break-words">{card.content}</div>
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
                 </div>
               </div>
             </div>

@@ -217,7 +217,6 @@ export default function CreatePage() {
             </div>
           </CardBody>
         </Card>
-
         {projectSection.map((card) => (
           <div className="flex w-full flex-col space-y-6" key={card.index}>
             <Card isBlurred>

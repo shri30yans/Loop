@@ -76,19 +76,10 @@ func LoadConfig() (*Config, error) {
 		
 	})
 
-	if err != nil {
 		return nil, err
 	}
 
 	return &config, nil
-}
-
-// GetConfig returns the current configuration
-func GetConfig() *Config {
-	return &config
-}
-
-func getEnvOrDefault(key, defaultValue string) string {
 	if value := os.Getenv(key); value != "" {
 		return value
 	}
