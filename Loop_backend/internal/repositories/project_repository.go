@@ -13,10 +13,6 @@ import (
 
 type ProjectRepository interface {
 	GetProject(id string) (*models.Project, error)
-<<<<<<< HEAD
-=======
-	GetProjects() ([]*models.Project, error)
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 	SearchProjects(keyword string) ([]*models.Project, error)
 	CreateProject(project *models.Project) error
 	UpdateProject(project *models.Project) error
@@ -31,56 +27,6 @@ func NewProjectRepository(db *pgxpool.Pool) ProjectRepository {
 	return &projectRepository{db: db}
 }
 
-<<<<<<< HEAD
-=======
-func (r *projectRepository) GetProjects() ([]*models.Project, error) {
-	query := `
-        SELECT p.project_id, p.title, p.description, p.status, p.introduction, p.owner_id, 
-               p.created_at, p.updated_at, p.project_sections::TEXT
-        FROM projects p
-        ORDER BY p.created_at DESC
-        `
-
-	rows, err := r.db.Query(context.Background(), query)
-	if err != nil {
-		return nil, fmt.Errorf("error fetching projects: %v", err)
-	}
-	defer rows.Close()
-
-	var projects []*models.Project
-	for rows.Next() {
-		var p models.Project
-		var sectionsJSON string
-
-		err := rows.Scan(
-			&p.ProjectID,
-			&p.Title,
-			&p.Description,
-			&p.Status,
-			&p.Introduction,
-			&p.OwnerID,
-			&p.CreatedAt,
-			&p.UpdatedAt,
-			&sectionsJSON,
-		)
-		if err != nil {
-			return nil, fmt.Errorf("error scanning project row: %v", err)
-		}
-
-		// Initialize empty tags array
-		p.Tags = []string{}
-
-		// Unmarshal JSONB to Go struct
-		if err := json.Unmarshal([]byte(sectionsJSON), &p.Sections); err != nil {
-			return nil, fmt.Errorf("error unmarshalling project sections: %v", err)
-		}
-
-		projects = append(projects, &p)
-	}
-	return projects, nil
-}
-
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 func (r *projectRepository) GetProject(id string) (*models.Project, error) {
 	query := `
         SELECT p.project_id, p.title, p.description, p.status, p.introduction, p.owner_id, 

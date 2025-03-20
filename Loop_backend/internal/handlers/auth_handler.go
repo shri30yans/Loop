@@ -23,15 +23,12 @@ func NewAuthHandler(userService services.UserService, authService services.AuthS
 	}
 }
 
-<<<<<<< HEAD
 func (h *AuthHandler) RegisterRoutes(r *RouteRegister) {
 	r.RegisterPublicRoute("/api/auth/register", h.Register)
 	r.RegisterPublicRoute("/api/auth/login", h.Login)
 	r.RegisterProtectedRoute("/api/auth/verify", h.Verify)
 }
 
-=======
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	var req dto.RegisterRequest
 
@@ -117,12 +114,3 @@ func (h *AuthHandler) Verify(w http.ResponseWriter, r *http.Request) {
 	response.RespondWithJSON(w, http.StatusOK, claims)
 }
 
-<<<<<<< HEAD
-
-=======
-func (h *AuthHandler) RegisterRoutes(r *RouteRegister) {
-	r.RegisterPublicRoute("/api/auth/register", h.Register)
-	r.RegisterPublicRoute("/api/auth/login", h.Login)
-	r.RegisterProtectedRoute("/api/auth/verify", h.Verify)
-}
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7

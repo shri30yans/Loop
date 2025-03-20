@@ -1,10 +1,7 @@
 package postgres
 
 import (
-<<<<<<< HEAD
 	"Loop_backend/config"
-=======
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 	"context"
 	"fmt"
 	"os"
@@ -16,34 +13,10 @@ import (
 
 var db *pgxpool.Pool
 
-<<<<<<< HEAD
 // InitDB initializes the database connection and runs migrations
 func InitDB(cfg *config.RelationalDatabaseConfig) error {
 	fmt.Println("Initializing database...")
 	connString := cfg.ConnectionString
-=======
-// Config holds database configuration
-type Config struct {
-	Host     string
-	Port     string
-	User     string
-	Password string
-	Name     string
-}
-
-// InitDB initializes the database connection and runs migrations
-func InitDB(cfg *Config) error {
-	fmt.Println("Initializing database...")
-	connString := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		cfg.Host,
-		cfg.Port,
-		cfg.User,
-		cfg.Password,
-		cfg.Name,
-	)
-
->>>>>>> 4a2f436bed91636c5c2e3782993f5ab211ecfca7
 	var err error
 	db, err = pgxpool.Connect(context.Background(), connString)
 	if err != nil {
