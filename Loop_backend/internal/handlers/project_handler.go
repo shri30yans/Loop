@@ -83,11 +83,11 @@ func (h *ProjectHandler) CreateProject(w http.ResponseWriter, r *http.Request) {
 func (h *ProjectHandler) DeleteProject(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	projectID := vars["project_id"]
-	projectID := r.URL.Query().Get("project-id")
 
 	if err := h.projectService.DeleteProject(projectID); err != nil {
 
 	response.RespondWithJSON(w, http.StatusOK, map[string]string{
 		"message": "Project deleted successfully",
 	})
+}
 }
