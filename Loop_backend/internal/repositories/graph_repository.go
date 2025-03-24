@@ -3,6 +3,7 @@ package repositories
 import (
     "time"
     "Loop_backend/internal/models"
+    "Loop_backend/internal/ai/processor"
     "github.com/neo4j/neo4j-go-driver/v4/neo4j"
 )
 
@@ -28,6 +29,9 @@ type GraphRepository interface {
     GetProjectsByTag(tagName string) ([]*models.Project, error)
     GetUsersWithTag(tagName string) ([]string, error)
     GetProjectCollaborators(projectID string) ([]string, error)
+
+    // Entity operations
+    CreateEntitiesAndRelationships(projectID string, entities []processor.Entity, relationships []processor.Relationship) error
 }
 
 type graphRepository struct {
@@ -162,29 +166,32 @@ func (r *graphRepository) GetUsersWithTag(tagName string) ([]string, error) {
     session := r.driver.NewSession(neo4j.SessionConfig{})
     defer session.Close()
 
-    result, err := session.ReadTransaction(func(tx neo4j.Transaction) (interface{}, error) {
-        query := `
-        MATCH (t:Tag {name: $tagName})<-[:HAS_SKILL]-(u:User)
-        RETURN collect(u.id) as users
-        `
-        record, err := tx.Run(query, map[string]interface{}{
-            "tagName": tagName,
-        })
-        if err != nil {
-            return nil, err
-        }
-
-        if result, err := record.Single(); err != nil {
-            return []string{}, nil
-        } else {
-            users := result.GetByIndex(0).([]interface{})
-            userIDs := make([]string, len(users))
-            for i, u := range users {
-                userIDs[i] = u.(string)
-            }
-            return userIDs, nil
-        }
+result, err := session.ReadTransaction(func(tx neo4j.Transaction) (interface{}, error) {
+    query := `
+    MATCH (t:Tag {name: $tagName})<-[:HAS_SKILL]-(u:User)
+    RETURN u.id
+    `
+    records, err := tx.Run(query, map[string]interface{}{
+        "tagName": tagName,
     })
+    if err != nil {
+        return nil, err
+    }
+
+    var userIDs []string
+    for records.Next() {
+        record := records.Record()
+        userID := record.GetByIndex(0).(string)
+        userIDs = append(userIDs, userID)
+    }
+    return userIDs, nil
+})
+
+if err != nil {
+    return nil, err
+}
+
+return result.([]string), nil
 
     if err != nil {
         return nil, err

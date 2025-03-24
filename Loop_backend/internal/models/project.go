@@ -3,6 +3,7 @@ package models
 import (
     "errors"
     "time"
+    "strings"
     "github.com/google/uuid"
 )
 
@@ -84,8 +85,18 @@ func NewProject(ownerID, title, description, status, introduction string, tags [
 
 // NewSection creates a new section with validation
 func NewSection(title, body string) (*Section, error) {
-	return &Section{
-		Title:   title,
-		Body: body,
-	}, nil
+    return &Section{
+        Title:   title,
+        Body: body,
+    }, nil
+}
+
+// CombineText combines all text fields of the project for processing
+func (p *Project) CombineText() string {
+    var texts []string
+    texts = append(texts, p.Title, p.Description, p.Introduction)
+    for _, section := range p.Sections {
+        texts = append(texts, section.Title, section.Body)
+    }
+    return strings.Join(texts, " ")
 }

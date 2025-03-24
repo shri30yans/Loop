@@ -1,126 +1,99 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"Loop_backend/config"
+	"Loop_backend/internal/ai/ollama"
+	"Loop_backend/internal/ai/processor"
 	"Loop_backend/internal/handlers"
+	"Loop_backend/internal/middleware"
 	"Loop_backend/internal/repositories"
 	"Loop_backend/internal/services"
-	tagservices "Loop_backend/internal/services/tags"
-	neo4j "Loop_backend/platform/database/neo4j"
-	postgres "Loop_backend/platform/database/postgres"
+	"Loop_backend/internal/services/tags"
+	"Loop_backend/platform/database"
 
-	"github.com/rs/cors"
+	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
+	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
 )
 
-type application struct {
-	config         *config.Config
-	authService    services.AuthService
-	userService    services.UserService
-	projectService services.ProjectService
-	authHandler    *handlers.AuthHandler
-	userHandler    *handlers.UserHandler
-	projectHandler *handlers.ProjectHandler
-}
-
 func main() {
-	// Load Configuration
-	cfg, err := config.LoadConfig()
+	// Load environment variables
+	if err := godotenv.Load(); err != nil {
+		log.Printf("No .env file found")
+	}
+
+	// Initialize configuration
+	cfg := config.New()
+
+	// Set up PostgreSQL connection
+	postgresDB, err := database.NewPostgresConnection(cfg)
 	if err != nil {
-		log.Fatalf("Failed to load config: %v", err)
+		log.Fatalf("Failed to connect to PostgreSQL: %v", err)
 	}
+	defer postgresDB.Close()
 
-	app, err := initializeApp(cfg)
+	// Set up Neo4j connection
+	neo4jDriver, err := database.NewNeo4jConnection(cfg)
 	if err != nil {
-		log.Fatalf("Failed to initialize application: %v", err)
+		log.Fatalf("Failed to connect to Neo4j: %v", err)
 	}
+	defer func() {
+		if err := neo4jDriver.Close(); err != nil {
+			log.Printf("Error closing Neo4j connection: %v", err)
+		}
+	}()
 
-	// Initialize Router
-	mux := app.routes()
+	// Initialize router
+	router := mux.NewRouter()
 
-	// Setup CORS
-	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000"},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
-		AllowedHeaders:   []string{"Authorization", "Content-Type"},
-		AllowCredentials: true,
-	})
+	// Initialize repositories
+	projectRepo := repositories.NewPostgresProjectRepository(postgresDB)
+	graphRepo := repositories.NewGraphRepository(neo4jDriver)
+	entityRepo := repositories.NewPostgresEntityRepository(postgresDB)
 
-	// Wrap the router with the CORS handler
-	handler := c.Handler(mux)
+	// Initialize AI services
+	ollamaProvider := ollama.NewProvider("http://localhost:11434", "llama2")
+	entityProcessor := processor.NewEntityProcessor(ollamaProvider)
 
-	// Setup graceful shutdown
-	defer postgres.Close()
-	defer neo4j.Close()
+	// Initialize services
+	tagService := tags.NewTagGenerationService(projectRepo, ollamaProvider)
+	entityProcessingSvc := services.NewEntityProcessingService(entityProcessor, graphRepo, entityRepo)
+	projectService := services.NewProjectService(projectRepo, graphRepo, tagService, entityProcessingSvc)
 
-	// Start Server
-	serverAddr := fmt.Sprintf("%s:%d", cfg.ServerConfig.Host, cfg.ServerConfig.Port)
-	log.Printf("Server running at %s", serverAddr)
-
-	server := &http.Server{
-		Addr:    serverAddr,
-		Handler: handler,
-	}
-
-	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		log.Fatalf("Server failed: %v", err)
-	}
-}
-
-func initializeApp(cfg *config.Config) (*application, error) {
-	if err := postgres.InitDB(&cfg.RelationalDatabaseConfig); err != nil {
-		return nil, fmt.Errorf("failed to initialize database: %v", err)
-	}
-	if err := neo4j.InitGraph(&cfg.Neo4jConfig); err != nil {
-		return nil, fmt.Errorf("failed to initialize graph database: %v", err)
-	}
-
-	// Get Database Instance
-	db := postgres.GetDB()
-	graphDB := neo4j.GetDriver()
-
-	// Initialize Repositories
-	userRepo := repositories.NewUserRepository(db)
-	projectRepo := repositories.NewProjectRepository(db)
-	authRepo := repositories.NewAuthRepository(db)
-	graphRepo := repositories.NewGraphRepository(graphDB)
-
-	// Initialize Services
-	authService := services.NewAuthService(cfg.JWTConfig.Secret, authRepo)
-	userService := services.NewUserService(userRepo)
-	textProcessor := tagservices.NewTextProcessor()
-	tagGenerationService := tagservices.NewTagGenerationService(textProcessor)
-	projectService := services.NewProjectService(projectRepo, graphRepo, tagGenerationService)
-
-	// Initialize Handlers
-	userHandler := handlers.NewUserHandler(userService)
-	authHandler := handlers.NewAuthHandler(userService, authService)
+	// Initialize handlers
 	projectHandler := handlers.NewProjectHandler(projectService)
 
-	return &application{
-		config:         cfg,
-		authService:    authService,
-		userService:    userService,
-		projectService: projectService,
-		authHandler:    authHandler,
-		userHandler:    userHandler,
-		projectHandler: projectHandler,
-	}, nil
-}
+	// Health check route
+	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
+	}).Methods("GET")
 
-func (app *application) routes() http.Handler {
-	mux := http.NewServeMux()
+	// API routes
+	api := router.PathPrefix("/api").Subrouter()
+	api.Use(middleware.JSONMiddleware)
 
-	// Create a new RouteRegister that handles auth middleware
-	routeRegister := handlers.NewRouteRegister(mux, app.authService)
+	// Project routes
+	projects := api.PathPrefix("/projects").Subrouter()
+	projects.HandleFunc("", projectHandler.CreateProject).Methods("POST")
+	projects.HandleFunc("/{project_id}", projectHandler.GetProject).Methods("GET")
+	projects.HandleFunc("/{project_id}", projectHandler.DeleteProject).Methods("DELETE")
+	projects.HandleFunc("/search", projectHandler.SearchProjects).Methods("GET")
 
-	// Register routes for all handlers
-	app.authHandler.RegisterRoutes(routeRegister)
-	app.userHandler.RegisterRoutes(routeRegister)
-	app.projectHandler.RegisterRoutes(routeRegister)
+	// Start server
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 
-	return mux
+	log.Printf("Server starting on port %s", port)
+	if err := http.ListenAndServe(fmt.Sprintf(":%s", port), router); err != nil {
+		log.Fatal(err)
+	}
 }

@@ -1,8 +1,6 @@
 CREATE TABLE IF NOT EXISTS projects (
     project_id UUID PRIMARY KEY,
     owner_id UUID REFERENCES users(id) ON DELETE CASCADE,
-    project_id VARCHAR(100) PRIMARY KEY,
-    owner_id VARCHAR(100) REFERENCES users(id) ON DELETE CASCADE,
     title VARCHAR(200) NOT NULL,
     introduction TEXT,
     description TEXT,

@@ -6,7 +6,9 @@
 --       comments,
 --       projects,
 --       project_tags,
---       users
+--       users,
+-- tags,
+-- tag_relationships
 --    ;
 
 CREATE TABLE IF NOT EXISTS users (

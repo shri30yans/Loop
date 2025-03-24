@@ -1,8 +1,6 @@
 CREATE TABLE IF NOT EXISTS passwords (
     user_id UUID REFERENCES users(id) ON DELETE CASCADE UNIQUE,
     hashed_password CHAR(60) NOT NULL
-    user_id VARCHAR(100) REFERENCES users(id) ON DELETE CASCADE UNIQUE,
-    hashed_password VARCHAR(255) NOT NULL
 );
 
 
