@@ -3,25 +3,25 @@ package handlers
 import (
 	"net/http"
 
-	"github.com/gorilla/mux"
 	"Loop_backend/internal/middleware"
 	"Loop_backend/internal/response"
 	"Loop_backend/internal/services"
+	"github.com/gorilla/mux"
 )
 
 type UserHandler struct {
 	userService services.UserService
 }
 
-func (h *UserHandler) RegisterRoutes(r *RouteRegister) {
-	r.RegisterProtectedRoute("/api/user/{user_id:[a-fA-F0-9-]+}", h.GetUserInfo)
-	r.RegisterProtectedRoute("/api/user/delete", h.DeleteAccount)
-}
-
 func NewUserHandler(userService services.UserService) *UserHandler {
 	return &UserHandler{
 		userService: userService,
 	}
+}
+
+func (h *UserHandler) RegisterRoutes(r RouteRegister) {
+	r.RegisterProtectedRoute("/api/user/{user_id:[a-fA-F0-9-]+}", h.GetUserInfo, nil)
+	r.RegisterProtectedRoute("/api/user/delete", h.DeleteAccount, nil)
 }
 
 func (h *UserHandler) GetUserInfo(w http.ResponseWriter, r *http.Request) {

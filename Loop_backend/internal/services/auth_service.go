@@ -122,7 +122,6 @@ func (s *authService) ValidateToken(authHeader string) (*models.Claims, error) {
 		// User not found
 		return nil, models.ErrInvalidToken
 	}
-	
 
 	return claims, nil
 }

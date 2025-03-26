@@ -37,12 +37,14 @@ func InitDB(cfg *config.RelationalDatabaseConfig) error {
 	return nil
 }
 
-// GetDB returns the database connection pool
-func GetDB() *pgxpool.Pool {
+func GetDBPool() *pgxpool.Pool {
+	if db == nil {
+		return nil
+	}
 	return db
+
 }
 
-// Close closes the database connection pool
 func Close() {
 	if db != nil {
 		db.Close()

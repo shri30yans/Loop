@@ -11,11 +11,20 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/neo4j/neo4j-go-driver/v4 v4.4.7
 	github.com/rs/cors v1.11.1
-	golang.org/x/crypto v0.20.0
+	golang.org/x/crypto v0.32.0
 )
 
 require (
-	github.com/deckarep/golang-set v1.7.1 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
+	github.com/go-playground/locales v0.14.1 // indirect
+	github.com/go-playground/universal-translator v0.18.1 // indirect
+	github.com/leodido/go-urn v1.4.0 // indirect
+	golang.org/x/net v0.34.0 // indirect
+	golang.org/x/sys v0.29.0 // indirect
+)
+
+require (
+	github.com/go-playground/validator/v10 v10.25.0
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
@@ -23,9 +32,5 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgtype v1.14.0 // indirect
 	github.com/jackc/puddle v1.3.0 // indirect
-	github.com/jdkato/prose/v2 v2.0.0 // indirect
-	github.com/mingrammer/commonregex v1.0.1 // indirect
-	golang.org/x/text v0.14.0 // indirect
-	gonum.org/v1/gonum v0.7.0 // indirect
-	gopkg.in/neurosnap/sentences.v1 v1.0.6 // indirect
+	golang.org/x/text v0.21.0 // indirect
 )

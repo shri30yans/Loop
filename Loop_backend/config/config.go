@@ -45,16 +45,28 @@ type Config struct {
 	AIConfig                 AIConfig
 }
 
+// ProviderType represents the type of AI provider
+type ProviderType string
+
+const (
+	ProviderOllama ProviderType = "ollama"
+	ProviderOpenAI ProviderType = "openai-compatible"
+)
+
 type AIConfig struct {
-	OllamaURL                   string
-	OllamaKey                   string
-	OllamaModelName             string
-	OllamaEmbedModel            string
-	OllamaMaxAsync              int
-	OllamaMaxTokenSize          int
-	OllamaEmbeddingDim          int
-	OllamaEmbeddingMaxTokenSize int
-	OllamaNumCtx                int
+	// Provider Selection
+	Provider ProviderType
+
+	// Ollama Configuration
+	OllamaURL        string
+	OllamaModelName  string
+	OllamaEmbedModel string
+
+	// OpenAI-compatible Configuration
+	APIKey         string
+	APIURL         string
+	ModelName      string
+	EmbeddingModel string
 }
 
 type ServerConfig struct {
@@ -107,18 +119,21 @@ func LoadConfig() (*Config, error) {
 				Password: getEnvValue("NEO4J_PASSWORD", ""),
 			},
 			JWTConfig: JWTConfig{
-				Secret: getEnvValue("JWT_SECRET",""),
+				Secret: getEnvValue("JWT_SECRET", ""),
 			},
 			AIConfig: AIConfig{
-				OllamaURL:                   getEnvValue("OLLAMA_URL", ""),
-				OllamaKey:                   getEnvValue("OLLAMA_API_KEY", ""),
-				OllamaModelName:             getEnvValue("OLLAMA_MODEL_NAME", "qwen2.5:3b"),
-				OllamaEmbedModel:            getEnvValue("OLLAMA_EMBEDDING_MODEL", "nomic-embed-text"),
-				OllamaMaxAsync:              getEnvValue("OLLAMA_MAX_ASYNC", 4),
-				OllamaMaxTokenSize:          getEnvValue("OLLAMA_MAX_TOKEN_SIZE", 32768),
-				OllamaEmbeddingDim:          getEnvValue("OLLAMA_EMBEDDING_DIM", 768),
-				OllamaEmbeddingMaxTokenSize: getEnvValue("OLLAMA_EMBEDDING_MAX_TOKEN_SIZE", 8192),
-				OllamaNumCtx:                getEnvValue("OLLAMA_NUM_CTX", 32768),
+				Provider: ProviderType(getEnvValue("AI_PROVIDER", string(ProviderOpenAI))),
+
+				// Ollama Configuration
+				OllamaURL:        getEnvValue("OLLAMA_URL", ""),
+				OllamaModelName:  getEnvValue("OLLAMA_MODEL_NAME", ""),
+				OllamaEmbedModel: getEnvValue("OLLAMA_EMBEDDING_MODEL", ""),
+
+				// OpenAI-compatible Configuration
+				APIKey:         getEnvValue("API_KEY", ""),
+				APIURL:         getEnvValue("API_URL", ""),
+				ModelName:      getEnvValue("MODEL_NAME", ""),
+				EmbeddingModel: getEnvValue("EMBEDDING_MODEL", ""),
 			},
 		}
 

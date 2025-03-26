@@ -1,40 +1,33 @@
 package models
 
 import (
-	"time"
-
 	"github.com/google/uuid"
+	"time"
 )
 
-// Tag represents a tag entity in the system
+// Tag represents a project tag
 type Tag struct {
 	ID          uuid.UUID `json:"id"`
+	ProjectID   uuid.UUID `json:"project_id"`
 	Name        string    `json:"name"`
-	Category    string    `json:"category"`
+	Type        string    `json:"type"`
 	Description string    `json:"description"`
-	Embedding   []float64 `json:"-"`
-	Vector      []float64 `json:"vector,omitempty"`
+	Category    string    `json:"category"`
 	UsageCount  int       `json:"usage_count"`
-	Confidence  float64   `json:"confidence,omitempty"`
+	Embedding   []float64 `json:"embedding,omitempty"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
-// SetConfidence sets the confidence value for the tag
-func (t *Tag) SetConfidence(confidence float64) {
-	t.Confidence = confidence
-}
+func (t *Tag) BeforeCreate() {
+	if t.ID == uuid.Nil {
+		t.ID = uuid.New()
+	}
 
-type TagRelationship struct {
-	Tag1ID        uuid.UUID `json:"tag1_id"`
-	Tag2ID        uuid.UUID `json:"tag2_id"`
-	Strength      float64   `json:"strength"`
-	CoOccurrences int       `json:"co_occurrences"`
-	LastUpdated   time.Time `json:"last_updated"`
-}
+	t.CreatedAt = time.Now()
+	t.UpdatedAt = time.Now()
 
-type TagSuggestion struct {
-	SuggestedTagID uuid.UUID `json:"suggested_tag_id"`
-	Reason         string    `json:"reason"`
-	Confidence     float64   `json:"confidence"`
+	if t.UsageCount == 0 {
+		t.UsageCount = 1
+	}
 }

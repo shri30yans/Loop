@@ -1,12 +1,12 @@
 package handlers
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
 
 	"Loop_backend/internal/dto"
+	"Loop_backend/internal/middleware"
 	"Loop_backend/internal/response"
 	"Loop_backend/internal/services"
 )
@@ -23,17 +23,19 @@ func NewAuthHandler(userService services.UserService, authService services.AuthS
 	}
 }
 
-func (h *AuthHandler) RegisterRoutes(r *RouteRegister) {
-	r.RegisterPublicRoute("/api/auth/register", h.Register)
-	r.RegisterPublicRoute("/api/auth/login", h.Login)
-	r.RegisterProtectedRoute("/api/auth/verify", h.Verify)
+func (h *AuthHandler) RegisterRoutes(r RouteRegister) {
+	r.RegisterPublicRoute("/api/auth/register", h.Register, &dto.RegisterRequest{})
+	r.RegisterPublicRoute("/api/auth/login", h.Login, &dto.LoginRequest{})
+	r.RegisterProtectedRoute("/api/auth/verify", h.Verify, nil)
 }
 
 func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
-	var req dto.RegisterRequest
-
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		response.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
+	req, ok := middleware.GetDTO[*dto.RegisterRequest](r)
+	if !ok {
+		response.RespondWithErrorDetails(w, http.StatusBadRequest, "Invalid request payload", map[string]string{
+			"reason":          "Failed to parse or validate request body",
+			"expected_fields": "email, username, password",
+		})
 		return
 	}
 
@@ -58,25 +60,27 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := dto.AuthResponse{
-		UserID:       session.UserID,
-		AccessToken:  session.Token,
-		ExpiresAt:    session.ExpiresAt.Format(time.RFC3339),
+		UserID:      session.UserID,
+		AccessToken: session.Token,
+		ExpiresAt:   session.ExpiresAt.Format(time.RFC3339),
 	}
 
 	response.RespondWithJSON(w, http.StatusCreated, resp)
 }
 
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
-	var req dto.LoginRequest
-
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		response.RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
+	req, ok := middleware.GetDTO[*dto.LoginRequest](r)
+	if !ok {
+		response.RespondWithErrorDetails(w, http.StatusBadRequest, "Invalid request payload", map[string]string{
+			"reason":          "Failed to parse or validate request body",
+			"expected_fields": "email, password",
+		})
 		return
 	}
 
 	user_id, err := h.authService.AuthenticateUser(req.Email, req.Password)
 	if err != nil {
-        fmt.Println(err)
+		fmt.Println(err)
 		response.RespondWithError(w, http.StatusUnauthorized, "Invalid email or password")
 		return
 	}
@@ -88,9 +92,9 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := dto.AuthResponse{
-		UserID:       session.UserID,
-		AccessToken:  session.Token,
-		ExpiresAt:    session.ExpiresAt.Format(time.RFC3339),
+		UserID:      session.UserID,
+		AccessToken: session.Token,
+		ExpiresAt:   session.ExpiresAt.Format(time.RFC3339),
 	}
 
 	response.RespondWithJSON(w, http.StatusOK, resp)
@@ -113,4 +117,3 @@ func (h *AuthHandler) Verify(w http.ResponseWriter, r *http.Request) {
 
 	response.RespondWithJSON(w, http.StatusOK, claims)
 }
-

@@ -13,7 +13,7 @@ import (
 
 type ProjectRepository interface {
 	GetProject(id string) (*models.Project, error)
-	SearchProjects(keyword string) ([]*models.Project, error)
+	SearchProjects(keyword string) ([]*models.ProjectInfo, error)
 	CreateProject(project *models.Project) error
 	UpdateProject(project *models.Project) error
 	DeleteProject(id string) error
@@ -67,10 +67,10 @@ func (r *projectRepository) GetProject(id string) (*models.Project, error) {
 	return &p, nil
 }
 
-func (r *projectRepository) SearchProjects(keyword string) ([]*models.Project, error) {
+func (r *projectRepository) SearchProjects(keyword string) ([]*models.ProjectInfo, error) {
 	query := `
         SELECT p.project_id, p.title, p.description, p.status, p.introduction, p.owner_id, 
-               p.created_at, p.updated_at, p.project_sections::TEXT
+               p.created_at, p.updated_at
         FROM projects p
         WHERE p.title ILIKE $1 OR p.description ILIKE $1
         ORDER BY p.created_at DESC
@@ -82,10 +82,9 @@ func (r *projectRepository) SearchProjects(keyword string) ([]*models.Project, e
 	}
 	defer rows.Close()
 
-	var projects []*models.Project
+	var projects []*models.ProjectInfo
 	for rows.Next() {
-		var p models.Project
-		var sectionsJSON string
+		var p models.ProjectInfo
 
 		err := rows.Scan(
 			&p.ProjectID,
@@ -96,7 +95,6 @@ func (r *projectRepository) SearchProjects(keyword string) ([]*models.Project, e
 			&p.OwnerID,
 			&p.CreatedAt,
 			&p.UpdatedAt,
-			&sectionsJSON,
 		)
 		if err != nil {
 			return nil, fmt.Errorf("error scanning project row: %v", err)
@@ -104,11 +102,6 @@ func (r *projectRepository) SearchProjects(keyword string) ([]*models.Project, e
 
 		// Initialize empty tags array
 		p.Tags = []string{}
-
-		// Unmarshal JSONB to Go struct
-		if err := json.Unmarshal([]byte(sectionsJSON), &p.Sections); err != nil {
-			return nil, fmt.Errorf("error unmarshalling project sections: %v", err)
-		}
 
 		projects = append(projects, &p)
 	}

@@ -1,14 +1,15 @@
 package repositories
 
 import (
-    "context"
-    "errors"
-    "fmt"
-    "time"
+	"context"
+	"errors"
+	"fmt"
+	"time"
 
-    "Loop_backend/internal/models"
-    "github.com/jackc/pgconn"
-    "github.com/jackc/pgx/v4/pgxpool"
+	"Loop_backend/internal/models"
+
+	"github.com/jackc/pgconn"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type UserRepository interface {
@@ -19,40 +20,40 @@ type UserRepository interface {
 }
 
 type userRepository struct {
-    db *pgxpool.Pool
+	db *pgxpool.Pool
 }
 
 func NewUserRepository(db *pgxpool.Pool) UserRepository {
-    return &userRepository{db: db}
+	return &userRepository{db: db}
 }
 
 func (r *userRepository) GetUser(id string) (*models.UserInfo, error) {
-    // First fetch the user
-    query := `
+	// First fetch the user
+	query := `
         SELECT id, email, username, bio, location, created_at
         FROM users
         WHERE id = $1
     `
 
-    var u models.User
-    err := r.db.QueryRow(context.Background(), query, id).Scan(
-        &u.ID,
-        &u.Email,
-        &u.Username,
-        &u.Bio,
-        &u.Location,
-        &u.CreatedAt,
-    )
+	var u models.User
+	err := r.db.QueryRow(context.Background(), query, id).Scan(
+		&u.ID,
+		&u.Email,
+		&u.Username,
+		&u.Bio,
+		&u.Location,
+		&u.CreatedAt,
+	)
 
-    if err != nil {
-        if err.Error() == "no rows in result set" {
-            return nil, fmt.Errorf("user not found: %v", err)
-        }
-        return nil, fmt.Errorf("error finding user: %v", err)
-    }
+	if err != nil {
+		if err.Error() == "no rows in result set" {
+			return nil, fmt.Errorf("user not found: %v", err)
+		}
+		return nil, fmt.Errorf("error finding user: %v", err)
+	}
 
-    // Then fetch all projects owned by this user
-    projectsQuery := `
+	// Then fetch all projects owned by this user
+	projectsQuery := `
         SELECT p.project_id, p.title, p.description, p.status, p.introduction, p.owner_id, 
                p.created_at, p.updated_at, p.project_sections::TEXT
         FROM projects p
@@ -60,42 +61,42 @@ func (r *userRepository) GetUser(id string) (*models.UserInfo, error) {
         ORDER BY p.created_at DESC
     `
 
-    rows, err := r.db.Query(context.Background(), projectsQuery, id)
-    if err != nil {
-        return &models.UserInfo{User: u}, fmt.Errorf("error fetching user projects: %v", err)
-    }
-    defer rows.Close()
+	rows, err := r.db.Query(context.Background(), projectsQuery, id)
+	if err != nil {
+		return &models.UserInfo{User: u}, fmt.Errorf("error fetching user projects: %v", err)
+	}
+	defer rows.Close()
 
-    var projectInfos []*models.ProjectInfo
-    for rows.Next() {
-        var p models.ProjectInfo
-        var sectionsJSON string
+	var projectInfos []*models.ProjectInfo
+	for rows.Next() {
+		var p models.ProjectInfo
+		var sectionsJSON string
 
-        err := rows.Scan(
-            &p.ProjectID,
-            &p.Title,
-            &p.Description,
-            &p.Status,
-            &p.Introduction,
-            &p.OwnerID,
-            &p.CreatedAt,
-            &p.UpdatedAt,
-            &sectionsJSON,
-        )
-        if err != nil {
-            return &models.UserInfo{User: u}, fmt.Errorf("error scanning project row: %v", err)
-        }
+		err := rows.Scan(
+			&p.ProjectID,
+			&p.Title,
+			&p.Description,
+			&p.Status,
+			&p.Introduction,
+			&p.OwnerID,
+			&p.CreatedAt,
+			&p.UpdatedAt,
+			&sectionsJSON,
+		)
+		if err != nil {
+			return &models.UserInfo{User: u}, fmt.Errorf("error scanning project row: %v", err)
+		}
 
-        // Initialize empty tags array
-        p.Tags = []string{}
+		// Initialize empty tags array
+		p.Tags = []string{}
 
-        projectInfos = append(projectInfos, &p)
-    }
+		projectInfos = append(projectInfos, &p)
+	}
 
-    return &models.UserInfo{
-        User:     u,
-        Projects: projectInfos,
-    }, nil
+	return &models.UserInfo{
+		User:     u,
+		Projects: projectInfos,
+	}, nil
 }
 
 func (r *userRepository) Create(u *models.User) error {
