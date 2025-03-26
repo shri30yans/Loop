@@ -13,7 +13,7 @@ import (
 
 type ProjectRepository interface {
 	GetProject(id string) (*models.Project, error)
-	SearchProjects(keyword string) ([]*models.Project, error)
+	SearchProjects(keyword string) ([]*models.ProjectInfo, error)
 	CreateProject(project *models.Project) error
 	UpdateProject(project *models.Project) error
 	DeleteProject(id string) error
@@ -23,181 +23,146 @@ type projectRepository struct {
 	db *pgxpool.Pool
 }
 
-// NewProjectRepository creates a new PostgreSQL project repository
 func NewProjectRepository(db *pgxpool.Pool) ProjectRepository {
 	return &projectRepository{db: db}
 }
 
 func (r *projectRepository) GetProject(id string) (*models.Project, error) {
-    query := `
-    SELECT p.project_id, p.title, p.description, p.introduction, p.owner_id, 
-           p.created_at, p.updated_at, p.project_sections::TEXT
-    FROM projects p
-    WHERE p.project_id = $1
-    `
-    
-    var p models.Project
-    var sectionsJSON string
+	query := `
+        SELECT p.project_id, p.title, p.description, p.status, p.introduction, p.owner_id, 
+               p.created_at, p.updated_at, p.project_sections::TEXT
+        FROM projects p
+        WHERE p.project_id = $1
+        `
+	var p models.Project
+	var sectionsJSON string
 
-    err := r.db.QueryRow(context.Background(), query, id).Scan(
-        &p.ProjectID,
-        &p.Title,
-        &p.Description,
-        &p.Introduction,
-        &p.OwnerID,
-        &p.CreatedAt,
-        &p.UpdatedAt,
-        &sectionsJSON,
-    )
+	err := r.db.QueryRow(context.Background(), query, id).Scan(
+		&p.ProjectID,
+		&p.Title,
+		&p.Description,
+		&p.Status,
+		&p.Introduction,
+		&p.OwnerID,
+		&p.CreatedAt,
+		&p.UpdatedAt,
+		&sectionsJSON,
+	)
 
-    if err != nil {
-        if err.Error() == "no rows in result set" {
-            return nil, fmt.Errorf("project not found: %v", err)
-        }
-        return nil, fmt.Errorf("error finding project: %v", err)
-    }
+	if err != nil {
+		if err.Error() == "no rows in result set" {
+			return nil, fmt.Errorf("project not found: %v", err)
+		}
+		return nil, fmt.Errorf("error finding project: %v", err)
+	}
 
-    // Unmarshal JSONB to Go struct
-    if err := json.Unmarshal([]byte(sectionsJSON), &p.Sections); err != nil {
-        return nil, fmt.Errorf("error unmarshalling project sections: %v", err)
-    }
+	// Initialize empty tags array
+	p.Tags = []string{}
 
-    // Fetch project tags
-    tagQuery := `SELECT tag_description FROM project_tags WHERE project_id = $1`
-    rows, err := r.db.Query(context.Background(), tagQuery, id)
-    if err != nil {
-        return nil, fmt.Errorf("error retrieving project tags: %v", err)
-    }
-    defer rows.Close()
+	// Unmarshal JSONB to Go struct
+	if err := json.Unmarshal([]byte(sectionsJSON), &p.Sections); err != nil {
+		return nil, fmt.Errorf("error unmarshalling project sections: %v", err)
+	}
 
-    for rows.Next() {
-        var tag string
-        if err := rows.Scan(&tag); err != nil {
-            return nil, fmt.Errorf("error scanning tag: %v", err)
-        }
-        p.Tags = append(p.Tags, tag)
-    }
-
-    return &p, nil
+	return &p, nil
 }
 
-func (r *projectRepository) SearchProjects(keyword string) ([]*models.Project, error) {
-    query := `
-    SELECT p.project_id, p.title, p.description, p.introduction, p.owner_id, 
-           p.created_at, p.updated_at, p.project_sections::TEXT
-    FROM projects p
-    WHERE p.title ILIKE $1 OR p.description ILIKE $1
-    ORDER BY p.created_at DESC
-    `
+func (r *projectRepository) SearchProjects(keyword string) ([]*models.ProjectInfo, error) {
+	query := `
+        SELECT p.project_id, p.title, p.description, p.status, p.introduction, p.owner_id, 
+               p.created_at, p.updated_at
+        FROM projects p
+        WHERE p.title ILIKE $1 OR p.description ILIKE $1
+        ORDER BY p.created_at DESC
+        `
 
-    rows, err := r.db.Query(context.Background(), query, "%"+keyword+"%")
-    if err != nil {
-        return nil, fmt.Errorf("error searching projects: %v", err)
-    }
-    defer rows.Close()
+	rows, err := r.db.Query(context.Background(), query, "%"+keyword+"%")
+	if err != nil {
+		return nil, fmt.Errorf("error searching projects: %v", err)
+	}
+	defer rows.Close()
 
-    var projects []*models.Project
-    for rows.Next() {
-        var p models.Project
-        var sectionsJSON string
+	var projects []*models.ProjectInfo
+	for rows.Next() {
+		var p models.ProjectInfo
 
-        err := rows.Scan(
-            &p.ProjectID,
-            &p.Title,
-            &p.Description,
-            &p.Introduction,
-            &p.OwnerID,
-            &p.CreatedAt,
-            &p.UpdatedAt,
-            &sectionsJSON,
-        )
-        if err != nil {
-            return nil, fmt.Errorf("error scanning project row: %v", err)
-        }
+		err := rows.Scan(
+			&p.ProjectID,
+			&p.Title,
+			&p.Description,
+			&p.Status,
+			&p.Introduction,
+			&p.OwnerID,
+			&p.CreatedAt,
+			&p.UpdatedAt,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("error scanning project row: %v", err)
+		}
 
-        // Unmarshal JSONB to Go struct
-        if err := json.Unmarshal([]byte(sectionsJSON), &p.Sections); err != nil {
-            return nil, fmt.Errorf("error unmarshalling project sections: %v", err)
-        }
+		// Initialize empty tags array
+		p.Tags = []string{}
 
-        // Fetch project tags
-        tagQuery := `SELECT tag_description FROM project_tags WHERE project_id = $1`
-        tagRows, err := r.db.Query(context.Background(), tagQuery, p.ProjectID)
-        if err != nil {
-            return nil, fmt.Errorf("error retrieving project tags: %v", err)
-        }
-        defer tagRows.Close()
-
-        for tagRows.Next() {
-            var tag string
-            if err := tagRows.Scan(&tag); err != nil {
-                return nil, fmt.Errorf("error scanning tag: %v", err)
-            }
-            p.Tags = append(p.Tags, tag)
-        }
-
-        projects = append(projects, &p)
-    }
-    return projects, nil
+		projects = append(projects, &p)
+	}
+	return projects, nil
 }
-
 
 func (r *projectRepository) CreateProject(p *models.Project) error {
-    query := `
-    INSERT INTO projects (project_id, owner_id, title, description, status, introduction, project_sections, created_at, updated_at)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-    RETURNING project_id
-    `
-    
-    sectionsJSON, _ := json.Marshal(p.Sections)
-    
-    err := r.db.QueryRow(
-        context.Background(),
-        query,
-        p.ProjectID,
-        p.OwnerID,
-        p.Title,
-        p.Description,
-        p.Status,
-        p.Introduction,
-        string(sectionsJSON),
-        time.Now(),
-        time.Now(),
-    ).Scan(&p.ProjectID)
+	query := `
+        INSERT INTO projects (project_id, owner_id, title, description, status, introduction, project_sections, created_at, updated_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+        RETURNING project_id
+        `
 
-    if err != nil {
-        return fmt.Errorf("error creating project: %v", err)
-    }
+	sectionsJSON, err := json.Marshal(p.Sections)
+	if err != nil {
+		return fmt.Errorf("error marshalling sections: %v", err)
+	}
 
-    // Insert project tags
-    tagQuery := `INSERT INTO project_tags (project_id, tag_description) VALUES ($1, $2)`
-    for _, tag := range p.Tags {
-        _, err := r.db.Exec(context.Background(), tagQuery, p.ProjectID, tag)
-        if err != nil {
-            return fmt.Errorf("error inserting project tag: %v", err)
-        }
-    }
+	now := time.Now()
 
-    return nil
+	err = r.db.QueryRow(
+		context.Background(),
+		query,
+		p.ProjectID,
+		p.OwnerID,
+		p.Title,
+		p.Description,
+		p.Status,
+		p.Introduction,
+		string(sectionsJSON),
+		now,
+		now,
+	).Scan(&p.ProjectID)
+
+	if err != nil {
+		return fmt.Errorf("error creating project: %v", err)
+	}
+	return nil
 }
-
 
 func (r *projectRepository) UpdateProject(p *models.Project) error {
 	query := `
-    UPDATE projects
-    SET title = $1, description = $2, introduction = $3, 
-        updated_at = $4, project_sections = $5
-    WHERE project_id = $6
-    `
+        UPDATE projects
+        SET title = $1, description = $2, status = $3, introduction = $4, 
+            updated_at = $5, project_sections = $6
+        WHERE project_id = $7
+        `
 
-	sectionsJSON, _ := json.Marshal(p.Sections)
+	sectionsJSON, err := json.Marshal(p.Sections)
+	if err != nil {
+		return fmt.Errorf("error marshalling sections: %v", err)
+	}
+
 	now := time.Now()
 
-	_, err := r.db.Exec(
+	_, err = r.db.Exec(
 		context.Background(),
 		query,
 		p.Title,
 		p.Description,
+		p.Status,
 		p.Introduction,
 		now,
 		string(sectionsJSON),

@@ -1,6 +1,22 @@
+export type AuthResponse = {
+  access_token: string;
+  user: UserType;
+};
+
+export type ProjectsResponse = {
+  projects: ProjectType[];
+  total: number;
+};
+
+export type RegisterData = {
+  email: string;
+  password: string;
+  username: string; 
+};
+
 export interface UserType {
     id: string;
-    name: string;
+    username: string;
     email: string;
     bio?: string;
     location?: string;
@@ -22,9 +38,10 @@ export interface PostType {
 };
 
 export interface ProjectType {
-    id?: string;
+    id?: string; 
     title: string;
     description: string;
+    status: string;
     introduction: string;
     sections: ProjectSectionType[];
     owner_id: string;
@@ -34,6 +51,6 @@ export interface ProjectType {
 };
 
 export type ProjectSectionType = {
-    title : string;
-    body: string;
+    title: string;
+    content: string;
 };

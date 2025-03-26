@@ -8,12 +8,17 @@ import (
 )
 
 type User struct {
-	ID        string  `json:"id"`
-	Username  string `json:"username"`
-	Email     string `json:"email"`
-	Bio       string `json:"bio"`
-	Location  string `json:"location"`
+	ID        string    `json:"id"`
+	Username  string    `json:"username"`
+	Email     string    `json:"email"`
+	Bio       string    `json:"bio"`
+	Location  string    `json:"location"`
 	CreatedAt time.Time `json:"created_at"`
+}
+
+type UserInfo struct {
+	User     `json:",inline"`
+	Projects []*ProjectInfo `json:"projects"`
 }
 
 var (

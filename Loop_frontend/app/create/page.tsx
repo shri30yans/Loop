@@ -12,7 +12,6 @@ import { ProjectSectionType, ProjectType } from "../types";
 import { useAuthStore } from '../../lib/auth/authStore';
 import { useRouter } from 'next/navigation';
 
-
 export default function CreatePage() {
   const router = useRouter();
   const access_token = useAuthStore((state) => state.access_token);
@@ -27,7 +26,7 @@ export default function CreatePage() {
   ];
 
   const initialProjectSection: ProjectSectionType[] = [
-    { index: 1, title: "", content: "" },
+    { title: "", content: "" },
   ];
 
   const [projectSection, setProjectSection] = useState<ProjectSectionType[]>(initialProjectSection);
@@ -35,6 +34,7 @@ export default function CreatePage() {
   const initialProject: ProjectType = {
     title: "",
     description: "",
+    status: "draft",
     introduction: "",
     sections: projectSection,
     owner_id: "",
@@ -49,7 +49,6 @@ export default function CreatePage() {
   ) => {
     const { name, value } = event.target;
     
-    // Special handling for tags array
     if (name === 'tags') {
       const tagsArray = Array.isArray(value) ? value : value.split(',').map(tag => tag.trim());
       setProject(prevProject => ({
@@ -68,9 +67,10 @@ export default function CreatePage() {
     const { name, value, id } = event.target;
     const sectionNumber = parseInt(id || '0', 10);
   
-    const updatedSections = projectSection.map((section) => {
-      if (section.index === sectionNumber) {
-        return { ...section, [name]: value };
+    const updatedSections = projectSection.map((section, idx) => {
+      if (idx === sectionNumber) {
+        const fieldName = name === 'body' ? 'content' : name;
+        return { ...section, [fieldName]: value };
       }
       return section;
     });
@@ -82,14 +82,11 @@ export default function CreatePage() {
     }));
   };
   
-  
   const addNewCard = () => {
     if (projectSection.length >= 10) {
-      //console.log("You can't add more than 10 updates")
       return;
     }
     const newCard: ProjectSectionType = {
-      index: projectSection.length + 1,
       title: "",
       content: "",
     };
@@ -104,29 +101,33 @@ export default function CreatePage() {
       try {
         project.owner_id = user_id;
         const sectionsWithoutIndex = project.sections.map(({ title, content }) => ({ title, content }));
-        const response = await createProject(access_token, { ...project, sections: sectionsWithoutIndex as any });
-        const newProjectId = response.project_id;
+        const response = await createProject(access_token, { 
+          ...project, 
+          sections: sectionsWithoutIndex as any,
+          status: "draft"
+        });
+
+        // Debug the response
+        console.log('Project creation response:', response);
+
+        // Get ID from response (using just 'id' now since we've updated the types)
+        const projectId = response.id;
+        if (!projectId) {
+          throw new Error('No project ID in response');
+        }
+
         setProject(initialProject);
         setProjectSection(initialProjectSection);
-        router.push(`/projectpage?id=${newProjectId}`);
+        router.push(`/projectpage?id=${projectId}`);
       } catch (error) {
         console.error('Error during project creation:', error);
       }
     }
-    
-    // Reset all fields 
-
   };
 
   return (
     <div>
       <form className="space-y-4" onSubmit={handlePublish}>
-        {
-          //------------------------------------------
-          // Project Basics Card
-          //------------------------------------------
-        }
-
         <Card isBlurred>
           <CardBody>
             <div className="space-y-2">
@@ -139,7 +140,7 @@ export default function CreatePage() {
                   src="https://www.liquidplanner.com/wp-content/uploads/2019/04/HiRes-17.jpg"
                 />
 
-                <div className="w-full space-y-2 px-6 ">
+                <div className="w-full space-y-2 px-6">
                   <div className={subheading({ size: "lg" })}>
                     Project basics
                   </div>
@@ -151,10 +152,7 @@ export default function CreatePage() {
                     name="title"
                     value={project.title}
                     onChange={handleProjectChange}
-                    // maxLength={15}
-                    // minLength={2}
                     required
-
                   />
                   <Input
                     isRequired
@@ -164,8 +162,6 @@ export default function CreatePage() {
                     name="description"
                     value={project.description}
                     onChange={handleProjectChange}
-                    // maxLength={30}
-                    // minLength={10}
                     required
                   />
 
@@ -177,7 +173,7 @@ export default function CreatePage() {
                     placeholder="What is your project about?"
                     name="tags"
                     onSelectionChange={(keys) => {
-                      const tagsArray = Array.from(keys).map(String); // Convert numbers to strings
+                      const tagsArray = Array.from(keys).map(String);
                       handleProjectChange({
                         target: {
                           name: 'tags',
@@ -197,12 +193,8 @@ export default function CreatePage() {
               </div>
             </div>
           </CardBody>
-          {
-            //------------------------------------------
-            // Introduction Card
-            //------------------------------------------
-          }
         </Card>
+
         <Card isBlurred>
           <CardBody>
             <div className="space-y-2">
@@ -218,52 +210,40 @@ export default function CreatePage() {
                   name="introduction"
                   value={project.introduction}
                   onChange={handleProjectChange}
-                  // maxLength={250}
-                  // minLength={50}
                   required
                 />
               </div>
             </div>
           </CardBody>
         </Card>
-        {
-          //------------------------------------------
-          // Content projectSection
-          //------------------------------------------
-        }
-        {projectSection.map((card) => (
-          <div className="flex w-full flex-col space-y-6" key={card.index}>
+        {projectSection.map((card, index) => (
+          <div className="flex w-full flex-col space-y-6">
             <Card isBlurred>
               <CardBody>
                 <div className="space-y-2">
                   <div className="w-full space-y-2 px-6 pb-6 pt-2">
                     <div className={subheading({ size: "lg" })}>
-                      Update {card.index}
+                      Update {index + 1}
                     </div>
                     <Input
                       isRequired
                       className="w-full"
                       type="text"
                       label="Title"
-                      id={card.index.toString()}
+                      id={(index + 1).toString()}
                       name="title"
                       value={card.title}
                       onChange={handleProjectSectionChange}
-                      // maxLength={80}
-                      // minLength={6}
                       required
-
                     />
                     <Textarea
                       label="Body"
                       className="w-full"
                       isRequired
-                      id={card.index.toString()}
+                      id={(index + 1).toString()}
                       name="body"
                       value={card.content}
                       onChange={handleProjectSectionChange}
-                      // maxLength={2000}
-                      // minLength={50}
                       required
                     />
                   </div>

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS projects (
-    project_id VARCHAR(100) PRIMARY KEY,
-    owner_id VARCHAR(100) REFERENCES users(id) ON DELETE CASCADE,
+    project_id UUID PRIMARY KEY,
+    owner_id UUID REFERENCES users(id) ON DELETE CASCADE,
     title VARCHAR(200) NOT NULL,
     introduction TEXT,
     description TEXT,
@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS projects (
 
 CREATE TABLE IF NOT EXISTS project_tags (
     tag_description VARCHAR(50),
-    project_id VARCHAR(100) REFERENCES projects(project_id) ON DELETE CASCADE,
+    project_id UUID REFERENCES projects(project_id) ON DELETE CASCADE,
+    confidence FLOAT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (project_id, tag_description)
 );
