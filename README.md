@@ -37,7 +37,7 @@ DB_USER=postgres
 DB_PASSWORD=Welcome1
 DB_NAME=loop
 ```
-4. . Run the Backend
+4. Go to the Loop Backend directory
 Install Go modules:
 ```
 go mod tidy
@@ -46,7 +46,10 @@ Run the backend server:
 ```
 go run server.go
 ```
-Run the frontend
+5. Go to the Loop frontend directory
+```
+npm install
+```
 ```
 npm run dev
 ```
