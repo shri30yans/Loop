@@ -1,20 +1,40 @@
 "use client";
-import { useState, useEffect } from "react";
-import { Card } from "@nextui-org/card";
+import { useState, useEffect, useRef } from "react";
+import { Card, CardHeader, CardBody } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
 import { Textarea } from "@nextui-org/input";
+import { IoSendSharp } from "react-icons/io5";
 import { useAuthStore } from "../../lib/auth/authStore";
 import { sendMessage, fetchChatHistory, type ChatMessage } from "./actions";
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const initialMessages: ChatMessage[] = [
+    {
+      id: "1",
+      content: "Hi! 👋 I'm Loop, your AI assistant. How can I help you today?",
+      type: 'llm',
+      timestamp: new Date().toISOString()
+    },
+    {
+      id: "2",
+      content: "I can help you with programming, answer questions, debug issues, and much more!",
+      type: 'llm',
+      timestamp: new Date().toISOString()
+    }
+  ];
+
+  const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const [currentMessage, setCurrentMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(true);
+  const [isSending, setIsSending] = useState(false);
   const access_token = useAuthStore((state) => state.access_token);
 
   useEffect(() => {
     if (access_token) {
-      loadChatHistory();
+      loadChatHistory().finally(() => setIsPageLoading(false));
+    } else {
+      setIsPageLoading(false);
     }
   }, [access_token]);
 
@@ -30,14 +50,14 @@ export default function ChatPage() {
   const handleSendMessage = async () => {
     if (!currentMessage.trim() || !access_token) return;
 
-    setIsLoading(true);
+    setIsSending(true);
     
     try {
       const newMessage: ChatMessage = {
         id: Date.now().toString(),
         content: currentMessage,
         type: 'user',
-        timestamp: new Date()
+        timestamp: new Date().toISOString()
       };
 
       setMessages(prev => [...prev, newMessage]);
@@ -48,24 +68,34 @@ export default function ChatPage() {
     } catch (error) {
       console.error("Failed to send message:", error);
     } finally {
-      setIsLoading(false);
+      setIsSending(false);
     }
   };
 
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  useEffect(() => {
+    if (!access_token) {
+      window.location.href = '/auth/login';
+    }
+  }, [access_token]);
+
+  if (isPageLoading) {
+    return <div className="flex items-center justify-center h-[600px]">Loading...</div>;
+  }
+
   if (!access_token) {
-    return (
-      <div className="h-[calc(100vh-4rem)] flex items-center justify-center">
-        <Card className="p-4">
-          <p className="text-lg">Please login to access the chat.</p>
-        </Card>
-      </div>
-    );
+    return null;
   }
 
   return (
-    <div className="h-[calc(100vh-4rem)] flex flex-col">
+    <div className="flex flex-col h-full relative max-w-3xl mx-auto">
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 space-y-8 overflow-y-auto absolute top-0 left-0 right-0 bottom-[100px] pr-2">
+        <div className="px-6 space-y-4 pb-8">
         {messages.map((message) => (
           <div
             key={message.id}
@@ -74,45 +104,64 @@ export default function ChatPage() {
             }`}
           >
             <div
-              className={`max-w-[70%] px-4 py-2 rounded-lg ${
-                message.type === 'user'
-                  ? 'bg-gray-200 text-black'
-                  : 'text-white'
+              className={`max-w-[60%] ${
+                message.type === 'user' ? 'ml-auto' : 'mr-auto'
               }`}
             >
-              {message.content}
+              {message.type === 'user' ? (
+                <Card
+                  className="px-4 py-2 text-md bg-primary text-primary-foreground rounded-3xl shadow-md transition-all duration-200"
+                >
+                  {message.content}
+                </Card>
+              ) : (
+                <div className="px-2 text-md text-foreground">
+                  {message.content}
+                </div>
+              )}
             </div>
           </div>
         ))}
+        <div ref={messagesEndRef} />
+        </div>
       </div>
 
       {/* Input Container */}
-      <Card className="m-4 p-4">
-        <div className="flex gap-2">
+      <Card className=" absolute bottom-0 left-0 right-0 rounded-3xl bg-background/80 backdrop-blur-md" shadow="lg">
+        <CardBody>
+          <div className="flex gap-4 items-stretch">
           <Textarea
             value={currentMessage}
             onChange={(e) => setCurrentMessage(e.target.value)}
             placeholder="Type your message here..."
-            minRows={1}
-            maxRows={4}
-            className="flex-1"
+            minRows={2}
+            maxRows={2}
+            className="flex-1 text-xl rounded-xl "
+            variant="faded"
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
                 handleSendMessage();
               }
             }}
-            isDisabled={isLoading}
+            isDisabled={isSending}
           />
           <Button
             color="primary"
-            isDisabled={!currentMessage.trim() || isLoading}
+            size="lg"
+            className=" rounded-xl hover:scale-105 hover:shadow-lg active:scale-95 transition-all duration-200 flex items-center justify-center bg-gradient-to-tr from-primary-500 to-primary-600"
+            isDisabled={!currentMessage.trim() || isSending}
             onPress={handleSendMessage}
-            isLoading={isLoading}
+            isLoading={isSending}
           >
-            {isLoading ? "Sending..." : "Send"}
+            {isSending ? (
+              <div className="animate-spin">⏳</div>
+            ) : (
+              <IoSendSharp size={20} />
+            )}
           </Button>
-        </div>
+          </div>
+        </CardBody>
       </Card>
     </div>
   );

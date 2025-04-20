@@ -20,6 +20,10 @@ export const siteConfig = {
       label: "Projects",
       href: "/projects",
     },
+    {
+      label: "Chat",
+      href: "/chat",
+    },
     // {
     //   label: "Communities",
     //   href: "/communities",
@@ -38,6 +42,10 @@ export const siteConfig = {
     //   label: "Discover",
     //   href: "/discover",
     // },
+    {
+      label: "Chat",
+      href: "/chat",
+    },
     {
       label: "Blogs",
       href: "/blogs",

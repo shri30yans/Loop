@@ -2,7 +2,7 @@ export interface ChatMessage {
   id: string;
   content: string;
   type: 'user' | 'llm';
-  timestamp: Date;
+  timestamp: string;
 }
 
 export async function sendMessage(message: string, access_token: string): Promise<ChatMessage> {
