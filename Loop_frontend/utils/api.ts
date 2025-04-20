@@ -70,34 +70,85 @@ export async function apiRequest<T>(
 
     clearTimeout(timeoutId);
 
-    // Handle common HTTP status codes
-    switch (response.status) {
-      case 401:
-        throw new Error('Unauthorized');
-      case 404:
-        return { success: false, data: null } as T;
-      case 500:
-        throw new Error('Internal server error');
+    // Check if we actually got a response from the server
+    if (!response.status) {
+      throw new NetworkError('Unable to connect to the server. Please check your connection and try again.');
     }
 
+    // For any error response, try to get the response body
     if (!response.ok) {
-      if (!response.status) {
-        throw new NetworkError();
+      let errorData;
+      let errorBody = '';
+      try {
+        errorBody = await response.text();
+        console.log('Error response body:', errorBody); // Log raw error response
+        try {
+          errorData = JSON.parse(errorBody);
+          console.log('Parsed error data:', errorData); // Log parsed error data
+        } catch {
+          // If JSON parsing fails, use the raw text
+          errorData = { message: errorBody };
+        }
+      } catch {
+        errorData = { message: `Server error: ${response.status}` };
       }
-      throw new Error(`Server error: ${response.status}`);
+
+      // Enhanced error message with status code and response body
+      let errorMessage = `Server Error (${response.status})`;
+      if (errorData.message) {
+        errorMessage += `: ${errorData.message}`;
+      }
+      if (errorBody && errorMessage !== errorBody) {
+        errorMessage += `\nResponse: ${errorBody}`;
+      }
+
+      // If there are validation details, include them
+      if (errorData.details) {
+        const details = Object.entries(errorData.details)
+          .map(([field, error]) => `${field}: ${error}`)
+          .join(', ');
+        errorMessage += `\nDetails: ${details}`;
+      }
+
+      throw new NetworkError(errorMessage, response, errorData);
     }
 
-    const data = await response.json();
+    let data = await response.json();
+    console.log('Raw server response:', data); // Debug log
+    
+    // Handle development environment response structure
+    if (Array.isArray(data) && data.length === 2) {
+      if (data[0]?.[0] === '$@1' && data[1]) {
+        // Extract the actual response data from the second element
+        data = data[1];
+      }
+    }
+    
     return data as T;
   } catch (error: unknown) {
     if (error instanceof Error) {
+      // Handle timeout errors
       if (error.name === 'AbortError') {
         throw new TimeoutError();
       }
+      
+      // Handle network errors
+      if (error.message.includes('Failed to fetch') || error.message.includes('Network request failed')) {
+        throw new NetworkError('Unable to connect to the server. Please check your connection and try again.');
+      }
+      
+      // Check online status only in browser environment
+      if (typeof window !== 'undefined' && !window.navigator.onLine) {
+        throw new NetworkError('You appear to be offline. Please check your internet connection.');
+      }
+
+      // If it's already a NetworkError or TimeoutError, just rethrow it
       if (error instanceof NetworkError || error instanceof TimeoutError) {
         throw error;
       }
+
       console.error('API request failed:', error);
+      throw error;
     }
     throw new Error('An unexpected error occurred. Please try again.');
   }
@@ -131,6 +182,11 @@ export const api = {
       const response = await apiRequest(`/project/search${queryParams}`, access_token);
       return response as ProjectsResponse;
     },
+    getProject2w: async (access_token: string, searchKeyword?: string): Promise<ProjectsResponse> => {
+      const queryParams = searchKeyword ? `?keyword=${encodeURIComponent(searchKeyword)}` : '';
+      const response = await apiRequest(`/project/get${queryParams}`, access_token);
+      return response as ProjectsResponse;
+    },
     getProject: async (access_token: string, id: string): Promise<ProjectType> => {
       const response = await apiRequest(`/project/${id}`, access_token);
       console.log(response);
@@ -159,6 +215,7 @@ export const api = {
         body: data,
       });
     },
+    
     deleteAccount: async (access_token: string): Promise<void> => {
       return apiRequest('/user/delete', access_token, {
         method: 'PUT',

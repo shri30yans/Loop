@@ -3,6 +3,8 @@
 import { FormEvent, useState } from 'react';
 import { register } from './actions';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { NetworkError } from '@/utils/errors';
 import { Button } from "@nextui-org/button";
 import { Card, CardFooter, CardBody, CardHeader } from "@nextui-org/card";
 import { Input } from '@nextui-org/input';
@@ -20,10 +22,35 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     const formData = new FormData(event.currentTarget as HTMLFormElement);
-    const username = formData.get('username') as string;
-    const email = formData.get('email') as string;
+    const username = (formData.get('username') as string).trim();
+    const email = (formData.get('email') as string).trim();
     const password = formData.get('password') as string;
     const confirmPassword = formData.get('confirmPassword') as string;
+
+    // Validation
+    if (!username) {
+      setError('Username is required');
+      setIsLoading(false);
+      return;
+    }
+
+    if (username.length < 3) {
+      setError('Username must be at least 3 characters long');
+      setIsLoading(false);
+      return;
+    }
+
+    if (username.length > 30) {
+      setError('Username must not exceed 30 characters');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
+      setError('Username can only contain letters, numbers, underscores, and hyphens');
+      setIsLoading(false);
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match');
@@ -32,10 +59,42 @@ export default function RegisterPage() {
     }
 
     try {
-      const data = await register(username,email, password);
-      router.push('/auth/login');
-    } catch (error) {
-      setError('Registration failed. Please try again.');
+      // Log the registration data for debugging
+      console.log('Registering with:', { username, email, password });
+      
+      const data = await register(username, email, password);
+      
+      if (data && data.access_token && data.user_id) {
+        toast.success('Registration successful!');
+        router.push('/auth/login');
+      } else {
+        console.error('Invalid response structure:', data);
+        throw new Error('Registration failed. Please try again.');
+      }
+    } catch (error: any) {
+      let errorMessage = 'Registration failed. Please try again.';
+      
+      if (error instanceof NetworkError) {
+        if (error.responseBody && (error.responseBody.message || error.responseBody.error)) {
+          // Extract the specific error message from the backend response
+          errorMessage = error.responseBody.message || error.responseBody.error;
+          
+          // If there are validation details, include them
+          if (error.responseBody.details) {
+            errorMessage = Object.entries(error.responseBody.details)
+              .map(([field, msg]) => `${field}: ${msg}`)
+              .join(', ');
+          }
+        } else {
+          errorMessage = error.message;
+        }
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
+      console.error('Registration error:', errorMessage);
+      toast.error(errorMessage);
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -54,13 +113,16 @@ export default function RegisterPage() {
             </div>
           )}
           <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
+            <Input
               label="Username"
               name="username"
               variant="bordered"
               isRequired
+              placeholder="Enter your username"
+              description="This will be your display name"
               className="w-full"
               isDisabled={isLoading}
+              autoComplete="username"
             />
             <Input
               label="Email"
@@ -68,8 +130,10 @@ export default function RegisterPage() {
               type="email"
               variant="bordered"
               isRequired
+              placeholder="Enter your email"
               className="w-full"
               isDisabled={isLoading}
+              autoComplete="email"
             />
             <Input
               label="Password"

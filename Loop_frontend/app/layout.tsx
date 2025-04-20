@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import { Link } from "@nextui-org/link";
 import clsx from "clsx";
+import { Toaster } from 'sonner';
 
 import { Providers } from "./providers";
 
@@ -42,6 +43,7 @@ export default function RootLayout({
         )}>
       <AuthProvider>
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+          <Toaster richColors position="top-right" />
           <div className="relative flex flex-col h-screen">
             <Navbar />
             

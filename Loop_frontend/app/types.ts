@@ -1,6 +1,7 @@
 export type AuthResponse = {
   access_token: string;
-  user: UserType;
+  user_id: string;
+  expires_at: string;
 };
 
 export type ProjectsResponse = {

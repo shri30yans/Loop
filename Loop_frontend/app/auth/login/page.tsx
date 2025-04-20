@@ -3,6 +3,8 @@
 import { FormEvent, useState } from 'react';
 import { login } from './actions';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { NetworkError } from '@/utils/errors';
 import { Button } from "@nextui-org/button";
 import { Card, CardFooter, CardBody, CardHeader } from "@nextui-org/card";
 import { Input } from '@nextui-org/input';
@@ -26,18 +28,29 @@ export default function LoginPage() {
 
     try {
       const data = await login(email, password);
-      // Update Zustand with the token and user info
-      console.log(data)
-      useAuthStore.getState().setAuth(data.access_token, data.user_id, data.expires_at);
-      const newState = useAuthStore.getState();
-      console.log('Updated auth state:', newState);
-      // Check if cookie was set
-      //console.log('Cookies:', document.cookie);
-
-      router.push('/');
-    } catch (error) {
-      console.log(error)
-      setError('Invalid email or password. Please try again.');
+      
+      // Backend down response is handled in the API utility now
+      // Handle the backend response format
+      if (data && data.access_token && data.user_id && data.expires_at) {
+        const expiresAt = new Date(data.expires_at);
+        useAuthStore.getState().setAuth(data.access_token, data.user_id, expiresAt);
+        toast.success('Login successful!');
+        router.push('/');
+      } else {
+        console.error('Invalid response structure:', data);
+        throw new Error('Invalid credentials or server error');
+      }
+    } catch (error: any) {
+      console.error('Login error:', error);
+      console.error('Error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      });
+      
+      const errorMessage = error instanceof NetworkError ? error.message : 'Login failed. Please try again.';
+      toast.error(errorMessage);
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
