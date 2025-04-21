@@ -3,9 +3,10 @@ package repositories
 import (
 	"Loop_backend/internal/models"
 	"fmt"
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
-	"time"
 )
 
 type GraphRepository interface {
@@ -32,6 +33,12 @@ type GraphRepository interface {
 	GetProjectsByTag(tagName string) ([]*models.Project, error)
 	GetUsersWithTag(tagName string) ([]string, error)
 	GetProjectCollaborators(projectID string) ([]string, error)
+
+	// General query execution
+	ExecuteQuery(query string, params map[string]interface{}) ([]map[string]interface{}, error)
+
+	// Relationship types
+	GetAllRelationshipTypes() ([]string, error)
 }
 
 type graphRepository struct {
@@ -720,6 +727,70 @@ func (r *graphRepository) GetProjectCollaborators(projectID string) ([]string, e
 			}
 			return userIDs, nil
 		}
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result.([]string), nil
+}
+
+// ExecuteQuery executes a custom Cypher query and returns the results
+func (r *graphRepository) ExecuteQuery(query string, params map[string]interface{}) ([]map[string]interface{}, error) {
+	session := r.driver.NewSession(neo4j.SessionConfig{})
+	defer session.Close()
+
+	result, err := session.ReadTransaction(func(tx neo4j.Transaction) (interface{}, error) {
+		records, err := tx.Run(query, params)
+		if err != nil {
+			return nil, err
+		}
+
+		var results []map[string]interface{}
+		for records.Next() {
+			record := records.Record()
+			recordMap := make(map[string]interface{})
+			for i, key := range record.Keys { // Fixed: removed the () after Keys
+				recordMap[key] = record.GetByIndex(i)
+			}
+			results = append(results, recordMap)
+		}
+		return results, nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result.([]map[string]interface{}), nil
+}
+
+func (r *graphRepository) GetAllRelationshipTypes() ([]string, error) {
+	session := r.driver.NewSession(neo4j.SessionConfig{})
+	defer session.Close()
+
+	result, err := session.ReadTransaction(func(tx neo4j.Transaction) (interface{}, error) {
+		query := `
+            MATCH ()-[r]->()
+            RETURN DISTINCT type(r) AS relationshipType
+        `
+		result, err := tx.Run(query, nil)
+		if err != nil {
+			return nil, err
+		}
+
+		var relationshipTypes []string
+		for result.Next() {
+			record := result.Record()
+			if relType, ok := record.Get("relationshipType"); ok {
+				if relTypeStr, ok := relType.(string); ok {
+					relationshipTypes = append(relationshipTypes, relTypeStr)
+				}
+			}
+		}
+
+		return relationshipTypes, nil
 	})
 
 	if err != nil {

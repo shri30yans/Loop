@@ -43,6 +43,7 @@ export const useAuthStore = create<AuthState>()(
           return;
         }
 
+        console.log('Setting auth state:', { access_token, user_id, expires_at: expiresAtDate });
         const maxAge = 60 * 60 * 24 * 7 * 52; // 1 year
         setCookie('access_token', access_token, maxAge);
         setCookie('user_id', user_id, maxAge);
