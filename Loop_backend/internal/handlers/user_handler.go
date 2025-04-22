@@ -5,15 +5,15 @@ import (
 
 	"Loop_backend/internal/middleware"
 	"Loop_backend/internal/response"
-	"Loop_backend/internal/services"
+	"Loop_backend/internal/services/user"
 	"github.com/gorilla/mux"
 )
 
 type UserHandler struct {
-	userService services.UserService
+	userService user.UserService
 }
 
-func NewUserHandler(userService services.UserService) *UserHandler {
+func NewUserHandler(userService user.UserService) *UserHandler {
 	return &UserHandler{
 		userService: userService,
 	}

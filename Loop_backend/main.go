@@ -9,8 +9,15 @@ import (
 	"Loop_backend/config"
 	"Loop_backend/internal/ai/providers"
 	"Loop_backend/internal/handlers"
-	"Loop_backend/internal/repositories"
-	"Loop_backend/internal/services"
+	authRepo "Loop_backend/internal/repositories/auth"
+	graphRepo "Loop_backend/internal/repositories/graph"
+	projectRepo "Loop_backend/internal/repositories/project"
+	userRepo "Loop_backend/internal/repositories/user"
+	"Loop_backend/internal/services/auth"
+	"Loop_backend/internal/services/graph"
+	rparser "Loop_backend/internal/services/graph/response_parser"
+	"Loop_backend/internal/services/project"
+	"Loop_backend/internal/services/user"
 	neo4j "Loop_backend/platform/database/neo4j"
 	postgres "Loop_backend/platform/database/postgres"
 
@@ -21,10 +28,9 @@ import (
 
 type application struct {
 	config         *config.Config
-	authService    services.AuthService
-	userService    services.UserService
-	projectService services.ProjectService
-	// tagService     services.TagService
+	authService    auth.AuthService
+	userService    user.UserService
+	projectService project.ProjectService
 	authHandler    *handlers.AuthHandler
 	userHandler    *handlers.UserHandler
 	projectHandler *handlers.ProjectHandler
@@ -108,29 +114,24 @@ func initializeApp(cfg *config.Config) (*application, error) {
 	}
 
 	// Initialize Repositories
-	userRepo := repositories.NewUserRepository(db)
-	projectRepo := repositories.NewProjectRepository(db)
-	authRepo := repositories.NewAuthRepository(db)
-	graphRepo := repositories.NewGraphRepository(graphDB)
-	tagRepo := repositories.NewTagRepository(db)
+	uRepo := userRepo.NewUserRepository(db)
+	pRepo := projectRepo.NewProjectRepository(db)
+	aRepo := authRepo.NewAuthRepository(db)
+	gRepo := graphRepo.NewGraphRepository(graphDB)
 
 	// Initialize Services
-	graphService, err := services.NewGraphService(graphRepo)
-	if err != nil {
-		return nil, fmt.Errorf("failed to initialize graph service: %w", err)
-	}
+	responseParser := rparser.NewResponseParser()
+	graphService := graph.NewGraphService(gRepo, responseParser)
 
-	tagService := services.NewTagService(tagRepo, graphRepo)
-	projectProcessor := services.NewProjectProcessor(
+	projectProcessor := project.NewProjectProcessor(
 		provider,
 		graphService,
-		tagService,
 	)
 
 	// Initialize Core Services
-	authService := services.NewAuthService(cfg.JWTConfig.Secret, authRepo)
-	userService := services.NewUserService(userRepo)
-	projectService := services.NewProjectService(projectRepo, projectProcessor)
+	authService := auth.NewAuthService(cfg.JWTConfig.Secret, aRepo)
+	userService := user.NewUserService(uRepo)
+	projectService := project.NewProjectService(pRepo, projectProcessor)
 
 	// Initialize Handlers
 	userHandler := handlers.NewUserHandler(userService)

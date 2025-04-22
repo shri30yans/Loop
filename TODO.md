@@ -31,3 +31,39 @@ Immediate next steps
 5. How to measure interactions with website? 
 6. How to decide how they affect the RAG?
 7. How to make this actually affect the RAG?
+
+
+- We are generating tags from AI? 
+- tags that we get are different from the tags we have
+- solution 
+    - send LLm existing tags
+        - Update the tags constantly- > issue
+    - 
+
+text -> Model -> numbers
+numbers ???
+- Change Model, Find better model? 
+
+
+Embeddings? 
+Algorithm 
+Additive Manufactuting + 3D printing
+
+
+
+
+# What are the next steps?
+- How to extract entities? 
+    - Nouns
+    - LLM extraction
+- How to merge Tags
+    - Graph Techniques
+        - Similiar neighbours
+    - Fixed lists
+    - Embeddings
+- Retrieval business logic
+    - When to retrieve what and how? 
+    - tools 
+    - Database + Graph
+
+Store + Retrieve 

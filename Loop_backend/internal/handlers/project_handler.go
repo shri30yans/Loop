@@ -5,7 +5,7 @@ import (
 	"Loop_backend/internal/middleware"
 	"Loop_backend/internal/models"
 	"Loop_backend/internal/response"
-	"Loop_backend/internal/services"
+	"Loop_backend/internal/services/project"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -13,10 +13,10 @@ import (
 )
 
 type ProjectHandler struct {
-	projectService services.ProjectService
+	projectService project.ProjectService
 }
 
-func NewProjectHandler(projectService services.ProjectService) *ProjectHandler {
+func NewProjectHandler(projectService project.ProjectService) *ProjectHandler {
 	return &ProjectHandler{
 		projectService: projectService,
 	}

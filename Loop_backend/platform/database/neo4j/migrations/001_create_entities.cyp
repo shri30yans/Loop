@@ -10,7 +10,7 @@
 // RETURN dropped;
 
 // Create initial entity constraints
-CREATE CONSTRAINT project_id IF NOT EXISTS FOR (p:Project) REQUIRE p.id IS UNIQUE;
+CREATE CONSTRAINT project_id IF NOT EXISTS FOR (p:Project) REQUIRE p.project_id IS UNIQUE;
 CREATE CONSTRAINT technology_name IF NOT EXISTS FOR (t:Technology) REQUIRE (t.name, t.project_id) IS UNIQUE;
 CREATE CONSTRAINT feature_name IF NOT EXISTS FOR (f:Feature) REQUIRE (f.name, f.project_id) IS UNIQUE;
 CREATE CONSTRAINT tag_name IF NOT EXISTS FOR (t:Tag) REQUIRE (t.name, t.project_id) IS UNIQUE;

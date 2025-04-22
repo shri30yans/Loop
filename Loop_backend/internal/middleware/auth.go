@@ -5,11 +5,11 @@ import (
 	"net/http"
 
 	"Loop_backend/internal/response"
-	"Loop_backend/internal/services"
+	"Loop_backend/internal/services/auth"
 )
 
 // WithAuth is a middleware that ensures a user is authenticated
-func WithAuth(next http.HandlerFunc, authService services.AuthService) http.HandlerFunc {
+func WithAuth(next http.HandlerFunc, authService auth.AuthService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		authHeader := r.Header.Get("Authorization")
 		if authHeader == "" {

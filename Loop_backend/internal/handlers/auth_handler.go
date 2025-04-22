@@ -8,15 +8,16 @@ import (
 	"Loop_backend/internal/dto"
 	"Loop_backend/internal/middleware"
 	"Loop_backend/internal/response"
-	"Loop_backend/internal/services"
+	"Loop_backend/internal/services/auth"
+	"Loop_backend/internal/services/user"
 )
 
 type AuthHandler struct {
-	userService services.UserService
-	authService services.AuthService
+	userService user.UserService
+	authService auth.AuthService
 }
 
-func NewAuthHandler(userService services.UserService, authService services.AuthService) *AuthHandler {
+func NewAuthHandler(userService user.UserService, authService auth.AuthService) *AuthHandler {
 	return &AuthHandler{
 		userService: userService,
 		authService: authService,

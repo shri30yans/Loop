@@ -3,3 +3,4 @@
 *.env
 /converted_dataset
 /dataset
+node_modules

@@ -1,15 +1,15 @@
--- DROP TABLE IF EXISTS user_event_participation,
---       passwords,
---       events,
---       sessions,
---       project_sections,
---       comments,
---       projects,
---       project_tags,
---       users,
--- tags,
--- tag_relationships
---    ;
+DROP TABLE IF EXISTS user_event_participation,
+      passwords,
+      events,
+      sessions,
+      project_sections,
+      comments,
+      projects,
+      project_tags,
+      users,
+tags,
+tag_relationships
+   ;
 
 CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY,

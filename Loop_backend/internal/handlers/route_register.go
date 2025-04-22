@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"Loop_backend/internal/middleware"
-	"Loop_backend/internal/services"
+	"Loop_backend/internal/services/auth"
 	"github.com/gorilla/mux"
 	"net/http"
 )
@@ -16,11 +16,11 @@ type RouteRegister interface {
 // DefaultRouteRegister implements RouteRegister using mux.Router
 type DefaultRouteRegister struct {
 	router      *mux.Router
-	authService services.AuthService
+	authService auth.AuthService
 }
 
 // NewRouteRegister creates a new route register instance
-func NewRouteRegister(router *mux.Router, authService services.AuthService) RouteRegister {
+func NewRouteRegister(router *mux.Router, authService auth.AuthService) RouteRegister {
 	return &DefaultRouteRegister{
 		router:      router,
 		authService: authService,
