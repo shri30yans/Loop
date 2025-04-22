@@ -34,6 +34,9 @@ type application struct {
 	authHandler    *handlers.AuthHandler
 	userHandler    *handlers.UserHandler
 	projectHandler *handlers.ProjectHandler
+	searchHandler  *handlers.SearchHandler
+	summaryService services.SummaryService
+	summaryHandler *handlers.SummaryHandler
 }
 
 func main() {
@@ -61,6 +64,8 @@ func main() {
 	app.authHandler.RegisterRoutes(routeRegister)
 	app.userHandler.RegisterRoutes(routeRegister)
 	app.projectHandler.RegisterRoutes(routeRegister)
+	app.searchHandler.RegisterRoutes(routeRegister)
+	app.summaryHandler.RegisterRoutes(routeRegister)
 
 	// Setup CORS
 	c := cors.New(cors.Options{
@@ -128,6 +133,9 @@ func initializeApp(cfg *config.Config) (*application, error) {
 		graphService,
 	)
 
+	queryService := services.NewQueryService(provider, graphRepo)
+	summaryService := services.NewSummaryService(provider, projectRepo, graphRepo)
+
 	// Initialize Core Services
 	authService := auth.NewAuthService(cfg.JWTConfig.Secret, aRepo)
 	userService := user.NewUserService(uRepo)
@@ -137,6 +145,8 @@ func initializeApp(cfg *config.Config) (*application, error) {
 	userHandler := handlers.NewUserHandler(userService)
 	authHandler := handlers.NewAuthHandler(userService, authService)
 	projectHandler := handlers.NewProjectHandler(projectService)
+	searchHandler := handlers.NewSearchHandler(queryService, summaryService)
+	summaryHandler := handlers.NewSummaryHandler(summaryService)
 
 	return &application{
 		config:         cfg,
@@ -147,5 +157,8 @@ func initializeApp(cfg *config.Config) (*application, error) {
 		authHandler:    authHandler,
 		userHandler:    userHandler,
 		projectHandler: projectHandler,
+		searchHandler:  searchHandler,
+		summaryService: summaryService,
+		summaryHandler: summaryHandler,
 	}, nil
 }
