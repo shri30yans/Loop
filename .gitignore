@@ -2,4 +2,7 @@
 **/*.env
 *.env
 /converted_dataset
+/converted_dataset_temp
+/converted_dataset_temp_v2  
 /dataset
+/scripts/add_test_projects.py

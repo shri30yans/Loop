@@ -2,9 +2,11 @@ import os
 import json
 import requests
 import random
+import time
 
 # Define input directory
-input_dir = "dataset"
+#input_dir = "dataset"
+input_dir = "D:/sem_6/code/genai-main-1/Loop/converted_dataset_temp"
 
 # API Endpoint
 api_url = "http://localhost:8080/api/project/create"
@@ -20,8 +22,8 @@ auth_tokens_list = [
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYTMxYjY5NDItNDUyOS00MWUxLWFiYTUtODUxNDdmYTFjNjdhIiwiZXhwIjoxNzUwOTk2MDE0LCJpYXQiOjE3NDIzNTYwMTR9.WsKpJpXq1k-3qY2atgnIpaehAVMMp4brq9Sild69cKs",
 ]
 
-auth_token = random.choice(auth_tokens_list)
-    
+#auth_token = random.choice(auth_tokens_list)
+auth_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMjQzNDM1NjgtZmY3OS00MTljLTgwMDUtN2Y2MGQwOTFkZDk1IiwiZXhwIjoxNzUzNzgzNjI2LCJpYXQiOjE3NDUxNDM2MjZ9.KA5jraKJjJSJixcOg9f45lpD8d2Ch9wQZhbt-n0dy8U"    
 # Headers
 headers = {
     "Content-Type": "application/json",
@@ -40,6 +42,9 @@ for filename in os.listdir(input_dir):
 
             # Send POST request
             response = requests.post(api_url, json=json_data, headers=headers)
+            wait_time = 10 + random.randint(0, 5)
+            print(f"Waiting {wait_time} seconds before next request...")
+            time.sleep(wait_time)
 
             # Print response
             print(f"Response for {filename}: {response.status_code} - {response.text}")

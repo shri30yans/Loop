@@ -31,6 +31,7 @@ type application struct {
 	searchHandler  *handlers.SearchHandler
 	summaryService services.SummaryService
 	summaryHandler *handlers.SummaryHandler
+	chatHandler    *handlers.ChatHandler
 }
 
 func main() {
@@ -60,6 +61,7 @@ func main() {
 	app.projectHandler.RegisterRoutes(routeRegister)
 	app.searchHandler.RegisterRoutes(routeRegister)
 	app.summaryHandler.RegisterRoutes(routeRegister)
+	app.chatHandler.RegisterRoutes(routeRegister)
 
 	// Setup CORS
 	c := cors.New(cors.Options{
@@ -146,6 +148,7 @@ func initializeApp(cfg *config.Config) (*application, error) {
 	projectHandler := handlers.NewProjectHandler(projectService)
 	searchHandler := handlers.NewSearchHandler(queryService, summaryService)
 	summaryHandler := handlers.NewSummaryHandler(summaryService)
+	chatHandler := handlers.NewChatHandler(queryService, summaryService, provider)
 
 	return &application{
 		config:         cfg,
@@ -159,5 +162,6 @@ func initializeApp(cfg *config.Config) (*application, error) {
 		searchHandler:  searchHandler,
 		summaryService: summaryService,
 		summaryHandler: summaryHandler,
+		chatHandler:    chatHandler,
 	}, nil
 }

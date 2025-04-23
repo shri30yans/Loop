@@ -154,6 +154,14 @@ export async function apiRequest<T>(
   }
 }
 
+// Add ChatMessage interface
+export interface ChatMessage {
+  id: string;
+  content: string;
+  type: 'user' | 'llm';
+  timestamp: string;
+}
+
 // Type-safe API functions
 export const api = {
   auth: {
@@ -222,4 +230,38 @@ export const api = {
       });
     },
   },
+};
+
+// Chat API Functions
+export const chatApi = {
+  sendMessage: async (message: string, token: string): Promise<ChatMessage> => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/chat/conversation`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ message })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to send message');
+    }
+
+    return response.json();
+  },
+
+  fetchChatHistory: async (token: string): Promise<ChatMessage[]> => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/chat/history`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch chat history');
+    }
+
+    return response.json();
+  }
 };

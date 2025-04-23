@@ -41,9 +41,15 @@ export default function ChatPage() {
   const loadChatHistory = async () => {
     try {
       const history = await fetchChatHistory(access_token!);
-      setMessages(history);
+      
+      // Only replace messages if there's actual history
+      if (history && history.length > 0) {
+        setMessages(history);
+      }
+      // Otherwise, keep the initial welcome messages
     } catch (error) {
       console.error("Failed to load chat history:", error);
+      // On error, we keep the initial messages too
     }
   };
 

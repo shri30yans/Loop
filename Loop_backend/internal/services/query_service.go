@@ -13,7 +13,8 @@ type QueryService interface {
 	TransformQueryToCypher(query string) (string, error)
 	TransformQueryToTopicCypher(query string) (string, error)
 	ExecuteSearchQuery(query string) ([]map[string]interface{}, error)
-	ExecuteTopicSearchQuery(query string) ([]map[string]interface{}, error) // Add this
+	ExecuteTopicSearchQuery(query string) ([]map[string]interface{}, error)
+	GetAllProjects() ([]map[string]interface{}, error) // Add this
 }
 
 // DefaultQueryService implements QueryService
@@ -167,6 +168,38 @@ func (s *DefaultQueryService) ExecuteTopicSearchQuery(query string) ([]map[strin
 			return nil, fmt.Errorf("failed to execute fallback query: %w", err)
 		}
 	}
+
+	return results, nil
+}
+
+// GetAllProjects fetches all projects with their basic information
+func (s *DefaultQueryService) GetAllProjects() ([]map[string]interface{}, error) {
+	// Simple Cypher query to fetch all projects with basic information
+	// cypherQuery := `
+	//     MATCH (p:Project)
+	//     OPTIONAL MATCH (p)-[:HAS_TAG]->(t:Tag)
+	//     RETURN p.id as projectId, p.name as projectName,
+	//            p.description as description, p.status as status,
+	//            collect(distinct t.name) as tags
+	//     LIMIT 100
+	// `
+	cypherQuery := `MATCH (p:Project)
+        OPTIONAL MATCH (p)-[:HAS_TAG]->(t:Tag)
+        RETURN p.project_id as projectId, p.name as projectName, 
+               p.description as description, 
+               COALESCE(p.status, "published") as status,
+               collect(distinct t.name) as tags
+        LIMIT 100
+	`
+
+	fmt.Println("Fetching all projects")
+
+	// Execute the query using the graph repository
+	results, err := s.graphRepo.ExecuteQuery(cypherQuery, map[string]interface{}{})
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch all projects: %w", err)
+	}
+	fmt.Println("Fetched all projects:", results)
 
 	return results, nil
 }

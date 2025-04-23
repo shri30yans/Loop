@@ -21,8 +21,9 @@ def convert_project_content(input_file, output_file):
     with open(output_file, 'w') as outfile:
         json.dump(converted_data, outfile, indent=2)
 
-input_dir = "dataset"
-output_dir = "converted_dataset"
+input_dir = "d:/sem_6/code/genai-main-1/Loop/converted_dataset_temp"
+output_dir = "d:/sem_6/code/genai-main-1/Loop/converted_dataset_temp_v2"
+os.makedirs(output_dir, exist_ok=True)
 for filename in os.listdir(input_dir):
     if filename.endswith(".json"):
         input_filepath = os.path.join(input_dir, filename)

@@ -24,7 +24,7 @@ func NewProjectHandler(projectService services.ProjectService) *ProjectHandler {
 
 func (h *ProjectHandler) RegisterRoutes(r RouteRegister) {
 	r.RegisterProtectedRoute("/api/project/create", h.CreateProject, &dto.CreateProjectRequest{})
-	r.RegisterProtectedRoute("/api/project/search", h.SearchProjects, nil)
+	//r.RegisterProtectedRoute("/api/project/search", h.SearchProjects, nil)
 	r.RegisterProtectedRoute("/api/project/{project_id:[a-fA-F0-9-]+}", h.GetProjectInfo, nil)
 	r.RegisterProtectedRoute("/api/project/{project_id:[a-fA-F0-9-]+}/delete", h.DeleteProject, nil)
 }
