@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  embedding-service:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - EMBEDDING_MODEL=all-MiniLM-L6-v2
+      - PORT=5000
+    volumes:
+      - ./:/app
+    restart: unless-stopped

@@ -1,0 +1,41 @@
+=== START OF ORIGINAL INPUT ===
+(Technology:Web Development:Full Stack:Built using React for frontend and Node.js for backend)
+(Technology:Data Engineering:Big Data:Utilizes Elasticsearch for managing and querying large datasets)
+(Technology:AI/ML:Machine Learning:Plans to integrate AI-powered predictive analytics for forecasting market trends)
+
+(Domain:Business:E-commerce:Creates a marketplace for farmers to list their produce and connect with suppliers and buyers)
+(Domain:Business:Enterprise:Targets the agricultural industry by providing real-time market data and supply chain logistics)
+(Domain:Social:Community:Facilitates connections between farmers, suppliers, and buyers)
+
+(Feature:Data Management:Analytics:Provides basic analytics tools for farmers to make data-driven decisions)
+(Feature:Data Management:API:Integrates with various data sources such as market data providers and agricultural extension services)
+(Feature:Communication:Real-time:Offers real-time market price tracking and data visualization)
+=== END OF ORIGINAL INPUT ===
+Found lines to process: 11
+
+Processing line 0 : (Technology:Web Development:Full Stack:Built using React for frontend and Node.js for backend)
+Line 0 matches: [[(Technology:Web Development:Full Stack:Built using React for frontend and Node.js for backend) ]]
+
+Processing line 1 : (Technology:Data Engineering:Big Data:Utilizes Elasticsearch for managing and querying large datasets)
+Line 1 matches: [[(Technology:Data Engineering:Big Data:Utilizes Elasticsearch for managing and querying large datasets)]]
+
+Processing line 2 : (Technology:AI/ML:Machine Learning:Plans to integrate AI-powered predictive analytics for forecasting market trends)
+Line 2 matches: [[(Technology:AI/ML:Machine Learning:Plans to integrate AI-powered predictive analytics for forecasting market trends)]]
+
+Processing line 4 : (Domain:Business:E-commerce:Creates a marketplace for farmers to list their produce and connect with suppliers and buyers)
+Line 4 matches: [[(Domain:Business:E-commerce:Creates a marketplace for farmers to list their produce and connect with suppliers and buyers) ]]
+
+Processing line 5 : (Domain:Business:Enterprise:Targets the agricultural industry by providing real-time market data and supply chain logistics)
+Line 5 matches: [[(Domain:Business:Enterprise:Targets the agricultural industry by providing real-time market data and supply chain logistics) ]]
+
+Processing line 6 : (Domain:Social:Community:Facilitates connections between farmers, suppliers, and buyers)
+Line 6 matches: [[(Domain:Social:Community:Facilitates connections between farmers, suppliers, and buyers)]]
+
+Processing line 8 : (Feature:Data Management:Analytics:Provides basic analytics tools for farmers to make data-driven decisions)
+Line 8 matches: [[(Feature:Data Management:Analytics:Provides basic analytics tools for farmers to make data-driven decisions)]]
+
+Processing line 9 : (Feature:Data Management:API:Integrates with various data sources such as market data providers and agricultural extension services)
+Line 9 matches: [[(Feature:Data Management:API:Integrates with various data sources such as market data providers and agricultural extension services) ]]
+
+Processing line 10 : (Feature:Communication:Real-time:Offers real-time market price tracking and data visualization)
+Line 10 matches: [[(Feature:Communication:Real-time:Offers real-time market price tracking and data visualization)]]

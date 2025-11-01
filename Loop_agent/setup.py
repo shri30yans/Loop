@@ -1,0 +1,30 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="loop_agent",
+    version="0.1.0",
+    packages=find_packages(),
+    install_requires=[
+        "flask>=2.3.3",
+        "sentence-transformers>=2.2.2",
+        "huggingface-hub>=0.25.2",
+        "numpy>=1.24.3",
+        "gunicorn>=21.2.0",
+        "flask-cors>=4.0.0",
+        "flask-socketio>=5.3.6",
+        "python-socketio>=5.10.0",
+        "requests>=2.31.0",
+        "python-engineio>=4.8.0",
+        "gevent>=23.9.1",
+        "gevent-websocket>=0.10.1",
+        "agno>=0.2.0",
+        "dataclasses>=0.6",
+        "python-dotenv>=1.0.0",
+        "aiohttp>=3.9.1",
+        "tenacity>=8.2.3",
+        "pydantic>=2.5.2",
+        "typing-extensions>=4.8.0",
+        "colorlog>=6.7.0"
+    ],
+    python_requires=">=3.8",
+)
